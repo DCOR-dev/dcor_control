@@ -1,0 +1,50 @@
+{
+"setups": [
+    {"name": "production",
+     "requirements": {
+         "ip": "130.183.206.45",
+         "hostname": "dcor-mpl"},
+     "ckan.ini": {
+         "site_url": "https://dcor.mpl.mpg.de",
+         "ckan.site_title": "DCOR",
+         "ckan.favicon": "/base/images/favicon.ico",
+         "ckan.storage_path": "/data/ckan-dcor"
+         },
+     "include": ["gwdg"]
+     },
+    {"name": "development",
+     "requirements": {
+         "ip": "130.183.206.46",
+         "hostname": "dcor-dev-mpl"},
+     "ckan.ini": {
+         "site_url": "https://dcor.mpl.mpg.de",
+         "ckan.site_title": "DCOR-dev",
+         "ckan.favicon": "/base/images/favicon-dev.ico",
+         "ckan.storage_path": "/data/ckan-dcor-dev"
+         },
+     "include": ["gwdg"]
+     },
+    {"name": "vm",
+     "requirements": {},
+     "ckan.ini": {
+         "site_url": "http://<TEMPLATE:IP>",
+         "ckan.site_title": "DCOR-VM",
+         "ckan.favicon": "/base/images/favicon-dev.ico",
+         "ckan.storage_path": "/data/ckan-dcor-vm"
+         },
+     "include": []
+     }
+    ],
+"includes": {
+    "gwdg": {
+     "ckan.ini": {
+         "smtp.server": "post.mpcdf.mpg.de",
+         "smtp.mail_from": "noreply-dcor@mpl.mpg.de",
+         "smtp.user": "",
+         "smtp.password": "",
+         "email_to": "<TEMPLATE:EMAIL>",
+         "error_email_from": "noreply-dcor@mpl.mpg.de"
+         }
+      }
+     }
+}
