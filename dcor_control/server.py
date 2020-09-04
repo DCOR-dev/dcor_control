@@ -41,17 +41,22 @@ def get_ip():
 
 def fill_templates(adict):
     """Fill in templates in server_options.json"""
-    for key in adict:
+    templates = {
+        "IP": [get_ip, []],
+        "EMAIL": [get_config, ["email"]],
+        "PGSQLPASS": [get_config, ["pgsqlpass"]],
+        "HOSTNAME": [socket.gethostname, []],
+        }
+
+    for key in sorted(adict.keys()):
         item = adict[key]
         if isinstance(item, str):
-            if item.count("<TEMPLATE:IP>"):  # fill in IP address
-                adict[key] = item.replace("<TEMPLATE:IP>", get_ip())
-            elif item.count("<TEMPLATE:EMAIL>"):
-                adict[key] = item.replace("<TEMPLATE:EMAIL>",
-                                          get_config("email"))
-            elif item.count("<TEMPLATE:PGSQLPASS>"):
-                adict[key] = item.replace("<TEMPLATE:PGSQLPASS>",
-                                          get_config("pgsqlpass"))
+            for tk in templates:
+                tstr = "<TEMPLATE:{}>".format(tk)
+                if item.count(tstr):
+                    func, args = templates[tk]
+                    item = item.replace(tstr, func(*args))
+            adict[key] = item
         elif isinstance(item, dict):
             fill_templates(item)
 

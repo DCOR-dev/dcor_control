@@ -7,8 +7,7 @@
      "ckan.ini": {
          "ckan.site_url": "https://dcor.mpl.mpg.de",
          "ckan.site_title": "DCOR",
-         "ckan.favicon": "/base/images/favicon.ico",
-         "ckan.storage_path": "/data/ckan-dcor"
+         "ckan.favicon": "/base/images/favicon.ico"
          },
      "include": ["general", "gwdg"]
      },
@@ -19,8 +18,7 @@
      "ckan.ini": {
          "ckan.site_url": "https://dcor.mpl.mpg.de",
          "ckan.site_title": "DCOR-dev",
-         "ckan.favicon": "/base/images/favicon-dev.ico",
-         "ckan.storage_path": "/data/ckan-dcor-dev"
+         "ckan.favicon": "/base/images/favicon-dev.ico"
          },
      "include": ["general", "gwdg"]
      },
@@ -29,8 +27,7 @@
      "ckan.ini": {
          "ckan.site_url": "http://<TEMPLATE:IP>",
          "ckan.site_title": "DCOR-VM",
-         "ckan.favicon": "/base/images/favicon-dev.ico",
-         "ckan.storage_path": "/data/ckan-dcor-vm"
+         "ckan.favicon": "/base/images/favicon-dev.ico"
          },
      "include": ["general"]
      }
@@ -38,7 +35,9 @@
 "includes": {
     "general": {
      "ckan.ini": {
-        "sqlalchemy.url": "postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default"
+        "sqlalchemy.url": "postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default",
+        "ckan.dcor_user_depot_name": "users-<TEMPLATE:HOSTNAME>",
+        "ckan.storage_path": "/data/ckan-<TEMPLATE:HOSTNAME>"
      }
     },
     "gwdg": {
