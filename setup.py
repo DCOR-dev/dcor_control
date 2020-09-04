@@ -29,6 +29,7 @@ setup(
     long_description=open('README.rst').read() if exists('README.rst') else '',
     install_requires=[
         "appdirs",
+        "ckan",
         "click",
         "ckanext-dc_log_view",
         "ckanext-dc_serve",

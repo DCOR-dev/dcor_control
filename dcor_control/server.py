@@ -89,5 +89,8 @@ def recursive_update_dict(d, u):
 
 @click.command()
 def status():
+    """Display DCOR status"""
     srv_opts = get_server_options()
     click.secho("DCOR installation: '{}'".format(srv_opts["name"]), bold=True)
+    click.echo("IP Address: {}".format(get_ip()))
+    click.echo("Hostname: {}".format(socket.gethostname()))
