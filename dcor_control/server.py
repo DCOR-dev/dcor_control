@@ -1,5 +1,6 @@
 import collections.abc
 import json
+import os
 import pathlib
 from pkg_resources import resource_filename
 import socket
@@ -8,18 +9,20 @@ import appdirs
 import click
 
 
-def get_email():
+def get_config(name):
     cpath = pathlib.Path(appdirs.user_config_dir("dcor_control"))
     cpath.mkdir(parents=True, exist_ok=True)
-    epath = cpath / "email"
+    os.chmod(cpath, 0o700)
+    epath = cpath / name
     if epath.exists():
         email = epath.read_text().strip()
     else:
         email = ""
     if not email:
         # Prompt user
-        email = input("Please enter valid DCOR administrator email address: ")
+        email = input("Please enter '{}': ".format(name))
         epath.write_text(email)
+    os.chmod(epath, 0o500)
     return email
 
 
@@ -44,7 +47,11 @@ def fill_templates(adict):
             if item.count("<TEMPLATE:IP>"):  # fill in IP address
                 adict[key] = item.replace("<TEMPLATE:IP>", get_ip())
             elif item.count("<TEMPLATE:EMAIL>"):
-                adict[key] = item.replace("<TEMPLATE:EMAIL>", get_email())
+                adict[key] = item.replace("<TEMPLATE:EMAIL>",
+                                          get_config("email"))
+            elif item.count("<TEMPLATE:PGSQLPASS>"):
+                adict[key] = item.replace("<TEMPLATE:PGSQLPASS>",
+                                          get_config("pgsqlpass"))
         elif isinstance(item, dict):
             fill_templates(item)
 

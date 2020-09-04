@@ -10,7 +10,7 @@
          "ckan.favicon": "/base/images/favicon.ico",
          "ckan.storage_path": "/data/ckan-dcor"
          },
-     "include": ["gwdg"]
+     "include": ["general", "gwdg"]
      },
     {"name": "development",
      "requirements": {
@@ -22,7 +22,7 @@
          "ckan.favicon": "/base/images/favicon-dev.ico",
          "ckan.storage_path": "/data/ckan-dcor-dev"
          },
-     "include": ["gwdg"]
+     "include": ["general", "gwdg"]
      },
     {"name": "vm",
      "requirements": {},
@@ -32,10 +32,15 @@
          "ckan.favicon": "/base/images/favicon-dev.ico",
          "ckan.storage_path": "/data/ckan-dcor-vm"
          },
-     "include": []
+     "include": ["general"]
      }
     ],
 "includes": {
+    "general": {
+     "ckan.ini": {
+        "sqlalchemy.url": "postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default"
+     }
+    },
     "gwdg": {
      "ckan.ini": {
          "smtp.server": "post.mpcdf.mpg.de",
