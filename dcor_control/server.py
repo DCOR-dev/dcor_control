@@ -22,7 +22,7 @@ def get_config(name):
         # Prompt user
         email = input("Please enter '{}': ".format(name))
         epath.write_text(email)
-    os.chmod(epath, 0o500)
+    os.chmod(epath, 0o600)
     return email
 
 
