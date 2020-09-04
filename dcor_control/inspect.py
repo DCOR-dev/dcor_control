@@ -1,7 +1,6 @@
 import os
 import pathlib
 from pkg_resources import resource_filename
-import socket
 import stat
 import subprocess as sp
 
@@ -9,9 +8,6 @@ import click
 
 from .server import get_server_options
 from . import util
-
-#: This is defined in ckanext.dcor_depot.paths
-USER_DEPOT = "/data/depots/users-{}/".format(socket.gethostname())
 
 
 def ask(prompt):
@@ -108,7 +104,9 @@ def inspect(assume_yes=False):
                      user="www-data",
                      mode=0o755,
                      autocorrect=assume_yes)
-    check_permission(path=USER_DEPOT,
+    depot_path = util.get_config_option("ckan.dcor_depot_path")
+    user_depot = util.get_config_option("ckan.dcor_user_depot_name")
+    check_permission(path=depot_path.rstrip("/") + "/" + user_depot,
                      user="www-data",
                      mode=0o755,
                      autocorrect=assume_yes)
