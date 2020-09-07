@@ -111,6 +111,35 @@ def check_permission(path, user=None, mode=None, autocorrect=False):
                 os.chown(path, uid, gid)
 
 
+def check_theme_i18n_hack(autocorrect):
+    """Generate the en_US locale and only *after* that set it in ckan.ini
+
+    This will run the command
+
+    .. code::
+
+       ckan -c /etc/ckan/default/ckan.ini dcor-i18n-hack
+    """
+    try:
+        opt = util.get_config_option("ckan.locale_default")
+    except util.ConfigOptionNotFoundError:
+        opt = "NOT SET"
+    if opt != "en_US":
+        if autocorrect:
+            print("Applying DCOR theme i18n hack")
+            hack = True
+        else:
+            hack = ask("DCOR theme i18n is not setup")
+        if hack:
+            # apply hack
+            ckan_cmd = "ckan -c {} dcor-i18n-hack".format(util.CKANINI)
+            sp.call(ckan_cmd, shell=True, stdout=sp.DEVNULL)
+            # set config option
+            ckan_cmd2 = "ckan config-tool {} '{}={}'".format(
+                util.CKANINI, "ckan.locale_default", "en_US")
+            sp.call(ckan_cmd2, shell=True, stdout=sp.DEVNULL)
+
+
 @click.command()
 @click.option('--assume-yes', is_flag=True)
 def inspect(assume_yes=False):
@@ -139,8 +168,11 @@ def inspect(assume_yes=False):
                          mode=0o755,
                          autocorrect=assume_yes)
 
+    click.secho("Checking i18n hack...", bold=True)
+    check_theme_i18n_hack(autocorrect=assume_yes)
+
     click.secho("Checking nginx configuration...", bold=True)
-    check_nginx(cmbs="10G")
+    check_nginx(cmbs="10G", autocorrect=assume_yes)
 
     click.secho("Reloading CKAN...", bold=True)
     sp.call("sudo supervisorctl reload", shell=True, stdout=sp.DEVNULL)
