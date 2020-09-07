@@ -94,16 +94,19 @@ def check_permission(path, user=None, mode=None, autocorrect=False):
     # Check owner
     if user is not None:
         puid = path.stat().st_uid
+        try:
+            puidset = pwd.getpwuid(puid)
+        except KeyError:
+            pnam = "unknown"
+        else:
+            pnam = puidset.pw_name
         if puid != uid:
             if autocorrect:
-                print("Changing owner of '{}' to '{}'".format(
-                    path, pwd.getpwuid(uid).pw_name))
+                print("Changing owner of '{}' to '{}'".format(path, user))
                 chowner = True
             else:
                 chowner = ask("Owner of '{}' is ".format(path)
-                              + "'{}', but should be '{}'".format(
-                    pwd.getpwuid(puid).pw_name,
-                    pwd.getpwuid(uid).pw_name))
+                              + "'{}', but should be '{}'".format(pnam, user))
             if chowner:
                 os.chown(path, uid, gid)
 
