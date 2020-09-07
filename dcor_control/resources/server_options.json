@@ -9,7 +9,7 @@
          "ckan.site_title": "DCOR",
          "ckan.favicon": "/base/images/favicon.ico"
          },
-     "include": ["general", "gwdg"]
+     "include": ["general", "garching"]
      },
     {"name": "development",
      "requirements": {
@@ -20,7 +20,7 @@
          "ckan.site_title": "DCOR-dev",
          "ckan.favicon": "/base/images/favicon-dev.ico"
          },
-     "include": ["general", "gwdg"]
+     "include": ["general", "garching"]
      },
     {"name": "vm",
      "requirements": {},
@@ -40,7 +40,7 @@
         "ckan.storage_path": "/data/ckan-<TEMPLATE:HOSTNAME>"
      }
     },
-    "gwdg": {
+    "garching": {
      "ckan.ini": {
          "smtp.server": "post.mpcdf.mpg.de",
          "smtp.mail_from": "noreply-<TEMPLATE:HOSTNAME>@mpl.mpg.de",
