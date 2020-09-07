@@ -16,7 +16,7 @@
          "ip": "130.183.206.46",
          "hostname": "dcor-dev-mpl"},
      "ckan.ini": {
-         "ckan.site_url": "https://dcor.mpl.mpg.de",
+         "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
          "ckan.site_title": "DCOR-dev",
          "ckan.favicon": "/base/images/favicon-dev.ico"
          },
