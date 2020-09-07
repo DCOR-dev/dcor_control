@@ -43,11 +43,11 @@
     "gwdg": {
      "ckan.ini": {
          "smtp.server": "post.mpcdf.mpg.de",
-         "smtp.mail_from": "noreply-dcor@mpl.mpg.de",
+         "smtp.mail_from": "noreply-<TEMPLATE:HOSTNAME>@mpl.mpg.de",
          "smtp.user": "",
          "smtp.password": "",
          "email_to": "<TEMPLATE:EMAIL>",
-         "error_email_from": "noreply-dcor@mpl.mpg.de"
+         "error_email_from": "error-<TEMPLATE:HOSTNAME>@mpl.mpg.de"
          }
       }
      }
