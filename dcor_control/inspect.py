@@ -65,7 +65,7 @@ def check_permission(path, user=None, mode=None, autocorrect=False):
             print("Creating '{}'".format(path))
             create = True
         else:
-            create = ask("'{}' does not exist")
+            create = ask("'{}' does not exist".format(path))
         if create:
             path.mkdir(parents=True)
             os.chmod(path, mode)
@@ -96,20 +96,17 @@ def inspect(assume_yes=False):
         check_option(key, gen_opts[key], autocorrect=assume_yes)
 
     click.secho("Checking www-data permissions...", bold=True)
-    check_permission(path=util.get_storage_path(),
-                     user="www-data",
-                     mode=0o755,
-                     autocorrect=assume_yes)
-    check_permission(path=util.get_storage_path() / "resources",
-                     user="www-data",
-                     mode=0o755,
-                     autocorrect=assume_yes)
-    depot_path = util.get_config_option("ckan.dcor_depot_path")
-    user_depot = util.get_config_option("ckan.dcor_user_depot_name")
-    check_permission(path=depot_path.rstrip("/") + "/" + user_depot,
-                     user="www-data",
-                     mode=0o755,
-                     autocorrect=assume_yes)
+    for path in [
+        util.get_storage_path(),
+        util.get_storage_path() / "resources",
+        os.path.join(util.get_config_option("ckan.dcor_depot_path"),
+                     util.get_config_option("ckan.dcor_user_depot_name")),
+        util.get_config_option("ckan.webassets.path")
+            ]:
+        check_permission(path=path,
+                         user="www-data",
+                         mode=0o755,
+                         autocorrect=assume_yes)
 
     click.secho("Checking nginx configuration...", bold=True)
     check_nginx(cmbs="10G")
