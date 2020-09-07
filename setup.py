@@ -30,7 +30,7 @@ setup(
     install_requires=[
         "appdirs",
         "ckan",
-        "click",
+        "click>=7",
         "ckanext-dc_log_view",
         "ckanext-dc_serve",
         "ckanext-dc_view",
