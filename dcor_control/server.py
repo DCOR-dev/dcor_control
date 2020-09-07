@@ -46,7 +46,7 @@ def fill_templates(adict):
         "EMAIL": [get_config, ["email"]],
         "PGSQLPASS": [get_config, ["pgsqlpass"]],
         "HOSTNAME": [socket.gethostname, []],
-        }
+    }
 
     for key in sorted(adict.keys()):
         item = adict[key]

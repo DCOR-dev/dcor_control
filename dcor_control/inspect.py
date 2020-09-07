@@ -1,6 +1,8 @@
 import os
+import grp
 import pathlib
 from pkg_resources import resource_filename
+import pwd
 import stat
 import subprocess as sp
 
@@ -60,6 +62,13 @@ def check_option(key, value, autocorrect=False):
 
 def check_permission(path, user=None, mode=None, autocorrect=False):
     path = pathlib.Path(path)
+    if user is not None:
+        uid = pwd.getpwnam(user).pw_uid
+        gid = grp.getgrnam(user).gr_gid
+    else:
+        uid = None
+        gid = None
+    # Check if exists
     if not path.exists():
         if autocorrect:
             print("Creating '{}'".format(path))
@@ -69,15 +78,34 @@ def check_permission(path, user=None, mode=None, autocorrect=False):
         if create:
             path.mkdir(parents=True)
             os.chmod(path, mode)
+            if user is not None:
+                os.chown(path, uid, gid)
+    # Check mode
     pmode = stat.S_IMODE(path.stat().st_mode)
     if pmode != mode:
         if autocorrect:
+            print("Changing mode of '{}' to '{}'".format(path, oct(mode)))
             change = True
         else:
             change = ask("Mode of '{}' is '{}', but ".format(path, oct(pmode))
-                         + "shoud be '{}'".format(oct(mode)))
+                         + "should be '{}'".format(oct(mode)))
         if change:
             os.chmod(path, mode)
+    # Check owner
+    if user is not None:
+        puid = path.stat().st_uid
+        if puid != uid:
+            if autocorrect:
+                print("Changing owner of '{}' to '{}'".format(
+                    path, pwd.getpwuid(uid).pw_name))
+                chowner = True
+            else:
+                chowner = ask("Owner of '{}' is ".format(path)
+                              + "'{}', but should be '{}'".format(
+                    pwd.getpwuid(puid).pw_name,
+                    pwd.getpwuid(uid).pw_name))
+            if chowner:
+                os.chown(path, uid, gid)
 
 
 @click.command()
@@ -102,7 +130,7 @@ def inspect(assume_yes=False):
         os.path.join(util.get_config_option("ckan.dcor_depot_path"),
                      util.get_config_option("ckan.dcor_user_depot_name")),
         util.get_config_option("ckan.webassets.path")
-            ]:
+    ]:
         check_permission(path=path,
                          user="www-data",
                          mode=0o755,
