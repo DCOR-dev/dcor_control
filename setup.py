@@ -24,7 +24,7 @@ setup(
     packages=find_packages(),
     package_dir={name: name},
     include_package_data=True,
-    license="GPL v3",
+    license="GPLv3+",
     description=description,
     long_description=open('README.rst').read() if exists('README.rst') else '',
     install_requires=[
@@ -48,9 +48,12 @@ setup(
             ],
        },
     keywords=["RT-DC", "DCOR"],
-    classifiers=['Operating System :: OS Independent',
-                 'Programming Language :: Python :: 3',
-                 'Topic :: Scientific/Engineering :: Visualization',
-                 'Intended Audience :: Science/Research',
-                 ],
+    classifiers=[
+        'License :: OSI Approved :: GNU General Public License v3 or later ' \
+        + '(GPLv3+)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Topic :: Scientific/Engineering :: Visualization',
+        'Intended Audience :: Science/Research',
+        ],
     )
