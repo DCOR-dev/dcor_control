@@ -8,7 +8,8 @@ install:
 - travis_retry pip install --upgrade pip
 - travis_retry pip install setuptools wheel
 # install package
-- travis_retry pip install -e .
+# (disable until ckan docker or sth similar is available)
+#- travis_retry pip install -e .
 # for tests:
 - travis_retry pip install codecov coverage flake8
 - pip freeze
