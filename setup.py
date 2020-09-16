@@ -38,6 +38,16 @@ setup(
         "ckanext-dcor_schemas",
         "ckanext-dcor_theme",
         "dcor_shared",
+        # Additional dependencies by the DCOR extensions
+        # (CKAN policy prohibits dependencies in setup.py)
+        "dclab>=0.27.11",
+        "matplotlib",  # dc_view
+        "numpy>=1.19",  # dc_view
+        "pillow",  # dc_view
+        "html2text==2019.8.11",  # dcor_depot
+        "requests",  # dcor_depot
+        "python-slugify",  # dcor_schemas
+        "Babel>=2.8.0",  # dcor_theme
         ],
     # not to be confused with definitions in pyproject.toml [build-system]
     setup_requires=["pytest-runner"],
