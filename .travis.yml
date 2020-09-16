@@ -18,6 +18,7 @@ script:
 #- coverage report -m
 - flake8 dcor_control
 - flake8 tests
+- flake8 scripts
 after_success:
 - codecov
 before_deploy:

@@ -1,0 +1,2 @@
+ckan      ckanext.dc_log_view  ckanext.dc_serve  ckanext.dc_view  ckanext.dcor_depot  ckanext.dcor_schemas  ckanext.dcor_theme  dcor_shared
+2.9.0     0.2.2                0.4.1             0.5.1            0.7.1               0.9.1                 0.3.2               0.2.2

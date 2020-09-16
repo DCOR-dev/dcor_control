@@ -159,8 +159,9 @@ def inspect(assume_yes=False):
     for path in [
         util.get_storage_path(),
         util.get_storage_path() / "resources",
-        os.path.join(util.get_config_option("ckan.dcor_depot_path"),
-                     util.get_config_option("ckan.dcor_user_depot_name")),
+        os.path.join(
+            util.get_config_option("ckanext.dcor_depot.depots_path"),
+            util.get_config_option("ckanext.dcor_depot.users_depot_name")),
         util.get_config_option("ckan.webassets.path")
     ]:
         check_permission(path=path,

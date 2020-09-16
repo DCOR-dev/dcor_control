@@ -36,7 +36,7 @@
     "general": {
      "ckan.ini": {
         "sqlalchemy.url": "postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default",
-        "ckan.dcor_user_depot_name": "users-<TEMPLATE:HOSTNAME>",
+        "ckanext.dcor_depot.users_depot_name": "users-<TEMPLATE:HOSTNAME>",
         "ckan.storage_path": "/data/ckan-<TEMPLATE:HOSTNAME>"
      }
     },
