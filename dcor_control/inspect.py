@@ -60,8 +60,17 @@ def check_option(key, value, autocorrect=False):
             sp.call(ckan_cmd, shell=True, stdout=sp.DEVNULL)
 
 
-def check_permission(path, user=None, mode=None, autocorrect=False):
+def check_permission(path, user=None, mode=None, recursive=False,
+                     autocorrect=False):
     path = pathlib.Path(path)
+    if recursive:
+        for pp in path.rglob("*"):
+            if pp.is_dir():
+                check_permission(path=pp,
+                                 user=user,
+                                 mode=mode,
+                                 recursive=False,
+                                 autocorrect=autocorrect)
     if user is not None:
         uid = pwd.getpwnam(user).pw_uid
         gid = grp.getgrnam(user).gr_gid
@@ -168,6 +177,12 @@ def inspect(assume_yes=False):
                          user="www-data",
                          mode=0o755,
                          autocorrect=assume_yes)
+    # Make sure that www-data can upload things into storage
+    check_permission(path=util.get_storage_path() / "storage",
+                     user="www-data",
+                     mode=0o755,
+                     autocorrect=assume_yes,
+                     recursive=True)
 
     click.secho("Checking i18n hack...", bold=True)
     check_theme_i18n_hack(autocorrect=assume_yes)
@@ -176,4 +191,4 @@ def inspect(assume_yes=False):
     check_nginx(cmbs="10G", autocorrect=assume_yes)
 
     click.secho("Reloading CKAN...", bold=True)
-    sp.call("sudo supervisorctl reload", shell=True, stdout=sp.DEVNULL)
+    sp.call("supervisorctl reload", shell=True, stdout=sp.DEVNULL)

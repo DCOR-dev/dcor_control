@@ -38,3 +38,6 @@ def update():
         else:
             click.secho("Not updating '{}', because it looks".format(name)
                         + "like an editable install.", bold=True)
+
+    click.secho("Reloading CKAN...", bold=True)
+    sp.call("supervisorctl reload", shell=True, stdout=sp.DEVNULL)
