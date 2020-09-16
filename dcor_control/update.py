@@ -31,7 +31,7 @@ def update():
         "dcor_shared",
         "dcor_control",
     ]:
-        if not package_is_editable:
+        if not package_is_editable(name):
             click.secho("Updating '{}'...".format(name), bold=True)
             sp.check_output("pip install --upgrade {}".format(name),
                             shell=True)

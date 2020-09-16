@@ -1,3 +1,5 @@
+0.1.3
+ - fix: typo lead "update" to believe it is always an editable install
 0.1.2
  - enh: add "update" command to udpate all extensions
 0.1.1
