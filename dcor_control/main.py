@@ -8,6 +8,7 @@ import click
 from .backup import make_backup
 from .inspect import inspect
 from .server import status
+from .update import update
 from .util import CKANINI
 
 
@@ -53,3 +54,4 @@ def reset():
 cli.add_command(inspect)
 cli.add_command(reset)
 cli.add_command(status)
+cli.add_command(update)
