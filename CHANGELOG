@@ -1,5 +1,7 @@
 0.1.5
  - enh: "update" now also deals with git repositories
+ - enh: "inspect" now also checks for the presence of the
+   "short", "normal", and "long" ckan workers in supervisord
 0.1.4
  - enh: reload CKAN after "update"
  - enh: recursively check "storage" directory in ckan.storage_path
