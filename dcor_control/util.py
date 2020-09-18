@@ -20,10 +20,6 @@ def parse_config_options(ini):
     return opt_dict
 
 
-def get_storage_path():
-    return pathlib.Path(get_config_option("ckan.storage_path"))
-
-
 def get_config_option(option, ini=CKANINI):
     opt_dict = parse_config_options(ini)
     if option in opt_dict:
@@ -31,3 +27,16 @@ def get_config_option(option, ini=CKANINI):
     else:
         raise ConfigOptionNotFoundError("Could not find '{}'!".format(option))
     return value
+
+
+def get_depot_path():
+    return pathlib.Path(get_config_option("ckanext.dcor_depot.depots_path"))
+
+
+def get_storage_path():
+    return pathlib.Path(get_config_option("ckan.storage_path"))
+
+
+def get_users_depot_path():
+    depot = get_depot_path()
+    return depot / get_config_option("ckanext.dcor_depot.users_depot_name")
