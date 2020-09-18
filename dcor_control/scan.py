@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from functools import lru_cache
 import os
 import pathlib
@@ -6,7 +7,7 @@ import time
 
 import click
 
-from dcor_shared import get_resource_path
+from dcor_shared import get_resource_path, DC_MIME_TYPES
 
 from ckanext.dc_serve.jobs import generate_condensed_dataset_job
 from ckanext.dc_view.jobs import create_preview_job
@@ -15,10 +16,10 @@ from . import util
 
 
 #: list of valid ancillary files and the functions that generate them
-ANCILLARY_FILES = {
-    "condensed.rtdc": generate_condensed_dataset_job,
-    "preview.jpg": create_preview_job,
-}
+ANCILLARY_FILES = OrderedDict()
+ANCILLARY_FILES["condensed.rtdc"] = generate_condensed_dataset_job
+ANCILLARY_FILES["preview.jpg"] = create_preview_job
+
 #: CKAN resources path
 CKAN_RESOURCES = util.get_storage_path() / "resources"
 #: DCOR users depot path
@@ -26,7 +27,7 @@ USER_DEPOT = util.get_users_depot_path()
 
 
 def ask(prompt):
-    an = input(prompt + "; [y/N]: ")
+    an = input(prompt + " [y/N]: ")
     return an.lower() == "y"
 
 
@@ -36,6 +37,24 @@ def get_resource_ids():
         "ckan -c {} list-all-resources".format(util.CKANINI),
         shell=True).decode().split("\n")
     return data
+
+
+def generate_ancillary_files(resource_id, autocorrect=False):
+    rp = pathlib.Path(get_resource_path(resource_id))
+    rt = rp.resolve()
+    if rt.suffix in DC_MIME_TYPES.values():  # check mime type
+        for ap in ANCILLARY_FILES:
+            ppap = rp.with_name(rp.name + "_" + ap)
+            if not ppap.exists():
+                if autocorrect:
+                    create = True
+                else:
+                    create = ask(
+                        "Ancillary '{}' does not exist, create?".format(ppap))
+                if create:
+                    res = {"id": resource_id,
+                           "mimetype": "DC"}
+                    ANCILLARY_FILES[ap](res)
 
 
 def remove_empty_folders(path):
@@ -118,10 +137,14 @@ def scan(missing=False, orphans=False):
     resources_path = pathlib.Path(CKAN_RESOURCES)
     userdepot_path = pathlib.Path(USER_DEPOT)
     time_stop = time.time()
+    click.secho("Collecting resource ids...", bold=True)
     resource_ids = get_resource_ids()
-    orphans_processed = []  # used to avoid asking the user multiple times
+    # processed files are used to avoid asking the user multiple times
+    orphans_processed = []
+    missing_processed = []
 
-    # Recurse CKAN resources
+    click.secho("Scanning resource tree...", bold=True)
+    # Scan CKAN resources
     for pp in resources_path.rglob("*/*/*"):
         if (pp.is_dir()  # directories
             or not pp.exists()  # removed files
@@ -133,14 +156,17 @@ def scan(missing=False, orphans=False):
             if orphans and not exists and res_id not in orphans_processed:
                 remove_resource_data(res_id, autocorrect=False)
                 orphans_processed.append(res_id)
-            if missing and exists:
-                raise NotImplementedError("TODO")
+            if missing and exists and res_id not in missing_processed:
+                generate_ancillary_files(res_id)
+                missing_processed.append(res_id)
 
-    # Recurse user depot
-    for pp in userdepot_path.rglob("*/*/*/*"):
-        res_id = pp.name.split("_")[1]
-        if res_id not in resource_ids and res_id not in orphans_processed:
-            if ask("Delete orphaned file '{}'?".format(pp)):
-                pp.unlink()
-                remove_empty_folders(pp.parent.parent.parent)
-                orphans_processed.append(res_id)
+    # Scan user depot for orphans
+    if orphans:
+        click.secho("Scanning user depot tree...", bold=True)
+        for pp in userdepot_path.rglob("*/*/*/*"):
+            res_id = pp.name.split("_")[1]
+            if res_id not in resource_ids and res_id not in orphans_processed:
+                if ask("Delete orphaned file '{}'?".format(pp)):
+                    pp.unlink()
+                    remove_empty_folders(pp.parent.parent.parent)
+                    orphans_processed.append(res_id)
