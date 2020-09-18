@@ -1,5 +1,6 @@
 0.1.6
  - enh: "scan" can now recreate missing ancillary files
+ - enh: "inspect" now also checks UWSGI harakiri
 0.1.5
  - enh: "update" now also deals with git repositories
  - enh: "inspect" now also checks for the presence of the
