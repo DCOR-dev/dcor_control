@@ -47,6 +47,7 @@ def generate_ancillary_files(resource_id, autocorrect=False):
             ppap = rp.with_name(rp.name + "_" + ap)
             if not ppap.exists():
                 if autocorrect:
+                    print("Generating {}".format(ppap))
                     create = True
                 else:
                     create = ask(
@@ -99,6 +100,8 @@ def remove_resource_data(resource_id, autocorrect=False):
             todel.append(target)
 
     if autocorrect:
+        for pp in todel:
+            print("Deleting {}".format(pp))
         delok = True
     else:
         delok = ask(
@@ -121,7 +124,8 @@ def remove_resource_data(resource_id, autocorrect=False):
 @click.command()
 @click.option('--missing', is_flag=True, help='Find missing ancillary files')
 @click.option('--orphans', is_flag=True, help='Find orphaned files')
-def scan(missing=False, orphans=False):
+@click.option('--assume-yes', is_flag=True)
+def scan(missing=False, orphans=False, assume_yes=False):
     """Scan CKAN resources
 
     Parameters
@@ -154,10 +158,10 @@ def scan(missing=False, orphans=False):
             res_id = pp.parent.parent.name + pp.parent.name + pp.name[:30]
             exists = res_id in resource_ids
             if orphans and not exists and res_id not in orphans_processed:
-                remove_resource_data(res_id, autocorrect=False)
+                remove_resource_data(res_id, autocorrect=assume_yes)
                 orphans_processed.append(res_id)
             if missing and exists and res_id not in missing_processed:
-                generate_ancillary_files(res_id)
+                generate_ancillary_files(res_id, autocorrect=assume_yes)
                 missing_processed.append(res_id)
 
     # Scan user depot for orphans
@@ -166,7 +170,12 @@ def scan(missing=False, orphans=False):
         for pp in userdepot_path.rglob("*/*/*/*"):
             res_id = pp.name.split("_")[1]
             if res_id not in resource_ids and res_id not in orphans_processed:
-                if ask("Delete orphaned file '{}'?".format(pp)):
+                if assume_yes:
+                    print("Deleting {}".format(pp))
+                    delok = True
+                else:
+                    delok = ask("Delete orphaned file '{}'?".format(pp))
+                if delok:
                     pp.unlink()
                     remove_empty_folders(pp.parent.parent.parent)
                     orphans_processed.append(res_id)
