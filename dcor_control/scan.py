@@ -40,7 +40,7 @@ def get_resource_ids():
 
 
 def generate_ancillary_files(resource_id, autocorrect=False):
-    rp = pathlib.Path(get_resource_path(resource_id))
+    rp = get_resource_path(resource_id)
     rt = rp.resolve()
     if rt.suffix in DC_MIME_TYPES.values():  # check mime type
         for ap in ANCILLARY_FILES:
@@ -77,7 +77,7 @@ def remove_resource_data(resource_id, autocorrect=False):
     This includes ancillary files as well as data in the user depot.
     If `autocorrect` is False, the user is prompted before deletion.
     """
-    rp = pathlib.Path(get_resource_path(resource_id))
+    rp = get_resource_path(resource_id)
     todel = []
 
     # Resource file
