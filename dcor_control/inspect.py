@@ -199,6 +199,24 @@ def check_uwsgi(harakiri, autocorrect=False):
                         fd.writelines(lines)
 
 
+def set_dcor_theme_favicon_link():
+    """Creat symlink from /favicon.ico to CKAN favicon
+
+    The bath "/favicon.ico" is not used by CKAN. CKAN uses
+    a custom favicon which is stored in the config as
+    ckan.favicon. We create a symlink to this file which
+    should be present in the dcor_theme folder.
+    """
+    loc = util.get_config_option("ckan.favicon")
+    # create a symlink
+    path = resource_filename("ckanext.dcor_theme", "public")
+    target = pathlib.Path(path + loc)
+    link = pathlib.Path(path) / "favicon.ico"
+    if link.exists():
+        link.unlink()
+    link.symlink_to(target)
+
+
 @click.command()
 @click.option('--assume-yes', is_flag=True)
 def inspect(assume_yes=False):
@@ -245,6 +263,9 @@ def inspect(assume_yes=False):
 
     click.secho("Checking uwsgi configuration...", bold=True)
     check_uwsgi(harakiri=720, autocorrect=assume_yes)
+
+    click.secho("Setting favicon link...", bold=True)
+    set_dcor_theme_favicon_link()
 
     click.secho("Reloading CKAN...", bold=True)
     sp.check_output("supervisorctl reload", shell=True)

@@ -1,4 +1,5 @@
 0.1.8
+ - enh: "inspect" set favicon link
  - enh: use subprocess.check_output everywhere
  - enh: fine-grained options in "reset"
 0.1.7
