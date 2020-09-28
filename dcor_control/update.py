@@ -61,4 +61,4 @@ def update():
         update_package(name)
 
     click.secho("Reloading CKAN...", bold=True)
-    sp.call("supervisorctl reload", shell=True, stdout=sp.DEVNULL)
+    sp.check_output("supervisorctl reload", shell=True)

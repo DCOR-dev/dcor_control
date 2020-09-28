@@ -57,7 +57,7 @@ def check_option(key, value, autocorrect=False):
             ckan_cmd = "ckan config-tool {} '{}={}'".format(util.CKANINI,
                                                             key,
                                                             value)
-            sp.call(ckan_cmd, shell=True, stdout=sp.DEVNULL)
+            sp.check_output(ckan_cmd, shell=True)
 
 
 def check_permission(path, user=None, mode=None, recursive=False,
@@ -164,11 +164,11 @@ def check_theme_i18n_hack(autocorrect):
         if hack:
             # apply hack
             ckan_cmd = "ckan -c {} dcor-i18n-hack".format(util.CKANINI)
-            sp.call(ckan_cmd, shell=True, stdout=sp.DEVNULL)
+            sp.check_output(ckan_cmd, shell=True)
             # set config option
             ckan_cmd2 = "ckan config-tool {} '{}={}'".format(
                 util.CKANINI, "ckan.locale_default", "en_US")
-            sp.call(ckan_cmd2, shell=True, stdout=sp.DEVNULL)
+            sp.check_output(ckan_cmd2, shell=True)
 
 
 def check_uwsgi(harakiri, autocorrect=False):
@@ -247,4 +247,4 @@ def inspect(assume_yes=False):
     check_uwsgi(harakiri=720, autocorrect=assume_yes)
 
     click.secho("Reloading CKAN...", bold=True)
-    sp.call("supervisorctl reload", shell=True, stdout=sp.DEVNULL)
+    sp.check_output("supervisorctl reload", shell=True)
