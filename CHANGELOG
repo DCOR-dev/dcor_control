@@ -1,3 +1,5 @@
+0.1.9
+ - enh: "inspect" also reloads nginx
 0.1.8
  - enh: "inspect" set favicon link
  - enh: use subprocess.check_output everywhere

@@ -269,3 +269,6 @@ def inspect(assume_yes=False):
 
     click.secho("Reloading CKAN...", bold=True)
     sp.check_output("supervisorctl reload", shell=True)
+
+    click.secho("Reloading nginx...", bold=True)
+    sp.check_output("systemctl reload nginx", shell=True)
