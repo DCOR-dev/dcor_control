@@ -7,7 +7,8 @@
      "ckan.ini": {
          "ckan.site_url": "https://dcor.mpl.mpg.de",
          "ckan.site_title": "DCOR",
-         "ckan.favicon": "/base/images/favicon.ico"
+         "ckan.favicon": "/base/images/favicon.ico",
+         "ckanext.dcor_schemas.json_resource_schema_dir": "package"
          },
      "include": ["general", "garching"]
      },
@@ -18,7 +19,8 @@
      "ckan.ini": {
          "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
          "ckan.site_title": "DCOR-dev",
-         "ckan.favicon": "/base/images/favicon-dev.ico"
+         "ckan.favicon": "/base/images/favicon-dev.ico",
+         "ckanext.dcor_schemas.json_resource_schema_dir": "package"
          },
      "include": ["general", "garching"]
      },
@@ -27,7 +29,8 @@
      "ckan.ini": {
          "ckan.site_url": "http://<TEMPLATE:IP>",
          "ckan.site_title": "DCOR-VM",
-         "ckan.favicon": "/base/images/favicon-dev.ico"
+         "ckan.favicon": "/base/images/favicon-dev.ico",
+         "ckanext.dcor_schemas.json_resource_schema_dir": "package"
          },
      "include": ["general"]
      }
