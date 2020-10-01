@@ -199,6 +199,18 @@ def check_uwsgi(harakiri, autocorrect=False):
                         fd.writelines(lines)
 
 
+def patch_ckan_issue_5637():
+    """https://github.com/ckan/ckan/issues/5637"""
+    path = pathlib.Path(
+        "/usr/lib/ckan/default/src/ckan/ckan/logic/action/update.py")
+    old = "_check_access('package_revise', context, orig)"
+    new = "_check_access('package_revise', context, {'update': orig})"
+    assert path.exists(), "DAMN, could not find update.py are you on 20.04?"
+    text = path.read_text()
+    text = text.replace(old, new)
+    path.write_text(text)
+
+
 def set_dcor_theme_favicon_link():
     """Creat symlink from /favicon.ico to CKAN favicon
 
@@ -266,6 +278,9 @@ def inspect(assume_yes=False):
 
     click.secho("Setting favicon link...", bold=True)
     set_dcor_theme_favicon_link()
+
+    click.secho("Patch for ckan #5637...", bold=True)
+    patch_ckan_issue_5637()
 
     click.secho("Reloading CKAN...", bold=True)
     sp.check_output("supervisorctl reload", shell=True)
