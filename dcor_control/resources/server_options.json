@@ -5,8 +5,8 @@
          "ip": "130.183.206.45",
          "hostname": "dcor-mpl"},
      "ckan.ini": {
-         "ckan.auth.create_user_via_api": False,
-         "ckan.auth.create_user_via_web": True,
+         "ckan.auth.create_user_via_api": false,
+         "ckan.auth.create_user_via_web": true,
          "ckan.favicon": "/base/images/favicon.ico",
          "ckan.site_title": "DCOR",
          "ckan.site_url": "https://dcor.mpl.mpg.de",
@@ -19,8 +19,8 @@
          "ip": "130.183.206.46",
          "hostname": "dcor-dev-mpl"},
      "ckan.ini": {
-         "ckan.auth.create_user_via_api": True,
-         "ckan.auth.create_user_via_web": True,
+         "ckan.auth.create_user_via_api": true,
+         "ckan.auth.create_user_via_web": true,
          "ckan.favicon": "/base/images/favicon-dev.ico",
          "ckan.site_title": "DCOR-dev",
          "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
@@ -31,8 +31,8 @@
     {"name": "clinics",
      "requirements": {},
      "ckan.ini": {
-         "ckan.auth.create_user_via_api": False,
-         "ckan.auth.create_user_via_web": False,
+         "ckan.auth.create_user_via_api": false,
+         "ckan.auth.create_user_via_web": false,
          "ckan.favicon": "/base/images/favicon-med.ico",
          "ckan.site_title": "DCOR-med",
          "ckan.site_url": "http://<TEMPLATE:IP>",
@@ -43,8 +43,8 @@
     {"name": "testing",
      "requirements": {},
      "ckan.ini": {
-         "ckan.auth.create_user_via_api": True,
-         "ckan.auth.create_user_via_web": True,
+         "ckan.auth.create_user_via_api": true,
+         "ckan.auth.create_user_via_web": true,
          "ckan.favicon": "/base/images/favicon-dev.ico",
          "ckan.site_title": "DCOR-VM",
          "ckan.site_url": "http://<TEMPLATE:IP>",
