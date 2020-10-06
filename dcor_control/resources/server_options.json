@@ -5,9 +5,11 @@
          "ip": "130.183.206.45",
          "hostname": "dcor-mpl"},
      "ckan.ini": {
-         "ckan.site_url": "https://dcor.mpl.mpg.de",
-         "ckan.site_title": "DCOR",
+         "ckan.auth.create_user_via_api": False,
+         "ckan.auth.create_user_via_web": True,
          "ckan.favicon": "/base/images/favicon.ico",
+         "ckan.site_title": "DCOR",
+         "ckan.site_url": "https://dcor.mpl.mpg.de",
          "ckanext.dcor_schemas.json_resource_schema_dir": "package"
          },
      "include": ["general", "garching"]
@@ -17,19 +19,35 @@
          "ip": "130.183.206.46",
          "hostname": "dcor-dev-mpl"},
      "ckan.ini": {
-         "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
-         "ckan.site_title": "DCOR-dev",
+         "ckan.auth.create_user_via_api": True,
+         "ckan.auth.create_user_via_web": True,
          "ckan.favicon": "/base/images/favicon-dev.ico",
+         "ckan.site_title": "DCOR-dev",
+         "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
          "ckanext.dcor_schemas.json_resource_schema_dir": "package"
          },
      "include": ["general", "garching"]
      },
-    {"name": "vm",
+    {"name": "clinics",
      "requirements": {},
      "ckan.ini": {
+         "ckan.auth.create_user_via_api": False,
+         "ckan.auth.create_user_via_web": False,
+         "ckan.favicon": "/base/images/favicon-med.ico",
+         "ckan.site_title": "DCOR-med",
          "ckan.site_url": "http://<TEMPLATE:IP>",
-         "ckan.site_title": "DCOR-VM",
+         "ckanext.dcor_schemas.json_resource_schema_dir": "package"
+         },
+     "include": ["general"]
+     },
+    {"name": "testing",
+     "requirements": {},
+     "ckan.ini": {
+         "ckan.auth.create_user_via_api": True,
+         "ckan.auth.create_user_via_web": True,
          "ckan.favicon": "/base/images/favicon-dev.ico",
+         "ckan.site_title": "DCOR-VM",
+         "ckan.site_url": "http://<TEMPLATE:IP>",
          "ckanext.dcor_schemas.json_resource_schema_dir": "package"
          },
      "include": ["general"]
