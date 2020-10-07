@@ -1,6 +1,7 @@
-0.1.9
+0.2.0
  - enh: "inspect" also reloads nginx
- - enh: add patch for ckan issue #5637
+ - enh: add patch for ckan/ckan/#5637
+ - enh: allow to select setup-identifier if multiple apply
 0.1.8
  - enh: "inspect" set favicon link
  - enh: use subprocess.check_output everywhere
