@@ -72,15 +72,32 @@ def get_server_options():
     my_hostname = socket.gethostname()
     my_ip = get_ip()
 
+    cands = []
     for setup in opt_dict["setups"]:
         req = setup["requirements"]
-        ip = req.get("ip", my_ip)
-        hostname = req.get("hostname", my_hostname)
+        ip = req.get("ip", "")
+        hostname = req.get("hostname", "")
         if ip == my_ip and hostname == my_hostname:
+            # perfect match
+            cands = [setup]
             break
-    else:
-        raise ValueError(
-            "Could not determine server type;Not even fallback worked.")
+        elif ip or hostname:
+            # no match
+            continue
+        else:
+            # fallback setup
+            cands.append(setup)
+    if len(cands) == 0:
+        raise ValueError("No fallback setups?")
+    if len(cands) != 1:
+        names = [setup["name"] for setup in cands]
+        print("The following setup-identifiers may apply: {}".format(
+            ", ".join(names)))
+        sn = None
+        while sn not in names:
+            sn = get_config("setup-identifier")
+        setup = cands[names.index(sn)]
+
     # Populate with includes
     for inc_key in setup["include"]:
         recursive_update_dict(setup, opt_dict["includes"][inc_key])
