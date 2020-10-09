@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Clear all datasets except for one from figshare on development machines.
+#
 # Put this script in /root/scripts, make it executable and add the
 # following cron job:
 #
