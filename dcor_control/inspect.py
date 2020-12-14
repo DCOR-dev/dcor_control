@@ -224,9 +224,15 @@ def set_dcor_theme_favicon_link():
     path = resource_filename("ckanext.dcor_theme", "public")
     target = pathlib.Path(path + loc)
     link = pathlib.Path(path) / "favicon.ico"
-    if link.exists():
-        link.unlink()
-    link.symlink_to(target)
+    if link.exists() and link.resolve() == target:
+        pass
+    else:
+        try:
+            if link.exists():
+                link.unlink()
+            link.symlink_to(target)
+        except PermissionError:
+            click.secho("Cannot create link due to PermissionError!", fg='red')
 
 
 @click.command()

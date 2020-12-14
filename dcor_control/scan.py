@@ -20,11 +20,6 @@ ANCILLARY_FILES = OrderedDict()
 ANCILLARY_FILES["condensed.rtdc"] = generate_condensed_dataset_job
 ANCILLARY_FILES["preview.jpg"] = create_preview_job
 
-#: CKAN resources path
-CKAN_RESOURCES = util.get_storage_path() / "resources"
-#: DCOR users depot path
-USER_DEPOT = util.get_users_depot_path()
-
 
 def ask(prompt):
     an = input(prompt + " [y/N]: ")
@@ -78,6 +73,7 @@ def remove_resource_data(resource_id, autocorrect=False):
     This includes ancillary files as well as data in the user depot.
     If `autocorrect` is False, the user is prompted before deletion.
     """
+    user_depot = util.get_users_depot_path()
     rp = get_resource_path(resource_id)
     todel = []
 
@@ -94,9 +90,9 @@ def remove_resource_data(resource_id, autocorrect=False):
     # Check for symlinks
     if rp.is_symlink():
         target = rp.resolve()
-        # Only delete symlinked files if they are in the USER_DEPOT
+        # Only delete symlinked files if they are in the user_depot
         # (we don't delete figshare or internal data)
-        if str(target).startswith(str(USER_DEPOT)):
+        if str(target).startswith(str(user_depot)):
             todel.append(target)
 
     if autocorrect:
@@ -110,13 +106,14 @@ def remove_resource_data(resource_id, autocorrect=False):
             + "\nDelete these orphaned files?"
         )
     if delok:
+        ckan_resources = util.get_storage_path() / "resources"
         for pp in todel:
             pp.unlink()
             # Also remove empty dirs
-            if str(pp).startswith(str(CKAN_RESOURCES)):
+            if str(pp).startswith(str(ckan_resources)):
                 # /data/ckan-HOSTNAME/resources/00e/a65/e6-cc35-...
                 remove_empty_folders(pp.parent.parent)
-            elif str(pp).startswith(str(USER_DEPOT)):
+            elif str(pp).startswith(str(user_depot)):
                 # /data/depots/users-HOSTNAME/USER-ORG/f5/ba/pkg_rid_file.rtdc
                 remove_empty_folders(pp.parent.parent.parent)
 
@@ -132,14 +129,16 @@ def scan(missing=False, orphans=False, assume_yes=False):
     ----------
     orphans: bool
 
-        - checks whether resources in `CKAN_RESOURCES` exist in CKAN
+        - checks whether resources in the resources dir exist in CKAN
         - checks whether ancillary files ("resource-id_*") in
-          `CKAN_RESOURCES` are orphaned
-        - checks whether there are datasets in `USER_DEPOT` that
+          the resources dir are orphaned
+        - checks whether there are datasets in the user depot that
           do not exist in CKAN
     """
-    resources_path = pathlib.Path(CKAN_RESOURCES)
-    userdepot_path = pathlib.Path(USER_DEPOT)
+    user_depot = util.get_users_depot_path()
+    ckan_resources = util.get_storage_path() / "resources"
+    resources_path = pathlib.Path(ckan_resources)
+    userdepot_path = pathlib.Path(user_depot)
     time_stop = time.time()
     click.secho("Collecting resource ids...", bold=True)
     resource_ids = get_resource_ids()
