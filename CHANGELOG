@@ -3,6 +3,7 @@
  - enh: include GPG Key ID and hostname in "encrypted-database-backup"
    file names
  - ci: migrate to GH Actions
+ - build: rely on extensions install_requires
 0.3.0
  - feat: "encrypted-database-backup" on /data
  - enh: "reset" now allows to remove zombie users
