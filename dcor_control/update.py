@@ -6,6 +6,12 @@ import sys
 import click
 
 
+def get_package_version(name):
+    info = sp.check_output("pip show {}".format(name), shell=True)
+    version = info.decode("utf-8").split("\n")[1].split()[1]
+    return version
+
+
 def package_is_editable(name):
     """Is the package an editable install?
 
@@ -19,6 +25,7 @@ def package_is_editable(name):
 
 
 def update_package(name):
+    old_ver = get_package_version(name)
     for path_item in sys.path:
         if name in path_item:
             # This means that the package is probably installed
@@ -41,6 +48,9 @@ def update_package(name):
                     bold=True)
         sp.check_output("pip install --upgrade {}".format(name),
                         shell=True)
+    new_ver = get_package_version(name)
+    if old_ver != new_ver:
+        print("...updated {} from {} to {}.".format(name, old_ver, new_ver))
 
 
 @click.command()
