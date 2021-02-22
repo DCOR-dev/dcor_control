@@ -7,6 +7,7 @@ extensions. This should be done on a regular basis,
 but at the least whenever an incompatibility is
 introduced.
 """
+import ckan
 from ckanext import dc_log_view
 from ckanext import dc_serve
 from ckanext import dc_view
@@ -16,10 +17,8 @@ from ckanext import dcor_theme
 import dcor_shared
 
 
-CKAN_VERSION = "2.9.0"
-
 versions = {
-    "ckan": CKAN_VERSION,
+    "ckan": ckan.__version__,
     "ckanext.dc_log_view": dc_log_view.__version__,
     "ckanext.dc_serve": dc_serve.__version__,
     "ckanext.dc_view": dc_view.__version__,
