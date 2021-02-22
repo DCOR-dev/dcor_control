@@ -1,5 +1,6 @@
 0.3.3
- - fix: tests did not run because background jobs ran in wrong order
+ - fix: reordered ckan.plugins list (tests did not run because
+   background jobs ran in wrong order
 0.3.2
  - enh: print version changed when updating DCOR packages
 0.3.1
