@@ -19,6 +19,7 @@
          "ip": "130.183.206.46",
          "hostname": "dcor-dev-mpl"},
      "ckan.ini": {
+         "ckan.auth.create_default_api_keys": "true",
          "ckan.auth.create_user_via_api": "true",
          "ckan.auth.create_user_via_web": "true",
          "ckan.favicon": "/base/images/favicon-dev.ico",
@@ -43,6 +44,7 @@
     {"name": "testing",
      "requirements": {},
      "ckan.ini": {
+         "ckan.auth.create_default_api_keys": "true",
          "ckan.auth.create_user_via_api": "true",
          "ckan.auth.create_user_via_web": "true",
          "ckan.favicon": "/base/images/favicon-dev.ico",
