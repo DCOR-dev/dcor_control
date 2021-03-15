@@ -280,7 +280,7 @@ def inspect(assume_yes=False):
     check_nginx(cmbs="10G", autocorrect=assume_yes)
 
     click.secho("Checking uwsgi configuration...", bold=True)
-    check_uwsgi(harakiri=720, autocorrect=assume_yes)
+    check_uwsgi(harakiri=7200, autocorrect=assume_yes)
 
     click.secho("Setting favicon link...", bold=True)
     set_dcor_theme_favicon_link()

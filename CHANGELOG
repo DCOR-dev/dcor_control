@@ -1,6 +1,7 @@
 0.3.4
  - ref: do not generate API keys by default, because we now support
    API tokens
+ - ref: increase uWSGI harakiri timeout to 7200
 0.3.3
  - fix: reordered ckan.plugins list (tests did not run because
    background jobs ran in wrong order
