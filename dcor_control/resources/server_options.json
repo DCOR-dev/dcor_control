@@ -5,6 +5,7 @@
          "ip": "130.183.206.45",
          "hostname": "dcor-mpl"},
      "ckan.ini": {
+         "ckan.auth.create_default_api_keys": "false",
          "ckan.auth.create_user_via_api": "false",
          "ckan.auth.create_user_via_web": "true",
          "ckan.favicon": "/base/images/favicon.ico",
@@ -32,6 +33,7 @@
     {"name": "clinics",
      "requirements": {},
      "ckan.ini": {
+         "ckan.auth.create_default_api_keys": "false",
          "ckan.auth.create_user_via_api": "false",
          "ckan.auth.create_user_via_web": "false",
          "ckan.favicon": "/base/images/favicon-med.ico",
