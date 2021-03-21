@@ -31,6 +31,7 @@
          "ckan.auth.create_user_via_web": "false",
          "ckan.site_title": "DCOR-med",
          "ckan.site_url": "http://<TEMPLATE:IP>",
+         "ckanext.dcor_schemas.json_resource_schema_dir": "<TEMPLATE:PATH_BRANDING>/resource_schema_medical",
          "licenses_group_url": "file://<TEMPLATE:PATH_BRANDING>/licenses_medical.json"
          },
      "include": ["general"]
@@ -41,7 +42,7 @@
      "ckan.ini": {
          "ckan.auth.create_default_api_keys": "true",
          "ckan.auth.create_user_via_api": "true",
-         "ckan.site_title": "DCOR-VM",
+         "ckan.site_title": "DCOR-test",
          "ckan.site_url": "http://<TEMPLATE:IP>"
          },
      "include": ["general"]
