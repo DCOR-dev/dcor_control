@@ -1,0 +1,85 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Imprint') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Imprint'), 'dcor_theme.imprint' %}</li>
+{% endblock %}
+
+{% block primary %}
+<article class="module">
+
+
+<div class="module-content">
+
+  <p>
+    <b>Imprint/Provider Identification</b> <br> The following provides mandatory data
+    concerning the provider of this website, obligations with regard to data protection,
+    as well as other important legal references involving the internet site of the
+    Deformability Cytometry Open Repository (DCOR) of the Max Planck Institute for
+    the Science of Light (= {{ g.site_url }}) as required by German law.<br> For more
+    information, please also read
+    <a href="https://mpl.mpg.de/imprint/">https://mpl.mpg.de/imprint/</a>.
+  </p>
+
+  <p>
+    <b>Provider</b> <br> The provider of this Internet site within the legal meaning
+    of the term is the registered association Max Planck Society for the Advancement
+    of Science e.V.
+  </p>
+
+  <p>
+    <b>Address</b><br> Max-Planck-Gesellschaft zur Förderung der Wissenschaften e.V.
+    <br>Hofgartenstraße 8
+    <br> D-80539 Munich
+    <br> Phone: +49 (89) 2108 - 0
+    <br> Internet: <a href="https://mpl.mpg.de">www.mpl.mpg.de</a>
+  </p>
+
+  <p>
+    <b>Register of Societies and Associations</b><br> The Max Planck Society is registered
+    in the Official Register of Societies and Associations at Berlin-Charlottenburg
+    Local Court under the register number VR 13378 B.
+  </p>
+
+  <p>
+    <b>Representatives</b><br> The Max Planck Society is legally represented by its
+    Board of Directors which, in turn, is represented by the President of the Society,
+    Prof. Dr. Martin Stratmann and by Secretary General Rüdiger Willems.
+  </p>
+
+  <p>
+    <b>Value Added Tax Identification Number</b><br> The value added tax identification
+    number of the Max Planck Society is DE 129517720.
+  </p>
+
+  <p>
+    <b>Editor</b>
+    <br>Responsible editor for the contents of the website of the Deformability
+    Cytometry Open Repository (DCOR) of the Max Planck Institute for
+    the Science of Light (= {{ g.site_url }}) with regard to media law:
+    <br> Max Planck Institute for the Science of Light
+    <br> Prof. Jochen Guck
+    <br> Staudtstraße 2
+    <br> D-91058 Erlangen
+    <br> Phone: +49 (9131) 7133 - 501
+    <br> E-Mail: jochen.guck(at)mpl.mpg.de
+    <br> Internet: <a href="https://mpl.mpg.de">www.mpl.mpg.de</a>
+  </p>
+
+  <p>  <b>Technical Manager / Contact</b><br> Paul Müller<br> Staudtstraße 2<br> D-91058
+    Erlangen<br> Phone: +49 (9131) 7133 - 501<br> E-Mail: paul.mueller(at)mpl.mpg.de
+    
+  </p>
+
+  <p>
+    As far as liability for links is concerned, we spare ourselves the usual disclaimer,
+    which in the opinion of most lawyers
+    <a href="https://de.wikipedia.org/wiki/Disclaimer#Rechtliche_Bewertung">
+    does not have any legal effect</a> anyway.
+  </p>
+</div>
+</article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}

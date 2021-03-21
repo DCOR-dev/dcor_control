@@ -39,28 +39,6 @@ def get_ip():
     return IP
 
 
-def fill_templates(adict):
-    """Fill in templates in server_options.json"""
-    templates = {
-        "IP": [get_ip, []],
-        "EMAIL": [get_config, ["email"]],
-        "PGSQLPASS": [get_config, ["pgsqlpass"]],
-        "HOSTNAME": [socket.gethostname, []],
-    }
-
-    for key in sorted(adict.keys()):
-        item = adict[key]
-        if isinstance(item, str):
-            for tk in templates:
-                tstr = "<TEMPLATE:{}>".format(tk)
-                if item.count(tstr):
-                    func, args = templates[tk]
-                    item = item.replace(tstr, func(*args))
-            adict[key] = item
-        elif isinstance(item, dict):
-            fill_templates(item)
-
-
 def get_server_options():
     """Determine the type of server and return the server options"""
     # Load the json data
@@ -102,8 +80,50 @@ def get_server_options():
     for inc_key in setup["include"]:
         recursive_update_dict(setup, opt_dict["includes"][inc_key])
     # Fill in template variables
-    fill_templates(setup)
+    process_ckan_ini_templates(setup)
+    # Fill in branding variables
+    process_ckan_ini_branding(setup)
     return setup
+
+
+def process_ckan_ini_branding(ini_dict):
+    """Set extra templates and public paths according to branding"""
+    brands = ini_dict["branding"]
+    # Please not the dcor_control must be an installed package for
+    # this to work (no egg or somesuch).
+    templt_paths = []
+    public_paths = []
+    for brand in brands:
+        template_dir = resource_filename("dcor_control.resources.branding",
+                                         "templates_{}".format(brand))
+        templt_paths.append(template_dir)
+        public_dir = resource_filename("dcor_control.resources.branding",
+                                       "public_{}".format(brand))
+        public_paths.append(public_dir)
+    ini_dict["ckan.ini"]["extra_template_paths"] = ", ".join(templt_paths)
+    ini_dict["ckan.ini"]["extra_public_paths"] = ", ".join(public_paths)
+
+
+def process_ckan_ini_templates(ini_dict):
+    """Fill in templates in server_options.json"""
+    templates = {
+        "IP": [get_ip, []],
+        "EMAIL": [get_config, ["email"]],
+        "PGSQLPASS": [get_config, ["pgsqlpass"]],
+        "HOSTNAME": [socket.gethostname, []],
+    }
+
+    for key in sorted(ini_dict.keys()):
+        item = ini_dict[key]
+        if isinstance(item, str):
+            for tk in templates:
+                tstr = "<TEMPLATE:{}>".format(tk)
+                if item.count(tstr):
+                    func, args = templates[tk]
+                    item = item.replace(tstr, func(*args))
+            ini_dict[key] = item
+        elif isinstance(item, dict):
+            process_ckan_ini_templates(item)
 
 
 def recursive_update_dict(d, u):

@@ -1,0 +1,20 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Contact') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Contact'), 'dcor_theme.contact' %}</li>
+{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <p>The technical manager of DCOR is
+	    Paul Müller
+	    (paul.mueller(at)mpl.mpg.de).
+      </p>
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
