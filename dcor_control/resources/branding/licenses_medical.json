@@ -1,0 +1,29 @@
+[
+  {
+    "domain_content": false,
+    "domain_data": false,
+    "domain_software": false,
+    "family": "",
+    "id": "none",
+    "maintainer": "Unknown",
+    "od_conformance": "not approved",
+    "osd_conformance": "not reviewed",
+    "status": "active",
+    "title": "Not specified",
+    "url": ""
+  },
+  {
+    "domain_content": false,
+    "domain_data": false,
+    "domain_software": false,
+    "family": "",
+    "id": "patient",
+    "maintainer": "Unknown",
+    "od_conformance": "not approved",
+    "osd_conformance": "not reviewed",
+    "status": "active",
+    "title": "Unlicensed Patient Data",
+    "url": ""
+  }
+]
+

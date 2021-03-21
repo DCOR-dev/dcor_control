@@ -113,6 +113,8 @@ def process_ckan_ini_templates(ini_dict):
         "EMAIL": [get_config, ["email"]],
         "PGSQLPASS": [get_config, ["pgsqlpass"]],
         "HOSTNAME": [socket.gethostname, []],
+        "PATH_BRANDING": [resource_filename, ["dcor_control.resources",
+                                              "branding"]],
     }
 
     for key in sorted(ini_dict.keys()):
