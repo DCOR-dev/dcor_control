@@ -1,6 +1,7 @@
 0.4.0
  - enh: add custom licenses.json for medical branding
  - enh: add custom json_resource_schema_dir for medical branding
+ - fix: use hostname instead of IP for medical branding
  - ref: added branding and imported stuff from ckanext-dcor_theme
  - ref: favicon is no longer symlinked - it is taken from branding
  - ref: ckan options from dcor_options.ini and server_options.json
