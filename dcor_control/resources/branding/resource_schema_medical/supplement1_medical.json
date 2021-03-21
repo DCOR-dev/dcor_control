@@ -1,0 +1,13 @@
+{
+"key": "medical",
+"name": "Custom DCOR-med options",
+"requires": {},
+"items": [
+  {"key": "pseudonym",
+   "name": "Pseudonym",
+   "hint": "Pseudonymized patient identifier",
+   "type": "string"
+   }
+  ]
+}
+
