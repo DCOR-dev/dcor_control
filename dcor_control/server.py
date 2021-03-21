@@ -96,10 +96,12 @@ def process_ckan_ini_branding(ini_dict):
     for brand in brands:
         template_dir = resource_filename("dcor_control.resources.branding",
                                          "templates_{}".format(brand))
-        templt_paths.append(template_dir)
+        if pathlib.Path(template_dir).exists():
+            templt_paths.append(template_dir)
         public_dir = resource_filename("dcor_control.resources.branding",
                                        "public_{}".format(brand))
-        public_paths.append(public_dir)
+        if pathlib.Path(public_paths).exists():
+            public_paths.append(public_dir)
     ini_dict["ckan.ini"]["extra_template_paths"] = ", ".join(templt_paths)
     ini_dict["ckan.ini"]["extra_public_paths"] = ", ".join(public_paths)
 
