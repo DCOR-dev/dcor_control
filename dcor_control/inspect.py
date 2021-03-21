@@ -41,25 +41,6 @@ def check_nginx(cmbs, autocorrect=False):
         raise ValueError("'client_max_body_size' not set!")
 
 
-def check_option(key, value, autocorrect=False):
-    try:
-        opt = util.get_config_option(key)
-    except util.ConfigOptionNotFoundError:
-        opt = "NOT SET"
-    if opt != value:
-        if autocorrect:
-            print("Setting '{}={}' (was '{}').".format(key, value, opt))
-            change = True
-        else:
-            change = ask("'{}' is '{}' but should be '{}'".format(
-                         key, opt, value))
-        if change:
-            ckan_cmd = "ckan config-tool {} '{}={}'".format(util.CKANINI,
-                                                            key,
-                                                            value)
-            sp.check_output(ckan_cmd, shell=True)
-
-
 def check_permission(path, user=None, mode=None, recursive=False,
                      autocorrect=False):
     path = pathlib.Path(path)
@@ -118,6 +99,45 @@ def check_permission(path, user=None, mode=None, recursive=False,
                               + "'{}', but should be '{}'".format(pnam, user))
             if chowner:
                 os.chown(path, uid, gid)
+
+
+def check_server_option(key, value, autocorrect=False):
+    """Check one server option"""
+    try:
+        opt = util.get_config_option(key)
+    except util.ConfigOptionNotFoundError:
+        opt = "NOT SET"
+    if opt != value:
+        if autocorrect:
+            print("Setting '{}={}' (was '{}').".format(key, value, opt))
+            change = True
+        else:
+            change = ask("'{}' is '{}' but should be '{}'".format(
+                         key, opt, value))
+        if change:
+            ckan_cmd = "ckan config-tool {} '{}={}'".format(util.CKANINI,
+                                                            key,
+                                                            value)
+            sp.check_output(ckan_cmd, shell=True)
+
+
+def check_server_options(autocorrect=False):
+    """Check custom ckan.ini server options
+
+    This includes the contributions from
+    - general options from resources/dcor_options.ini
+    - as well as custom options in resources/server_options.json
+
+    Custom options override general options.
+    """
+    custom_opts = get_server_options()["ckan.ini"]
+    general_opts = util.parse_config_options(
+        resource_filename("dcor_control.resources", "dcor_options.ini"))
+
+    general_opts.update(custom_opts)
+
+    for key in general_opts:
+        check_server_option(key, general_opts[key], autocorrect=autocorrect)
 
 
 def check_supervisord(autocorrect):
@@ -239,16 +259,8 @@ def set_dcor_theme_favicon_link():
 @click.option('--assume-yes', is_flag=True)
 def inspect(assume_yes=False):
     """Inspect this DCOR installation"""
-    click.secho("Checking custom server options...", bold=True)
-    srv_opts = get_server_options()
-    for key in srv_opts["ckan.ini"]:
-        check_option(key, srv_opts["ckan.ini"][key], autocorrect=assume_yes)
-
-    click.secho("Checking general server options...", bold=True)
-    gen_opts = util.parse_config_options(
-        resource_filename("dcor_control.resources", "dcor_options.ini"))
-    for key in gen_opts:
-        check_option(key, gen_opts[key], autocorrect=assume_yes)
+    click.secho("Checking CKAN options...", bold=True)
+    check_server_options(autocorrect=assume_yes)
 
     click.secho("Checking www-data permissions...", bold=True)
     for path in [

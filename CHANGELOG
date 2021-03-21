@@ -1,4 +1,7 @@
 0.3.4
+ - ref: ckan options from dcor_options.ini and server_options.json
+   are not anymore exclusive - serer_options.json overrides any
+   parameters in dcor_options.ini
  - ref: do not generate API keys by default, because we now support
    API tokens
  - ref: increase uWSGI harakiri timeout to 7200
