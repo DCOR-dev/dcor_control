@@ -9,7 +9,7 @@ introduced.
 """
 try:
     from ckan import __version__ as ckan_version
-except:
+except BaseException:
     ckan_version = "unknown!"
 
 from ckanext import dc_log_view
