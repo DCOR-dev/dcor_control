@@ -9,7 +9,7 @@ import appdirs
 import click
 
 
-def get_config(name):
+def get_config(name, custom_message=""):
     cpath = pathlib.Path(appdirs.user_config_dir("dcor_control"))
     cpath.mkdir(parents=True, exist_ok=True)
     os.chmod(cpath, 0o700)
@@ -20,6 +20,8 @@ def get_config(name):
         email = ""
     if not email:
         # Prompt user
+        if custom_message:
+            print(custom_message)
         email = input("Please enter '{}': ".format(name))
         epath.write_text(email)
     os.chmod(epath, 0o600)
@@ -69,12 +71,17 @@ def get_server_options():
         raise ValueError("No fallback setups?")
     if len(cands) != 1:
         names = [setup["name"] for setup in cands]
-        print("The following setup-identifiers may apply: {}".format(
-            ", ".join(names)))
-        sn = None
-        while sn not in names:
-            sn = get_config("setup-identifier")
+        custom_message = "Valid setup-identifiers: {}".format(
+                         ", ".join(names))
+        for _ in range(3):
+            sn = get_config("setup-identifier", custom_message)
+            if sn is not None:
+                break
+        else:
+            raise ValueError("Could not get setup-identifier (tried 3 times)!")
         setup = cands[names.index(sn)]
+    else:
+        setup = cands[0]
 
     # Populate with includes
     for inc_key in setup["include"]:
