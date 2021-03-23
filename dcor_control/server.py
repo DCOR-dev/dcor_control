@@ -104,7 +104,7 @@ def process_ckan_ini_branding(ini_dict):
             public_paths.append(public_dir)
     if templt_paths:
         ini_dict["ckan.ini"]["extra_template_paths"] = ", ".join(templt_paths)
-    elif public_paths:
+    if public_paths:
         ini_dict["ckan.ini"]["extra_public_paths"] = ", ".join(public_paths)
 
 
