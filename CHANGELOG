@@ -1,3 +1,5 @@
+0.4.1
+ - updated MANIFEST.in
 0.4.0
  - enh: add custom licenses.json for medical branding
  - enh: add custom json_resource_schema_dir for medical branding
