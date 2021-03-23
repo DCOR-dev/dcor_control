@@ -7,7 +7,11 @@ extensions. This should be done on a regular basis,
 but at the least whenever an incompatibility is
 introduced.
 """
-import ckan
+try:
+    from ckan import __version__ as ckan_version
+except:
+    ckan_version = "unknown!"
+
 from ckanext import dc_log_view
 from ckanext import dc_serve
 from ckanext import dc_view
@@ -18,7 +22,7 @@ import dcor_shared
 
 
 versions = {
-    "ckan": ckan.__version__,
+    "ckan": ckan_version,
     "ckanext.dc_log_view": dc_log_view.__version__,
     "ckanext.dc_serve": dc_serve.__version__,
     "ckanext.dc_view": dc_view.__version__,

@@ -14,10 +14,9 @@
 
   {% block home_image %}
     <section class="featured media-overlay hidden-xs">
-      <h2 class="media-heading">{% block home_image_caption %}{{ _("RT-DC collage (whole blood)") }}{% endblock %}</h2>
       {% block home_image_content %}
-        <a class="media-image" href="#">
-          <img class="img-responsive" src="{{ h.url_for_static('/base/images/placeholder-420x220.png') }}" alt="Placeholder" width="420" height="220" />
+        <a class="media-image" href="{{ h.url_for_static('/images/dcor_tiles.png') }}">
+          <img class="img-responsive" src="{{ h.url_for_static('/images/dcor_tiles_420.jpg') }}" alt="Placeholder" width="420" height="152" />
         </a>
       {% endblock %}
     </section>
