@@ -1,4 +1,5 @@
 0.4.3
+ - fix: set domain_data for patient licens in for medical branding
  - fix: possible infinite-loop when getting setup identifier
 0.4.2
  - fix: typo in server.py (public path not set in config)

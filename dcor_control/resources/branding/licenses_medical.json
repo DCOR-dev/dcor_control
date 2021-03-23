@@ -14,7 +14,7 @@
   },
   {
     "domain_content": false,
-    "domain_data": false,
+    "domain_data": true,
     "domain_software": false,
     "family": "",
     "id": "patient",
