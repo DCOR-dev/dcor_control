@@ -125,15 +125,10 @@ def remove_resource_data(resource_id, autocorrect=False):
 def scan(missing=False, orphans=False, assume_yes=False):
     """Scan CKAN resources
 
-    Parameters
-    ----------
-    orphans: bool
-
-        - checks whether resources in the resources dir exist in CKAN
-        - checks whether ancillary files ("resource-id_*") in
-          the resources dir are orphaned
-        - checks whether there are datasets in the user depot that
-          do not exist in CKAN
+    The parameter `orphans` checks whether (1) resources in the
+    resources dir exist in CKAN, (2) ancillary files ("resource-id_*")
+    in the resources dir are orphaned, and (3) there are datasets in
+    the user depot that do not exist in CKAN.
     """
     user_depot = util.get_users_depot_path()
     ckan_resources = util.get_storage_path() / "resources"
