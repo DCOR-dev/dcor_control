@@ -1,4 +1,5 @@
 0.4.5
+ - fix: increase maximum resource size to 100G
  - enh: use ckanext.dcor_schemas.allow_public_datasets config value
    to disable public datasets on medical branding
 0.4.4

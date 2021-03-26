@@ -265,7 +265,7 @@ def inspect(assume_yes=False):
     check_supervisord(autocorrect=assume_yes)
 
     click.secho("Checking nginx configuration...", bold=True)
-    check_nginx(cmbs="10G", autocorrect=assume_yes)
+    check_nginx(cmbs="100G", autocorrect=assume_yes)
 
     click.secho("Checking uwsgi configuration...", bold=True)
     check_uwsgi(harakiri=7200, autocorrect=assume_yes)
