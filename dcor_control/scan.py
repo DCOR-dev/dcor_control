@@ -125,6 +125,9 @@ def remove_resource_data(resource_id, autocorrect=False):
 def scan(missing=False, orphans=False, assume_yes=False):
     """Scan CKAN resources
 
+    The parameter `missing` checks for missing ancillary files,
+    such as _preview.jpg or _condensed.rtdc.
+
     The parameter `orphans` checks whether (1) resources in the
     resources dir exist in CKAN, (2) ancillary files ("resource-id_*")
     in the resources dir are orphaned, and (3) there are datasets in
@@ -137,9 +140,7 @@ def scan(missing=False, orphans=False, assume_yes=False):
     time_stop = time.time()
     click.secho("Collecting resource ids...", bold=True)
     resource_ids = get_resource_ids()
-    # processed files are used to avoid asking the user multiple times
-    orphans_processed = []
-    missing_processed = []
+    orphans_processed = []  # list for keeping track of orphans
 
     click.secho("Scanning resource tree...", bold=True)
     # Scan CKAN resources
@@ -151,12 +152,13 @@ def scan(missing=False, orphans=False, assume_yes=False):
         else:
             res_id = pp.parent.parent.name + pp.parent.name + pp.name[:30]
             exists = res_id in resource_ids
-            if orphans and not exists and res_id not in orphans_processed:
+            # check for orphans
+            if orphans and not exists:
                 remove_resource_data(res_id, autocorrect=assume_yes)
                 orphans_processed.append(res_id)
-            if missing and exists and res_id not in missing_processed:
+            # check for missing files
+            if missing and exists:
                 generate_ancillary_files(res_id, autocorrect=assume_yes)
-                missing_processed.append(res_id)
 
     # Scan user depot for orphans
     if orphans:
