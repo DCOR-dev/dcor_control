@@ -1,5 +1,6 @@
 0.4.7
  - enh: add "execution" meta-data for medical branding
+ - enh: add "chip" meta-data section for medical branding
 0.4.6
  - docs: documented code in scan.py
 0.4.5

@@ -1,0 +1,59 @@
+{
+"key": "chip",
+"name": "Microfluidic chip",
+"requires": {},
+"items": [
+  {"key": "channel width",
+   "name": "Exact channel width",
+   "unit": "µm",
+   "hint": "The exact channel width with submicron resolution",
+   "type": "float",
+   "options": [">0"],
+   "example": 20.04
+   },
+  {"key": "comments",
+   "name": "Comments",
+   "hint": "Detailed information about the chip used",
+   "type": "string"
+   },
+  {"key": "measurement count",
+   "name": "Measurement number",
+   "hint": "If multiple measurements are done on the same chip, this is the nth measurement",
+   "type": "integer",
+   "options": [">0"],
+   "example": 1
+   },
+  {"key": "maker",
+   "name": "Produced by",
+   "hint": "Person or other entity that produced the chip",
+   "type": "string",
+   "example": "Manfred Mustermann"
+   },
+  {"key": "master name",
+   "name": "Chip master",
+   "hint": "The name of the chip master",
+   "type": "string",
+   "example": "R1"
+   },
+  {"key": "master height",
+   "name": "Exact height of chip master",
+   "unit": "µm",
+   "hint": "The exact height of the chip master with submicron resolution",
+   "type": "float",
+   "options": [">0"],
+   "example": 20.03
+   },
+  {"key": "name",
+   "name": "Chip name",
+   "hint": "The name of the chip",
+   "type": "string",
+   "example": "3x5"
+   },
+  {"key": "production date",
+   "name": "Production date",
+   "hint": "Date of production",
+   "type": "date",
+   "example": "2020-05-17"
+   }
+]
+}
