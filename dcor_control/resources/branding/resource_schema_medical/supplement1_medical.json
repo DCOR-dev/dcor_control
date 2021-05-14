@@ -3,9 +3,9 @@
 "name": "Custom DCOR-med options",
 "requires": {},
 "items": [
-  {"key": "pseudonym",
-   "name": "Pseudonym",
-   "hint": "Pseudonymized patient identifier",
+  {"key": "pseudoid",
+   "name": "Pseudo ID",
+   "hint": "Pseudonymized sample or order identifier",
    "type": "string"
    },
   {"key": "execution",
@@ -14,7 +14,7 @@
    "type": "string",
    "options": ["choices fixed"],
    "choices": [
-     "unagted, short-time",
+     "ungated, short-time",
      "gated, long-time"
      ]
    }

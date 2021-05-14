@@ -1,3 +1,6 @@
+0.4.9
+ - fix: rename resource schema supplement keys and fix typo for
+   medical branding
 0.4.8
  - enh: add apple-touch-icon images for medical and test brandings
 0.4.7
