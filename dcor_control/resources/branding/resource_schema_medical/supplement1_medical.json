@@ -17,6 +17,11 @@
      "ungated, short-time",
      "gated, long-time"
      ]
+   },
+  {"key": "comments",
+   "name": "Comments",
+   "hint": "Any additional comments",
+   "type": "string"
    }
   ]
 }

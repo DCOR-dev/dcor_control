@@ -1,3 +1,5 @@
+0.4.10
+ - enh: refine supplementary schema for medical branding
 0.4.9
  - fix: rename resource schema supplement keys and fix typo for
    medical branding
