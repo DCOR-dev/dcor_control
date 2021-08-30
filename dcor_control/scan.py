@@ -9,7 +9,7 @@ import click
 
 from dcor_shared import get_resource_path, DC_MIME_TYPES
 
-from ckanext.dc_serve.jobs import generate_condensed_dataset_job
+from ckanext.dc_serve.jobs import generate_condensed_resource_job
 from ckanext.dc_view.jobs import create_preview_job
 
 from . import util
@@ -17,7 +17,7 @@ from . import util
 
 #: list of valid ancillary files and the functions that generate them
 ANCILLARY_FILES = OrderedDict()
-ANCILLARY_FILES["condensed.rtdc"] = generate_condensed_dataset_job
+ANCILLARY_FILES["condensed.rtdc"] = generate_condensed_resource_job
 ANCILLARY_FILES["preview.jpg"] = create_preview_job
 
 

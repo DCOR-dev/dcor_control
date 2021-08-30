@@ -1,4 +1,6 @@
 0.4.11
+ - fix: support new name "generate_condensed_dataset_job"
+   in ckanext.dc_serve
  - docs: added readme
 0.4.10
  - enh: refine supplementary schema for medical branding
