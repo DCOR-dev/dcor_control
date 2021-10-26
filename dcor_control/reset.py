@@ -27,7 +27,7 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
     # if applicable, run backup
     if database or datasets or zombie_users:
         bpath = db_backup()
-        click.secho("Created backup at {}".format(bpath), bold=True)
+        click.secho(f"Created backup at {bpath}", bold=True)
 
     # run CKAN commands
     ckan_cmds = []
@@ -38,14 +38,13 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
         ckan_cmds.append("db init")
     elif datasets:
         ckan_cmds.append("dataset list | awk 'FNR>2 {system("
-                         + '"ckan -c {} dataset purge "'.format(CKANINI)
-                         + "$1)}'")
+                         + f'"ckan -c {CKANINI} dataset purge "' + "$1)}'")
     if zombie_users:  # must come after dataset purge
         ckan_cmds.append("list-zombie-users | xargs -n1 "
-                         + "ckan -c {} user remove".format(CKANINI))
+                         + f"ckan -c {CKANINI} user remove")
     if search_index:
         ckan_cmds.append("search-index clear")
-    ckan_base = "ckan -c {} ".format(CKANINI)
+    ckan_base = f"ckan -c {CKANINI} "
     for cmd in ckan_cmds:
         click.secho("Running ckan {}...".format(cmd), bold=True)
         sp.check_output(ckan_base + cmd, shell=True)
