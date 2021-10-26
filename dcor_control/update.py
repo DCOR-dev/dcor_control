@@ -40,6 +40,8 @@ def update_package(name):
                     sp.check_output("git pull", shell=True)
                 except sp.CalledProcessError:
                     click.secho("...failed!", bold=True)
+                else:
+                    sp.check_output("pip install -e .", shell=True)
                 finally:
                     os.chdir(wd)
                 break
