@@ -1,3 +1,5 @@
+0.4.14
+ - fix: add ckan.auth.allow_collaborators_to_change_owner_org=false
 0.4.13
  - ref: remove patch_ckan_issue_5637
 0.4.12
