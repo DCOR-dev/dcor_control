@@ -228,6 +228,7 @@ def inspect(assume_yes=False):
 
     click.secho("Checking www-data permissions...", bold=True)
     for path in [
+        "/tmp/DCOR_generate_condensed",  # resource condense locks
         util.get_storage_path(),
         util.get_storage_path() / "resources",
         os.path.join(
