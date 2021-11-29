@@ -36,7 +36,7 @@ setup(
         "ckanext-dc_view",
         "ckanext-dcor_depot",
         "ckanext-dcor_schemas",
-        "ckanext-dcor_theme",
+        "ckanext-dcor_theme>=0.6.0",
         "dcor_shared",
         ],
     # not to be confused with definitions in pyproject.toml [build-system]

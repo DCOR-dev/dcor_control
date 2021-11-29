@@ -165,11 +165,9 @@ def check_supervisord(autocorrect):
 def check_theme_i18n_hack(autocorrect):
     """Generate the en_US locale and only *after* that set it in ckan.ini
 
-    This will run the command
+    This will run the command::
 
-    .. code::
-
-       ckan -c /etc/ckan/default/ckan.ini dcor-i18n-hack
+       ckan -c /etc/ckan/default/ckan.ini dcor-theme-i18n-branding
     """
     try:
         opt = util.get_config_option("ckan.locale_default")
@@ -183,11 +181,39 @@ def check_theme_i18n_hack(autocorrect):
             hack = ask("DCOR theme i18n is not setup")
         if hack:
             # apply hack
-            ckan_cmd = "ckan -c {} dcor-i18n-hack".format(util.CKANINI)
+            ckan_cmd = f"ckan -c {util.CKANINI} dcor-theme-i18n-branding"
             sp.check_output(ckan_cmd, shell=True)
             # set config option
-            ckan_cmd2 = "ckan config-tool {} '{}={}'".format(
-                util.CKANINI, "ckan.locale_default", "en_US")
+            ckan_cmd2 = f"ckan config-tool {util.CKANINI} " \
+                        + "'ckan.locale_default=en_US'"
+
+            sp.check_output(ckan_cmd2, shell=True)
+
+
+def check_theme_main_css(autocorrect):
+    """Generate dcor_main.css
+
+     This will run the command::
+
+        ckan -c /etc/ckan/default/ckan.ini dcor-theme-main-css-branding
+     """
+    try:
+        opt = util.get_config_option("ckan.main_css")
+    except util.ConfigOptionNotFoundError:
+        opt = "NOT SET"
+    if opt != "/base/css/dcor_main.css":
+        if autocorrect:
+            print("Applying DCOR theme main css")
+            replace_main = True
+        else:
+            replace_main = ask("DCOR theme dcor_main.css is not setup")
+        if replace_main:
+            # apply hack
+            ckan_cmd = f"ckan -c {util.CKANINI} dcor-theme-main-css-branding"
+            sp.check_output(ckan_cmd, shell=True)
+            # set config option
+            ckan_cmd2 = f"ckan config-tool {util.CKANINI} " \
+                        + "'ckan.main_css=/base/css/dcor_main.css'"
             sp.check_output(ckan_cmd2, shell=True)
 
 
@@ -249,6 +275,9 @@ def inspect(assume_yes=False):
 
     click.secho("Checking i18n hack...", bold=True)
     check_theme_i18n_hack(autocorrect=assume_yes)
+
+    click.secho("Checking DCOR theme css branding...", bold=True)
+    check_theme_main_css(autocorrect=assume_yes)
 
     click.secho("Checking ckan workers...", bold=True)
     check_supervisord(autocorrect=assume_yes)
