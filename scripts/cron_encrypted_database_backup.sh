@@ -9,7 +9,7 @@
 # following cron job:
 #
 # # create encrypted databas backups every day
-# 2 0 * * * root /root/scripts/encrypted_database_backup.sh > /dev/null
+# 2 0 * * * root /root/scripts/cron_encrypted_database_backup.sh > /dev/null
 #
 source /usr/lib/ckan/default/bin/activate
 export CKAN_INI=/etc/ckan/default/ckan.ini
