@@ -52,7 +52,7 @@ def remove_resource_data(resource_id, autocorrect=False):
     todel = []
 
     # Resource file
-    if rp.exists():
+    if rp.exists() or rp.is_symlink():  # sometimes symlinks don't "exist" :)
         todel.append(rp)
 
     # Check for ancillary files
@@ -64,12 +64,11 @@ def remove_resource_data(resource_id, autocorrect=False):
             target = rp.resolve()
         except RuntimeError:
             # Symlink loop
-            pass
-        else:
-            # Only delete symlinked files if they are in the user_depot
-            # (we don't delete figshare or internal data)
-            if target.exists() and str(target).startswith(str(userdepot_path)):
-                todel.append(target)
+            target = pathlib.Path(os.path.realpath(rp))
+        # Only delete symlinked files if they are in the user_depot
+        # (we don't delete figshare or internal data)
+        if target.exists() and str(target).startswith(str(userdepot_path)):
+            todel.append(target)
 
     if autocorrect:
         for pp in todel:
