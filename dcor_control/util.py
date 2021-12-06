@@ -5,6 +5,7 @@ import appdirs
 
 
 def get_dcor_control_config(name, custom_message=""):
+    """Get (and at the same time store) dcor_control configuration keys"""
     cpath = pathlib.Path(appdirs.user_config_dir("dcor_control"))
     cpath.mkdir(parents=True, exist_ok=True)
     os.chmod(cpath, 0o700)

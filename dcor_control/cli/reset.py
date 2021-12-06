@@ -5,8 +5,8 @@ import subprocess as sp
 import appdirs
 import click
 
-from .backup import db_backup
-from .util import CKANINI
+from ..backup import db_backup
+from ..inspect.paths import get_ckan_config_path
 
 
 @click.command()
@@ -21,6 +21,7 @@ from .util import CKANINI
 def reset(cache=False, database=False, datasets=False, zombie_users=False,
           search_index=False, control=False):
     """Perform (partial) database/cache resets"""
+    ckan_ini = get_ckan_config_path()
     if database and datasets:
         raise ValueError("Please select only one of `database` or `dataset`!")
 
@@ -38,13 +39,13 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
         ckan_cmds.append("db init")
     elif datasets:
         ckan_cmds.append("dataset list | awk 'FNR>2 {system("
-                         + f'"ckan -c {CKANINI} dataset purge "' + "$1)}'")
+                         + f'"ckan -c {ckan_ini} dataset purge "' + "$1)}'")
     if zombie_users:  # must come after dataset purge
         ckan_cmds.append("list-zombie-users | xargs -n1 "
-                         + f"ckan -c {CKANINI} user remove")
+                         + f"ckan -c {ckan_ini} user remove")
     if search_index:
         ckan_cmds.append("search-index clear")
-    ckan_base = f"ckan -c {CKANINI} "
+    ckan_base = f"ckan -c {ckan_ini} "
     for cmd in ckan_cmds:
         click.secho("Running ckan {}...".format(cmd), bold=True)
         sp.check_output(ckan_base + cmd, shell=True)
