@@ -7,7 +7,7 @@ from .. import inspect as inspect_mod
 
 @click.command()
 @click.option('--assume-yes', is_flag=True)
-def inspsect(assume_yes=False):
+def inspect(assume_yes=False):
     """Inspect this DCOR installation"""
     click.secho("Checking CKAN options...", bold=True)
     inspect_mod.check_ckan_ini(autocorrect=assume_yes)

@@ -63,7 +63,7 @@ def remove_resource_data(resource_id, autocorrect=False):
         target = rp.resolve()
         # Only delete symlinked files if they are in the user_depot
         # (we don't delete figshare or internal data)
-        if str(target).startswith(str(userdepot_path)):
+        if target.exists() and str(target).startswith(str(userdepot_path)):
             todel.append(target)
 
     if autocorrect:
