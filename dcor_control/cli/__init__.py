@@ -7,11 +7,11 @@ from . import update
 
 
 @click.group()
-def cli():
+def main():
     pass
 
 
-cli.add_command(backup.encrypted_database_backup)
-cli.add_command(inspect.inspsect)
-cli.add_command(info.status)
-cli.add_command(update.update)
+main.add_command(backup.encrypted_database_backup)
+main.add_command(inspect.inspsect)
+main.add_command(info.status)
+main.add_command(update.update)
