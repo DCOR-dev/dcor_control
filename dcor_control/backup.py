@@ -3,8 +3,6 @@ import socket
 import subprocess as sp
 import time
 
-import click
-
 
 def db_backup():
     # put database backups on local storage, not on /data
@@ -25,9 +23,7 @@ def gpg_encrypt(path_in, path_out, key_id):
     """Encrypt a file using gpg
 
     For this to work, you will have to have gpg installed and a working
-    key installed and trusted, i.e.
-
-    .. code::
+    key installed and trusted, i.e.::
 
        gpg --import dcor_public.key
        gpg --edit-key 8FD98B2183B2C228
@@ -35,15 +31,11 @@ def gpg_encrypt(path_in, path_out, key_id):
        $: 5  # (trust ultimately)
        $: quit
 
-    Testing encryption with the key can be done with
-
-    .. code::
+    Testing encryption with the key can be done with::
 
        gpg --output test.gpg --encrypt --recipient 8FD98B2183B2C228 afile
 
-    Files can be decrypted with
-
-    .. code::
+    Files can be decrypted with::
 
        gpg --output test --decrypt test.gpg
     """
@@ -52,15 +44,3 @@ def gpg_encrypt(path_in, path_out, key_id):
     sp.check_output("gpg --output '{}' --encrypt --recipient '{}' '{}'".format(
         path_out, key_id, path_in), shell=True)
     path_out.chmod(0o0400)
-
-
-@click.command()
-@click.option('--key-id', default="8FD98B2183B2C228",
-              help='The public gpg Key ID')
-def encrypted_database_backup(key_id):
-    """Create an asymmetrically encrypted database backup on /data/"""
-    dpath = db_backup()
-    name = "{}_{}.gpg".format(dpath.name, key_id)
-    eout = pathlib.Path("/data/encrypted_db_dumps/") / dpath.parent.name / name
-    gpg_encrypt(path_in=dpath, path_out=eout, key_id=key_id)
-    click.secho("Created {}".format(eout), bold=True)

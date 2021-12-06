@@ -44,7 +44,7 @@ setup(
     tests_require=["pytest"],
     entry_points={
        "console_scripts": [
-           "dcor = dcor_control.main:cli",
+           "dcor = dcor_control.cli:main",
             ],
        },
     keywords=["RT-DC", "DCOR"],
