@@ -15,4 +15,4 @@ dcor reset --datasets --zombie-users --yes
 # bring back first figshare dataset
 ckan import-figshare --limit 1
 # remove remaining orphans
-dcor scan --orphans --assume-yes
+dcor inspect --assume-yes
