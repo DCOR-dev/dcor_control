@@ -1,10 +1,10 @@
 from .common import ask
-from .paths import get_supervisord_worker_path
+from .paths import get_supervisord_worker_config_path
 
 
 def check_supervisord(autocorrect):
     """Check whether the separate dcor worker files exist"""
-    svd_path = get_supervisord_worker_path()
+    svd_path = get_supervisord_worker_config_path()
     for worker in ["long", "normal", "short"]:
         wpath = svd_path.with_name("ckan-worker-dcor-{}.conf".format(worker))
         if not wpath.exists():
