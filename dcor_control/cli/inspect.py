@@ -17,10 +17,9 @@ def inspect(assume_yes=False):
         "/tmp/DCOR_generate_condensed",  # resource condense locks
         inspect_mod.paths.get_ckan_storage_path(),
         inspect_mod.paths.get_ckan_storage_path() / "resources",
-        inspect_mod.paths.get_dcor_depot_path(),
         inspect_mod.paths.get_dcor_users_depot_path(),
         inspect_mod.paths.get_ckan_webassets_path(),
-    ]:
+            ]:
         inspect_mod.check_permission(
             path=path,
             user="www-data",
@@ -57,5 +56,5 @@ def inspect(assume_yes=False):
     sp.check_output("systemctl reload nginx", shell=True)
 
     # ask the user whether to search for orphaned files
-    if click.confirm('Perform search for orphaned files?'):
+    if assume_yes or click.confirm('Perform search for orphaned files?'):
         inspect_mod.check_orphaned_files(assume_yes=assume_yes)

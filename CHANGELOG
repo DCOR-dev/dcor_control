@@ -2,6 +2,7 @@
  - ref: major refactoring of module structure (new cli submodule, removed
    creation of ancillary files, renamed click methods)
  - fix: use CKAN_INI from environment if defined
+ - fix: properly handly symlink loops in inspect
 0.5.0
  - feat: add check for css branding in new dcor_theme 0.6.0
  - fix: check perms for resource condense lock location
