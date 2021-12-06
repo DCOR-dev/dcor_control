@@ -1,8 +1,7 @@
-import subprocess as sp
-
 import click
 
 from ..update import update_package
+from ..inspect import reload_supervisord
 
 
 @click.command()
@@ -22,5 +21,5 @@ def update():
     ]:
         update_package(name)
 
-    click.secho("Reloading CKAN...", bold=True)
-    sp.check_output("supervisorctl reload", shell=True)
+    reload_supervisord()
+    click.secho('DONE', fg=u'green', bold=True)

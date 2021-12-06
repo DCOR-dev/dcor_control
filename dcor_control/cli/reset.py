@@ -6,7 +6,7 @@ import appdirs
 import click
 
 from ..backup import db_backup
-from ..inspect.paths import get_ckan_config_path
+from .. import inspect as inspect_mod
 
 
 @click.command()
@@ -21,7 +21,7 @@ from ..inspect.paths import get_ckan_config_path
 def reset(cache=False, database=False, datasets=False, zombie_users=False,
           search_index=False, control=False):
     """Perform (partial) database/cache resets"""
-    ckan_ini = get_ckan_config_path()
+    ckan_ini = inspect_mod.paths.get_ckan_config_path()
     if database and datasets:
         raise ValueError("Please select only one of `database` or `dataset`!")
 
@@ -57,8 +57,7 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
         shutil.rmtree(cpath, ignore_errors=True)
 
     # restart
-    click.secho("Reloading CKAN...", bold=True)
-    sp.check_output("sudo supervisorctl reload", shell=True)
+    inspect_mod.reload_supervisord()
 
     if database or datasets:
         msg = " - Please delete resources yourself!"

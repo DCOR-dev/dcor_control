@@ -49,8 +49,7 @@ def inspect(assume_yes=False):
     click.secho("Checking uwsgi configuration...", bold=True)
     inspect_mod.check_uwsgi(harakiri=7200, autocorrect=assume_yes)
 
-    click.secho("Reloading CKAN...", bold=True)
-    sp.check_output("supervisorctl reload", shell=True)
+    inspect_mod.reload_supervisord()
 
     click.secho("Reloading nginx...", bold=True)
     sp.check_output("systemctl reload nginx", shell=True)
@@ -58,3 +57,5 @@ def inspect(assume_yes=False):
     # ask the user whether to search for orphaned files
     if assume_yes or click.confirm('Perform search for orphaned files?'):
         inspect_mod.check_orphaned_files(assume_yes=assume_yes)
+
+    click.secho('DONE', fg=u'green', bold=True)

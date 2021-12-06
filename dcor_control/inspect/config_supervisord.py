@@ -1,3 +1,7 @@
+import subprocess as sp
+
+import click
+
 from .common import ask
 from .paths import get_supervisord_worker_config_path
 
@@ -22,3 +26,22 @@ def check_supervisord(autocorrect):
                     "/ckan.ini jobs worker",
                     "/ckan.ini jobs worker dcor-{}".format(worker))
                 wpath.write_text(data)
+
+
+def is_supervisord_running():
+    """Simple check for whether supervisord is running"""
+    try:
+        sp.check_output("sudo supervisorctl status", shell=True)
+    except sp.CalledProcessError:
+        return False
+    else:
+        return True
+
+
+def reload_supervisord():
+    if is_supervisord_running():
+        click.secho("Reloading CKAN...", bold=True)
+        sp.check_output("sudo supervisorctl reload", shell=True)
+    else:
+        click.secho("Not reloading CKAN (supervisord not running)...",
+                    bold=True, fg="red")
