@@ -60,11 +60,16 @@ def remove_resource_data(resource_id, autocorrect=False):
 
     # Check for symlinks and remove the corresponding files in the user depot
     if rp.is_symlink():
-        target = rp.resolve()
-        # Only delete symlinked files if they are in the user_depot
-        # (we don't delete figshare or internal data)
-        if target.exists() and str(target).startswith(str(userdepot_path)):
-            todel.append(target)
+        try:
+            target = rp.resolve()
+        except RuntimeError:
+            # Symlink loop
+            pass
+        else:
+            # Only delete symlinked files if they are in the user_depot
+            # (we don't delete figshare or internal data)
+            if target.exists() and str(target).startswith(str(userdepot_path)):
+                todel.append(target)
 
     if autocorrect:
         for pp in todel:
