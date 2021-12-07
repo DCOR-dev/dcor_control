@@ -104,8 +104,8 @@ def check_orphaned_files(assume_yes=False):
     # Scan CKAN resources
     for pp in resources_path.rglob("*/*/*"):
         if (pp.is_dir()  # directories
-            or not pp.exists()  # removed files
-                or pp.stat().st_ctime > time_stop):  # newly created resources
+                or (pp.exists()
+                    and pp.stat().st_ctime > time_stop)):  # new resources
             continue
         else:
             res_id = pp.parent.parent.name + pp.parent.name + pp.name[:30]
