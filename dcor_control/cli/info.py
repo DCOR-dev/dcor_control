@@ -1,9 +1,9 @@
 import socket
 
 import click
+from dcor_shared.paths import get_ckan_config_path
 
 from ..inspect.config_ckan import get_expected_ckan_options, get_ip
-from ..inspect.paths import get_ckan_config_path
 
 
 @click.command()

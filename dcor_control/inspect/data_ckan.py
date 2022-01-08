@@ -6,9 +6,19 @@ import time
 
 import click
 
-from dcor_shared import get_resource_path
+from dcor_shared import get_resource_path, paths
 
-from . import paths
+
+#: Normally, the path of each resource is defined by its UUID.
+#: For DCOR, we have also other files on the file system which
+#: are called ancillary files. Those can be generated from the
+#: original data and are located in the same location with the
+#: same filename stem, only with an appended suffix. We do not
+#: want to remove these files.
+ALLOWED_SUFFIXES = [
+    "_condensed.rtdc",
+    "_preview.jpg",
+]
 
 
 def ask(prompt):
@@ -45,9 +55,7 @@ def remove_resource_data(resource_id, autocorrect=False):
     This includes ancillary files as well as data in the user depot.
     If `autocorrect` is False, the user is prompted before deletion.
     """
-    resources_path = paths.get_ckan_storage_path() / "resources"
     userdepot_path = paths.get_dcor_users_depot_path()
-
     rp = get_resource_path(resource_id)
     todel = []
 
@@ -70,18 +78,26 @@ def remove_resource_data(resource_id, autocorrect=False):
         if target.exists() and str(target).startswith(str(userdepot_path)):
             todel.append(target)
 
+    request_removal(todel, autocorrect=autocorrect)
+
+
+def request_removal(delpaths, autocorrect=False):
+    """Request (user interaction) and perform removal of a list of paths"""
+    resources_path = paths.get_ckan_storage_path() / "resources"
+    userdepot_path = paths.get_dcor_users_depot_path()
     if autocorrect:
-        for pp in todel:
+        for pp in delpaths:
             print("Deleting {}".format(pp))
         delok = True
     else:
         delok = ask(
             "These files are not related to an existing resource: "
-            + "".join(["\n - {}".format(pp) for pp in todel])
+            + "".join(["\n - {}".format(pp) for pp in delpaths])
             + "\nDelete these orphaned files?"
         )
+
     if delok:
-        for pp in todel:
+        for pp in delpaths:
             pp.unlink()
             # Also remove empty dirs
             if str(pp).startswith(str(resources_path)):
@@ -109,10 +125,20 @@ def check_orphaned_files(assume_yes=False):
             continue
         else:
             res_id = pp.parent.parent.name + pp.parent.name + pp.name[:30]
-            # check for orphans
             if res_id not in resource_ids:
+                # Remove any files that do not belong to any resource
                 remove_resource_data(res_id, autocorrect=assume_yes)
                 orphans_processed.append(res_id)
+            elif pp.name[30:]:
+                # We have an ancillary file or a temporary garbage, like
+                # .rtdc~.
+                for asuf in ALLOWED_SUFFIXES:
+                    if pp.name.endswith(asuf):
+                        # We have an ancillary file
+                        break
+                else:
+                    # We have garbage - remove it!
+                    request_removal([pp], autocorrect=assume_yes)
 
     # Scan user depot for orphans
     click.secho("Scanning user depot tree for orphaned files...", bold=True)

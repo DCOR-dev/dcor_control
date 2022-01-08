@@ -1,5 +1,7 @@
-0.6.1
+0.7.0
  - fix: properly handle broken symlinks when checking resources
+ - fix: find and remove garbage files in resources tree
+ - ref: move CKAN path handling to dcor_shared package
 0.6.0
  - ref: major refactoring of module structure (new cli submodule, removed
    creation of ancillary files, renamed click methods)

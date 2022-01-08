@@ -1,6 +1,6 @@
-from .common import ask
+from dcor_shared.paths import get_uwsgi_config_path
 
-from .paths import get_uwsgi_config_path
+from .common import ask
 
 
 def check_uwsgi(harakiri, autocorrect=False):

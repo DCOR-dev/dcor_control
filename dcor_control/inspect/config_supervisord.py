@@ -1,9 +1,9 @@
 import subprocess as sp
 
 import click
+from dcor_shared.paths import get_supervisord_worker_config_path
 
 from .common import ask
-from .paths import get_supervisord_worker_config_path
 
 
 def check_supervisord(autocorrect):

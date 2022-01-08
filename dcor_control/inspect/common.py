@@ -6,10 +6,6 @@ import pwd
 import stat
 
 
-class ConfigOptionNotFoundError(BaseException):
-    pass
-
-
 def ask(prompt):
     an = input(prompt + "; fix? [y/N]: ")
     return an.lower() == "y"
@@ -73,28 +69,6 @@ def check_permission(path, user=None, mode=None, recursive=False,
                               + "'{}', but should be '{}'".format(pnam, user))
             if chowner:
                 os.chown(path, uid, gid)
-
-
-def get_ini_config_option(option, path):
-    opt_dict = parse_ini_config(path)
-    if option in opt_dict:
-        value = opt_dict[option]
-    else:
-        raise ConfigOptionNotFoundError("Could not find '{}'!".format(option))
-    return value
-
-
-def parse_ini_config(ini):
-    opt_dict = {}
-    with open(ini) as fd:
-        for line in fd.readlines():
-            line = line.strip()
-            if line.startswith("#") or line.startswith("["):
-                continue
-            elif line.count("="):
-                key, value = line.split("=", 1)
-                opt_dict[key.strip()] = value.strip()
-    return opt_dict
 
 
 def recursive_update_dict(d, u):

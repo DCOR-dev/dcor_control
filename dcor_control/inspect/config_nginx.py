@@ -1,5 +1,6 @@
+from dcor_shared.paths import get_nginx_config_path
+
 from .common import ask
-from .paths import get_nginx_config_path
 
 
 def check_nginx(cmbs, autocorrect=False):

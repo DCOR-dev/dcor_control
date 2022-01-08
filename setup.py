@@ -37,7 +37,7 @@ setup(
         "ckanext-dcor_depot",
         "ckanext-dcor_schemas",
         "ckanext-dcor_theme>=0.6.0",
-        "dcor_shared",
+        "dcor_shared>=0.3.1",
         ],
     # not to be confused with definitions in pyproject.toml [build-system]
     setup_requires=["pytest-runner"],

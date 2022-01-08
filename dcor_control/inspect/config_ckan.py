@@ -4,10 +4,12 @@ from pkg_resources import resource_filename
 import socket
 import subprocess as sp
 
+from dcor_shared.paths import get_ckan_config_option, get_ckan_config_path
+from dcor_shared.parse import ConfigOptionNotFoundError, parse_ini_config
+
 from .. import util
 
 from . import common
-from .paths import get_ckan_config_path
 
 
 def check_ckan_ini(autocorrect=False):
@@ -20,7 +22,7 @@ def check_ckan_ini(autocorrect=False):
     Custom options override general options.
     """
     custom_opts = get_expected_ckan_options()["ckan.ini"]
-    general_opts = common.parse_ini_config(
+    general_opts = parse_ini_config(
         resource_filename("dcor_control.resources", "dcor_options.ini"))
 
     general_opts.update(custom_opts)
@@ -94,10 +96,9 @@ def check_dcor_theme_main_css(autocorrect):
 
 def get_actual_ckan_option(key):
     """Return the value of the given option in the current ckan.ini file"""
-    ckan_ini = get_ckan_config_path()
     try:
-        opt = common.get_ini_config_option(key, ckan_ini)
-    except common.ConfigOptionNotFoundError:
+        opt = get_ckan_config_option(key)
+    except ConfigOptionNotFoundError:
         opt = "NOT SET!"
     return opt
 
