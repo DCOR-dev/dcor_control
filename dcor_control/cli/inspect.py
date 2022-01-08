@@ -1,6 +1,7 @@
 import subprocess as sp
 
 import click
+from dcor_shared import paths
 
 from .. import inspect as inspect_mod
 
@@ -15,10 +16,10 @@ def inspect(assume_yes=False):
     click.secho("Checking www-data permissions...", bold=True)
     for path in [
         "/tmp/DCOR_generate_condensed",  # resource condense locks
-        inspect_mod.paths.get_ckan_storage_path(),
-        inspect_mod.paths.get_ckan_storage_path() / "resources",
-        inspect_mod.paths.get_dcor_users_depot_path(),
-        inspect_mod.paths.get_ckan_webassets_path(),
+        paths.get_ckan_storage_path(),
+        paths.get_ckan_storage_path() / "resources",
+        paths.get_dcor_users_depot_path(),
+        paths.get_ckan_webassets_path(),
             ]:
         inspect_mod.check_permission(
             path=path,
@@ -28,7 +29,7 @@ def inspect(assume_yes=False):
 
     # Recursively make sure that www-data can upload things into storage
     inspect_mod.check_permission(
-        path=inspect_mod.paths.get_ckan_storage_path() / "storage",
+        path=paths.get_ckan_storage_path() / "storage",
         user="www-data",
         mode=0o755,
         autocorrect=assume_yes,

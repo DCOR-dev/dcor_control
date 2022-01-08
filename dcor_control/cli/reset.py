@@ -4,6 +4,7 @@ import subprocess as sp
 
 import appdirs
 import click
+from dcor_shared import paths
 
 from ..backup import db_backup
 from .. import inspect as inspect_mod
@@ -21,7 +22,7 @@ from .. import inspect as inspect_mod
 def reset(cache=False, database=False, datasets=False, zombie_users=False,
           search_index=False, control=False):
     """Perform (partial) database/cache resets"""
-    ckan_ini = inspect_mod.paths.get_ckan_config_path()
+    ckan_ini = paths.get_ckan_config_path()
     if database and datasets:
         raise ValueError("Please select only one of `database` or `dataset`!")
 
