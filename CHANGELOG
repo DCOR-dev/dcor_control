@@ -1,3 +1,5 @@
+0.7.1
+ - setup: bumpy numpy to 1.21
 0.7.0
  - fix: properly handle broken symlinks when checking resources
  - fix: find and remove garbage files in resources tree

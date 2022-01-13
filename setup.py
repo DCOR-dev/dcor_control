@@ -38,6 +38,7 @@ setup(
         "ckanext-dcor_schemas",
         "ckanext-dcor_theme>=0.6.0",
         "dcor_shared>=0.3.1",
+        "numpy>=1.21",  # CVE-2021-33430
         ],
     # not to be confused with definitions in pyproject.toml [build-system]
     setup_requires=["pytest-runner"],
