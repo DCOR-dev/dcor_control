@@ -123,7 +123,7 @@ def check_orphaned_files(assume_yes=False):
                 or (pp.exists()
                     and pp.stat().st_ctime > time_stop)):  # new resources
             continue
-        else:
+        elif pp.exists():  # file could have been removed in previous iteration
             res_id = pp.parent.parent.name + pp.parent.name + pp.name[:30]
             if res_id not in resource_ids:
                 # Remove any files that do not belong to any resource
