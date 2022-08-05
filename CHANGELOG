@@ -1,5 +1,6 @@
 0.7.2
  - enh: add server options for dcor-colab
+ - enh: add restrictions for uploading avatars
 0.7.1
  - fix: inspect asked for confirmation to delete no files
  - setup: bump numpy to 1.21
