@@ -34,7 +34,6 @@
          "ckan.site_title": "DCOR-colab",
          "ckan.site_url": "https://dcor-colab.mpl.mpg.de",
          "ckanext.dcor_schemas.allow_public_datasets": "false",
-         "ckanext.dcor_schemas.json_resource_schema_dir": "<TEMPLATE:PATH_BRANDING>/resource_schema_medical",
          "licenses_group_url": "file://<TEMPLATE:PATH_BRANDING>/licenses_medical.json"
          },
      "include": ["general", "garching"]
