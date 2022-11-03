@@ -1,5 +1,5 @@
 0.7.5
- - docs: added infor an GPG
+ - docs: added info on GPG
  - fix: use regular DCOR resource schemas for dcor-colab (#14)
 0.7.4
  - enh: remove old db backup files and keep daily for 14 days,
