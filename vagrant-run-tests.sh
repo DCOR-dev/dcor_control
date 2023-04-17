@@ -17,4 +17,6 @@ pip install -r tests/requirements.txt
 coverage run --source=dcor_control -m pytest -p no:warnings tests
 # Get GitHub environment variables so codecov detects GH Actions (allow command to fail)
 export $(grep -v '^#' environment.txt | xargs) || exit 0
-codecov
+curl -Os https://uploader.codecov.io/latest/linux/codecov
+chmod +x codecov
+./codecov
