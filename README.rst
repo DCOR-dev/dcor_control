@@ -84,7 +84,7 @@ Testing
 
 .. |ckanext-dc_log_view home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_log_view.svg
-   :target: https://github.com/DCOR-dev/ckanext-dc_log_view
+   :target: https://github.com/DCOR-dev/ckanext-dc_log_view/issues
 .. |ckanext-dc_log_view pypi|
    image:: https://img.shields.io/pypi/v/ckanext-dc_log_view.svg
    :target: https://pypi.python.org/pypi/ckanext-dc_log_view
@@ -97,7 +97,7 @@ Testing
 
 .. |ckanext-dc_serve home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_serve.svg
-   :target: https://github.com/DCOR-dev/ckanext-dc_serve
+   :target: https://github.com/DCOR-dev/ckanext-dc_serve/issues
 .. |ckanext-dc_serve pypi|
    image:: https://img.shields.io/pypi/v/ckanext-dc_serve.svg
    :target: https://pypi.python.org/pypi/ckanext-dc_serve
@@ -110,7 +110,7 @@ Testing
 
 .. |ckanext-dc_view home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_view.svg
-   :target: https://github.com/DCOR-dev/ckanext-dc_view
+   :target: https://github.com/DCOR-dev/ckanext-dc_view/issues
 .. |ckanext-dc_view pypi|
    image:: https://img.shields.io/pypi/v/ckanext-dc_view.svg
    :target: https://pypi.python.org/pypi/ckanext-dc_view
@@ -123,7 +123,7 @@ Testing
 
 .. |ckanext-dcor_depot home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dcor_depot.svg
-   :target: https://github.com/DCOR-dev/ckanext-dcor_depot
+   :target: https://github.com/DCOR-dev/ckanext-dcor_depot/issues
 .. |ckanext-dcor_depot pypi|
    image:: https://img.shields.io/pypi/v/ckanext-dcor_depot.svg
    :target: https://pypi.python.org/pypi/ckanext-dcor_depot
@@ -136,7 +136,7 @@ Testing
 
 .. |ckanext-dcor_schemas home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dcor_schemas.svg
-   :target: https://github.com/DCOR-dev/ckanext-dcor_schemas
+   :target: https://github.com/DCOR-dev/ckanext-dcor_schemas/issues
 .. |ckanext-dcor_schemas pypi|
    image:: https://img.shields.io/pypi/v/ckanext-dcor_schemas.svg
    :target: https://pypi.python.org/pypi/ckanext-dcor_schemas
@@ -149,7 +149,7 @@ Testing
 
 .. |ckanext-dcor_theme home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dcor_theme.svg
-   :target: https://github.com/DCOR-dev/ckanext-dcor_theme
+   :target: https://github.com/DCOR-dev/ckanext-dcor_theme/issues
 .. |ckanext-dcor_theme pypi|
    image:: https://img.shields.io/pypi/v/ckanext-dcor_theme.svg
    :target: https://pypi.python.org/pypi/ckanext-dcor_theme
@@ -162,7 +162,7 @@ Testing
 
 .. |dcor-remote-tests home|
    image:: https://img.shields.io/github/issues/DCOR-dev/dcor-remote-tests.svg
-   :target: https://github.com/DCOR-dev/dcor-remote-tests
+   :target: https://github.com/DCOR-dev/dcor-remote-tests/issues
 .. |dcor-remote-tests actn|
    image:: https://img.shields.io/github/actions/workflow/status/DCOR-dev/dcor-remote-tests/check.yml
    :target: https://github.com/DCOR-dev/dcor-remote-tests/actions/workflows/check.yml
@@ -172,7 +172,7 @@ Testing
 
 .. |dcor_control home|
    image:: https://img.shields.io/github/issues/DCOR-dev/dcor_control.svg
-   :target: https://github.com/DCOR-dev/dcor_control
+   :target: https://github.com/DCOR-dev/dcor_control/issues
 .. |dcor_control pypi|
    image:: https://img.shields.io/pypi/v/dcor_control.svg
    :target: https://pypi.python.org/pypi/dcor_control
@@ -185,7 +185,7 @@ Testing
 
 .. |dcor_shared home|
    image:: https://img.shields.io/github/issues/DCOR-dev/dcor_shared.svg
-   :target: https://github.com/DCOR-dev/dcor_shared
+   :target: https://github.com/DCOR-dev/dcor_shared/issues
 .. |dcor_shared pypi|
    image:: https://img.shields.io/pypi/v/dcor_shared.svg
    :target: https://pypi.python.org/pypi/dcor_shared
@@ -198,7 +198,7 @@ Testing
 
 .. |DCOR-Aid home|
    image:: https://img.shields.io/github/issues/DCOR-dev/DCOR-Aid.svg
-   :target: https://github.com/DCOR-dev/DCOR-Aid
+   :target: https://github.com/DCOR-dev/DCOR-Aid/issues
 .. |DCOR-Aid pypi|
    image:: https://img.shields.io/pypi/v/dcoraid.svg
    :target: https://pypi.python.org/pypi/DCOR-Aid
