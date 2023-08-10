@@ -78,8 +78,8 @@ def check_dcor_theme_main_css(autocorrect):
         ckan -c /etc/ckan/default/ckan.ini dcor-theme-main-css-branding
      """
     ckan_ini = get_ckan_config_path()
-    opt = get_actual_ckan_option("ckan.main_css")
-    if opt != "/base/css/dcor_main.css":
+    opt = get_actual_ckan_option("ckan.theme")
+    if opt != "dcor_theme_main/dcor_theme_main":
         if autocorrect:
             print("Applying DCOR theme main css")
             replace_main = True
@@ -90,8 +90,10 @@ def check_dcor_theme_main_css(autocorrect):
             ckan_cmd = f"ckan -c {ckan_ini} dcor-theme-main-css-branding"
             sp.check_output(ckan_cmd, shell=True)
             # set config option
-            check_ckan_ini_option("ckan.main_css", "/base/css/dcor_main.css",
-                                  autocorrect=True)
+            check_ckan_ini_option(
+                key="ckan.theme",
+                value="dcor_theme_main/dcor_theme_main",
+                autocorrect=True)
 
 
 def get_actual_ckan_option(key):
