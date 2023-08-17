@@ -17,7 +17,6 @@
          "hostname": "dcor-dev-mpl"},
      "branding": ["testing", "dcor"],
      "ckan.ini": {
-         "ckan.auth.create_default_api_keys": "true",
          "ckan.auth.create_user_via_api": "true",
          "ckan.site_title": "DCOR-dev",
          "ckan.site_url": "https://dcor-dev.mpl.mpg.de"
