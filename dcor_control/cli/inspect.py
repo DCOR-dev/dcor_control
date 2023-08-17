@@ -47,7 +47,7 @@ def inspect(assume_yes=False):
     click.secho("Checking nginx configuration...", bold=True)
     inspect_mod.check_nginx(cmbs="100G", autocorrect=assume_yes)
 
-    click.secho("Checking uploader symlinkpatch...", bold=True)
+    click.secho("Checking uploader symlink patch...", bold=True)
     inspect_mod.check_ckan_uploader_patch_to_support_symlinks(
         autocorrect=assume_yes)
 

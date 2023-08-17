@@ -71,6 +71,10 @@ def check_ckan_uploader_patch_to_support_symlinks(autocorrect):
 
     if ulstr != ulstr_i:
         if autocorrect:
+            hack = True
+        else:
+            hack = common.ask("Disable symlink check in uploader?")
+        if hack:
             print("Disabling symlinks in Uploader")
             ulpath.write_text(ulstr)
 
