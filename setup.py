@@ -29,7 +29,7 @@ try:
             f"\n ckanext-dc_view<=0.6.10"
             f"\n ckanext-dcor_depot<=0.11.0"
             f"\n ckanext-dcor_schemas<=0.17.2"
-            f"\n ckanext-dcor_theme<=0.7.0"
+            f"\n ckanext-dcor_theme<=0.6.1"
             f"\n dcor_shared<=0.3.1"
             )
 except ImportError:
@@ -56,7 +56,7 @@ setup(
         "ckanext-dc_view>0.6.10",
         "ckanext-dcor_depot>0.11.0",
         "ckanext-dcor_schemas>0.17.2",
-        "ckanext-dcor_theme>0.7.0",
+        "ckanext-dcor_theme>0.6.1",
         "dcor_shared>0.3.1",
         "numpy>=1.21",  # CVE-2021-33430
         ],
