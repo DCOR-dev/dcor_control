@@ -16,7 +16,9 @@ def test_check_orphaned_files(create_with_upload, monkeypatch, ckan_config,
                               tmpdir):
     """Make sure .rtdc~ files are removed for existing resources"""
     monkeypatch.setitem(ckan_config, 'ckan.storage_path', str(tmpdir))
-    monkeypatch.setattr(ckan.lib.uploader, '_storage_path', str(tmpdir))
+    monkeypatch.setattr(ckan.lib.uploader,
+                        'get_storage_path',
+                        lambda: str(tmpdir))
 
     user = factories.User()
     owner_org = factories.Organization(users=[{
