@@ -1,3 +1,5 @@
+0.8.3
+ - enh: add vagrant server options
 0.8.2
  - tests: fix tests for CKAN 2.10
 0.8.1

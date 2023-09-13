@@ -50,11 +50,21 @@
          },
      "include": ["general"]
      },
+    {"name": "vagrant",
+     "requirements": {
+       "hostname": "dcor-test"},
+     "branding": ["testing"],
+     "ckan.ini": {
+         "ckan.auth.create_user_via_api": "true",
+         "ckan.site_title": "DCOR-vagrant",
+         "ckan.site_url": "http://127.0.0.1:8888"
+         },
+     "include": ["general"]
+     },
     {"name": "testing",
      "requirements": {},
      "branding": ["testing"],
      "ckan.ini": {
-         "ckan.auth.create_default_api_keys": "true",
          "ckan.auth.create_user_via_api": "true",
          "ckan.site_title": "DCOR-test",
          "ckan.site_url": "http://<TEMPLATE:IP>"
