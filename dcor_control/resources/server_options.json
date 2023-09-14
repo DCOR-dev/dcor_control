@@ -52,6 +52,7 @@
      },
     {"name": "vagrant",
      "requirements": {
+       "ip": "unknown",
        "hostname": "dcor-test"},
      "branding": ["testing"],
      "ckan.ini": {

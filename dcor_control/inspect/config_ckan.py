@@ -153,6 +153,9 @@ def get_expected_ckan_options():
     for setup in opt_dict["setups"]:
         req = setup["requirements"]
         ip = req.get("ip", "")
+        if ip is "unknown":
+            # The IP is unknown for this server.
+            ip = my_ip
         hostname = req.get("hostname", "")
         if ip == my_ip and hostname == my_hostname:
             # perfect match
