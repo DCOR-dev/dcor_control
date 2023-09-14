@@ -153,7 +153,7 @@ def get_expected_ckan_options():
     for setup in opt_dict["setups"]:
         req = setup["requirements"]
         ip = req.get("ip", "")
-        if ip is "unknown":
+        if ip == "unknown":
             # The IP is unknown for this server.
             ip = my_ip
         hostname = req.get("hostname", "")
