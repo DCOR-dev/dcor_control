@@ -1,6 +1,8 @@
 import pathlib
 
 import ckan
+import ckan.common
+import ckan.model
 import ckan.tests.factories as factories
 import dcor_shared
 
@@ -21,6 +23,12 @@ def test_check_orphaned_files(create_with_upload, monkeypatch, ckan_config,
                         lambda: str(tmpdir))
 
     user = factories.User()
+
+    user_obj = ckan.model.User.by_name(user["name"])
+    monkeypatch.setattr(ckan.common,
+                        'current_user',
+                        user_obj)
+
     owner_org = factories.Organization(users=[{
         'name': user['id'],
         'capacity': 'admin'

@@ -78,8 +78,9 @@ Testing
 -------
 ::
 
-    pip install pytest
-    pytest tests
+    vagrant plugin install vagrant-vbguest
+    vagrant up
+    vagrant ssh -- sudo bash /testing/vagrant-run-tests.sh
 
 
 .. |ckanext-dc_log_view home|
