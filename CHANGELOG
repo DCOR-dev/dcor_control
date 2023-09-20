@@ -1,3 +1,5 @@
+0.8.6
+ - enh: introduce object store configuration options
 0.8.5
  - enh: enforce CSRF protection for all extensions
  - enh: remove deprecated recline_view (for tabular data)

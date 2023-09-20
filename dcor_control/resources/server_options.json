@@ -58,7 +58,11 @@
      "ckan.ini": {
          "ckan.auth.create_user_via_api": "true",
          "ckan.site_title": "DCOR-vagrant",
-         "ckan.site_url": "http://127.0.0.1:8888"
+         "ckan.site_url": "http://127.0.0.1:8888",
+         "dcor_object_store.access_key_id": "ody8idP4AU5jrVdVKWqJ",
+         "dcor_object_store.secret_access_key": "APvyiOKs8vDYMYx9y0Fql9Vc5Qz2vrge2CkJGETz",
+         "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
+         "dcor_object_store.ssl_verify": "false"
          },
      "include": ["general"]
      },
