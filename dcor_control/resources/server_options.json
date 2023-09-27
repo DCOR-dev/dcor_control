@@ -7,7 +7,8 @@
      "branding": ["dcor"],
      "ckan.ini": {
          "ckan.site_title": "DCOR",
-         "ckan.site_url": "https://dcor.mpl.mpg.de"
+         "ckan.site_url": "https://dcor.mpl.mpg.de",
+         "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de"
          },
      "include": ["general", "garching"]
      },
@@ -19,7 +20,8 @@
      "ckan.ini": {
          "ckan.auth.create_user_via_api": "true",
          "ckan.site_title": "DCOR-dev",
-         "ckan.site_url": "https://dcor-dev.mpl.mpg.de"
+         "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
+         "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de"
          },
      "include": ["general", "garching"]
      },
@@ -33,7 +35,8 @@
          "ckan.site_title": "DCOR-colab",
          "ckan.site_url": "https://dcor-colab.mpl.mpg.de",
          "ckanext.dcor_schemas.allow_public_datasets": "false",
-         "licenses_group_url": "file://<TEMPLATE:PATH_BRANDING>/licenses_medical.json"
+         "licenses_group_url": "file://<TEMPLATE:PATH_BRANDING>/licenses_medical.json",
+         "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de"
          },
      "include": ["general", "garching"]
      },
