@@ -1,3 +1,6 @@
+0.8.8
+ - fix: setup correct circle names for colab and dev machines
+ - enh: add endpoint URL for MPCDF OpenStack
 0.8.7
  - ref: remove deprecated API key generation configuration option
  - docs: update supported extension version list

@@ -20,7 +20,7 @@ jobs:
         python -m pip install flake8
     - name: Lint with flake8
       run: |
-        flake8 .
+        flake8 --exclude _version.py .
     - name: Cache vagrant images
       uses: actions/cache@v2
       env:
