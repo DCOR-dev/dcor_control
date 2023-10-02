@@ -45,4 +45,4 @@ def status():
         click.echo(f"S3 resources number: {num_resources}")
         click.echo(f"S3 resources size: {size_resources/1024**3:.0f} GB")
         click.echo(f"S3 total size: "
-                   f"{(size_other + size_resources) / 1024 ** 3:.0f} GB")
+                   f"{(size_other + size_resources) / 1024**3:.0f} GB")
