@@ -22,7 +22,7 @@ jobs:
       run: |
         flake8 --exclude _version.py .
     - name: Cache vagrant images
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       env:
         cache-name: vagrant-image
       with:
