@@ -57,7 +57,7 @@ setup(
         "ckanext-dcor_depot>0.11.0",
         "ckanext-dcor_schemas>0.17.2",
         "ckanext-dcor_theme>0.6.1",
-        "dcor_shared>0.3.1",
+        "dcor_shared>=0.5.2",
         "numpy>=1.21",  # CVE-2021-33430
         ],
     # not to be confused with definitions in pyproject.toml [build-system]

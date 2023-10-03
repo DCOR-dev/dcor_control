@@ -4,7 +4,7 @@ import click
 from dcor_shared.paths import get_ckan_config_path
 
 try:
-    from ckanext.dcor_depot import s3
+    from dcor_shared import s3
 except ImportError:
     s3 = None
 
