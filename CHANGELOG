@@ -1,4 +1,5 @@
 0.8.10
+ - enh: update compatible version list
  - ref: remove ckan config ckan.auth.public_activity_stream_detail
 0.8.9
  - enh: display S3 usage in info
