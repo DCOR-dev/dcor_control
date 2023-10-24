@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+# only allow one job to run
+concurrency: general_workflow
+
 jobs:
   checks:
     runs-on: macos-latest
