@@ -15,8 +15,14 @@ def check_uwsgi(harakiri, autocorrect=False):
     with open(path_uwsgi) as fd:
         lines = fd.readlines()
     for ii, line in enumerate(lines):
-        if line.startswith("harakiri"):
-            value = int(line.split("=")[1])
+        data = line.split("=", 1)
+        if len(data) < 2:
+            continue
+        else:
+            key, value = data
+            key = key.strip()
+        if key == "harakiri":
+            value = int(value)
             if value != harakiri:
                 if autocorrect:
                     change = True
