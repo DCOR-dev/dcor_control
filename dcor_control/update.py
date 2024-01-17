@@ -26,7 +26,7 @@ def get_max_compatible_version(name, ckan_version=None):
     # compare the latest CKAN version in that file with the current CKAN
     vdict0 = compatible_versions[0]
     # If CKAN is not installed, `get_package_version` will return `None`.
-    ckan_cur = get_package_version("ckan") or ckan_version or vdict0["ckan"]
+    ckan_cur = ckan_version or get_package_version("ckan") or vdict0["ckan"]
     if version_greater_equal(ckan_cur, vdict0["ckan"]):
         # if current CKAN matches or is newer, return None
         max_version = None
