@@ -14,8 +14,7 @@ def inspect(assume_yes=False):
     inspect_mod.check_ckan_ini(autocorrect=assume_yes)
 
     click.secho("Checking beaker session secret...", bold=True)
-    inspect_mod.check_ckan_beaker_session_cookie_validate_key(
-        autocorrect=assume_yes)
+    inspect_mod.check_ckan_beaker_session_cookie_secret(autocorrect=assume_yes)
 
     click.secho("Checking www-data permissions...", bold=True)
     for path in [

@@ -14,7 +14,7 @@ from .. import util
 from . import common
 
 
-def check_ckan_beaker_session_cookie_secrets(autocorrect=False):
+def check_ckan_beaker_session_cookie_secret(autocorrect=False):
     """Generate a beaker cookie hash secret
 
     This is the secret token that the beaker library uses to hash the
