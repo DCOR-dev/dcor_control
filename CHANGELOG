@@ -1,5 +1,6 @@
 0.9.1
  - enh: set up beaker session cookies with validate_key
+ - update compatible versions
 0.9.0
  - feat: perform compatible version check during update
  - feat: introduce CLI `dcor develop`, editable install of all extensions
