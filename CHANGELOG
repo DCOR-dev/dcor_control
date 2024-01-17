@@ -1,3 +1,5 @@
+0.9.0
+ - feat: perform compatible version check during update
 0.8.13
  - update incompatible versions
  - fix: ckan_uwsgi parser
