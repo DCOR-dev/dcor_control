@@ -34,7 +34,7 @@ def test_get_package_version(name, version):
 def test_parse_compatible_versions():
     data = update.parse_compatible_versions()
     # make sure this line exists
-    # 2.10.1 0.3.2 0.14.0 0.8.1 0.13.7 0.18.9 0.7.6 0.5.5
+    # 2.10.1 0.3.2 0.14.0 0.8.1 0.13.7 0.18.9 0.7.6 0.9.3 0.5.5
     dict_exp = {
         'ckan': '2.10.1',
         'ckanext-dc_log_view': '0.3.2',
@@ -43,7 +43,9 @@ def test_parse_compatible_versions():
         'ckanext-dcor_depot': '0.13.7',
         'ckanext-dcor_schemas': '0.18.9',
         'ckanext-dcor_theme': '0.7.6',
-        'dcor_shared': '0.5.5'}
+        'dcor_control': '0.9.3',
+        'dcor_shared': '0.5.5',
+    }
     assert dict_exp in data
 
 

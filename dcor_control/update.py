@@ -42,7 +42,6 @@ def get_max_compatible_version(name, ckan_version=None):
         # if current version is lower (compatibility mode), return the
         # latest package version listed in `compatible_versions.txt`
         for vdict in compatible_versions:
-            print(vdict)
             if vdict["ckan"] == ckan_cur:
                 max_version = vdict[name]
                 break

@@ -18,6 +18,7 @@ from ckanext import dc_view
 from ckanext import dcor_depot
 from ckanext import dcor_schemas
 from ckanext import dcor_theme
+import dcor_control
 import dcor_shared
 
 
@@ -29,6 +30,7 @@ versions = {
     "ckanext.dcor_depot": dcor_depot.__version__,
     "ckanext.dcor_schemas": dcor_schemas.__version__,
     "ckanext.dcor_theme": dcor_theme.__version__,
+    "dcor_control": dcor_control.__version__,
     "dcor_shared": dcor_shared.__version__,
     }
 
