@@ -14,7 +14,7 @@ from .. import util
 from . import common
 
 
-def check_ckan_beaker_session_cookie_validate_key(autocorrect=False):
+def check_ckan_beaker_session_cookie_secrets(autocorrect=False):
     """Generate a beaker cookie hash secret
 
     This is the secret token that the beaker library uses to hash the
@@ -22,11 +22,12 @@ def check_ckan_beaker_session_cookie_validate_key(autocorrect=False):
     value for this each time it generates a config file. When used in a
     cluster environment, the value must be the same on every machine.
     """
-    opt = get_actual_ckan_option("beaker.session.validate_key")
-    if opt == "NOT SET!":
-        check_ckan_ini_option("beaker.session.validate_key",
-                              str(uuid.uuid4()),
-                              autocorrect=autocorrect)
+    for key in ["beaker.session.validate_key"]:
+        opt = get_actual_ckan_option(key)
+        if opt == "NOT SET!":
+            check_ckan_ini_option(key,
+                                  str(uuid.uuid4()),
+                                  autocorrect=autocorrect)
 
 
 def check_ckan_ini(autocorrect=False):
