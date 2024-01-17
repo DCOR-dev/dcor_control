@@ -19,6 +19,14 @@ def get_max_compatible_version(name, ckan_version=None):
     - if current CKAN matches or is newer, return None
     - if current version is lower (compatibility mode), return the
       latest package version listed in `compatible_versions.txt`
+
+    Parameters
+    ----------
+    name: str
+        Name of the package to install, e.g. "ckanext.dc_log_view"
+    ckan_version: str
+        CKAN version to consider (used in testing). If not provided,
+        the currently installed CKAN version is used.
     """
     # parse ``resources/compatible_versions.txt``
     compatible_versions = parse_compatible_versions()
@@ -45,6 +53,7 @@ def get_max_compatible_version(name, ckan_version=None):
 
 
 def get_package_version(name):
+    """Return version string of an installed Python package, None otherwise"""
     try:
         info = sp.check_output(f"pip show {name}", shell=True).decode("utf-8")
     except sp.CalledProcessError:
