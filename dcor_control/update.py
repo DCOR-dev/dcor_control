@@ -69,7 +69,7 @@ def package_is_editable(name):
     return False
 
 
-@functools.cache
+@functools.lru_cache()
 def parse_compatible_versions():
     """Return a list of dicts containing compatible versions
 
