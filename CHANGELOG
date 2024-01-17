@@ -1,5 +1,6 @@
 0.9.0
  - feat: perform compatible version check during update
+ - feat: introduce CLI `dcor develop`, editable install of all extensions
 0.8.13
  - update incompatible versions
  - fix: ckan_uwsgi parser
