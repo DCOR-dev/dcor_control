@@ -51,6 +51,7 @@ setup(
         # the "ckan" dependency is implied
         "appdirs",
         "click>=7",
+        "cryptography>=41",  # client beaker session cookies
         "ckanext-dc_log_view>0.2.9",
         "ckanext-dc_serve>0.11.1",
         "ckanext-dc_view>0.6.10",

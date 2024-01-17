@@ -4,6 +4,7 @@ import pathlib
 from pkg_resources import resource_filename
 import socket
 import subprocess as sp
+import uuid
 
 from dcor_shared.paths import get_ckan_config_option, get_ckan_config_path
 from dcor_shared.parse import ConfigOptionNotFoundError, parse_ini_config
@@ -11,6 +12,21 @@ from dcor_shared.parse import ConfigOptionNotFoundError, parse_ini_config
 from .. import util
 
 from . import common
+
+
+def check_ckan_beaker_session_cookie_validate_key(autocorrect=False):
+    """Generate a beaker cookie hash secret
+
+    This is the secret token that the beaker library uses to hash the
+    cookie sent to the client. ckan generate config generates a unique
+    value for this each time it generates a config file. When used in a
+    cluster environment, the value must be the same on every machine.
+    """
+    opt = get_actual_ckan_option("beaker.session.validate_key")
+    if opt == "NOT SET!":
+        check_ckan_ini_option("beaker.session.validate_key",
+                              str(uuid.uuid4()),
+                              autocorrect=autocorrect)
 
 
 def check_ckan_ini(autocorrect=False):

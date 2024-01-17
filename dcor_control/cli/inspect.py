@@ -13,6 +13,10 @@ def inspect(assume_yes=False):
     click.secho("Checking CKAN options...", bold=True)
     inspect_mod.check_ckan_ini(autocorrect=assume_yes)
 
+    click.secho("Checking beaker session secret...", bold=True)
+    inspect_mod.check_ckan_beaker_session_cookie_validate_key(
+        autocorrect=assume_yes)
+
     click.secho("Checking www-data permissions...", bold=True)
     for path in [
         "/tmp/DCOR_generate_condensed",  # resource condense locks
