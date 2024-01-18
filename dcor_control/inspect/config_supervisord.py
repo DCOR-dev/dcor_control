@@ -28,6 +28,16 @@ def check_supervisord(autocorrect):
                 wpath.write_text(data)
 
 
+def is_nginx_running():
+    """Simple check for whether supervisord is running"""
+    try:
+        sp.check_output("sudo systemctl status nginx", shell=True)
+    except sp.CalledProcessError:
+        return False
+    else:
+        return True
+
+
 def is_supervisord_running():
     """Simple check for whether supervisord is running"""
     try:
@@ -36,6 +46,15 @@ def is_supervisord_running():
         return False
     else:
         return True
+
+
+def reload_nginx():
+    if is_nginx_running():
+        click.secho("Reloading nginx...", bold=True)
+        sp.check_output("sudo systemctl reload nginx", shell=True)
+    else:
+        click.secho("Not reloading nginx (not running)...",
+                    bold=True, fg="red")
 
 
 def reload_supervisord():

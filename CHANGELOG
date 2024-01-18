@@ -1,3 +1,5 @@
+0.9.5
+ - enh: properly check for nginx status before attempting to reload
 0.9.4
  - maintenance release
 0.9.3

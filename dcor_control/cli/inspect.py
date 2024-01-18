@@ -1,5 +1,3 @@
-import subprocess as sp
-
 import click
 from dcor_shared import paths
 
@@ -59,8 +57,7 @@ def inspect(assume_yes=False):
 
     inspect_mod.reload_supervisord()
 
-    click.secho("Reloading nginx...", bold=True)
-    sp.check_output("systemctl reload nginx", shell=True)
+    inspect_mod.reload_nginx()
 
     # ask the user whether to search for orphaned files
     if assume_yes or click.confirm('Perform search for orphaned files?'):
