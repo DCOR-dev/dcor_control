@@ -85,9 +85,11 @@
 "includes": {
     "general": {
      "ckan.ini": {
-        "sqlalchemy.url": "postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default",
+        "beaker.session.domain": "<TEMPLATE:HOSTNAME>",
+        "ckan.storage_path": "/data/ckan-<TEMPLATE:HOSTNAME>",
         "ckanext.dcor_depot.users_depot_name": "users-<TEMPLATE:HOSTNAME>",
-        "ckan.storage_path": "/data/ckan-<TEMPLATE:HOSTNAME>"
+        "REMEMBER_COOKIE_DOMAIN": "<TEMPLATE:HOSTNAME>",
+        "sqlalchemy.url": "postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default"
      }
     },
     "garching": {
