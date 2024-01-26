@@ -1,5 +1,6 @@
 0.9.6
  - ref: migrate to dcor_shared 0.6.0
+ - setup: pin uwsgi==2.0.21 due to non-working harakiri
 0.9.5
  - enh: properly check for nginx status before attempting to reload
 0.9.4
