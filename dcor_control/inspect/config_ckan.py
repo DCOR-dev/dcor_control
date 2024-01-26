@@ -22,7 +22,8 @@ def check_ckan_beaker_session_cookie_secret(autocorrect=False):
     value for this each time it generates a config file. When used in a
     cluster environment, the value must be the same on every machine.
     """
-    for key in ["beaker.session.validate_key"]:
+    for key in ["beaker.session.encrypt_key",
+                "beaker.session.validate_key"]:
         opt = get_actual_ckan_option(key)
         if opt == "NOT SET!":
             check_ckan_ini_option(key,
