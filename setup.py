@@ -63,7 +63,7 @@ setup(
         "numpy>=1.21",  # CVE-2021-33430
         # https://github.com/unbit/uwsgi/issues/2580
         # https://github.com/unbit/uwsgi/pull/2587
-        "uwsgi==2.0.21",
+        "uwsgi==2.0.22",
         ],
     # not to be confused with definitions in pyproject.toml [build-system]
     setup_requires=["pytest-runner"],
