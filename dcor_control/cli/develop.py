@@ -4,8 +4,9 @@ import subprocess as sp
 import uuid
 
 import click
+from dcor_shared.paths import get_ckan_config_path
 
-from ..inspect import reload_supervisord
+from ..inspect import config_ckan, reload_supervisord
 
 
 @click.command()
@@ -25,6 +26,17 @@ def develop():
         "dcor_control",
     ]:
         migrate_to_editable(name)
+
+    # Redo the CSS branding
+    print("Applying DCOR CSS branding")
+    ckan_ini = get_ckan_config_path()
+    ckan_cmd = f"ckan -c {ckan_ini} dcor-theme-main-css-branding"
+    sp.check_output(ckan_cmd, shell=True)
+    # set config option
+    config_ckan.check_ckan_ini_option(
+        key="ckan.theme",
+        value="dcor_theme_main/dcor_theme_main",
+        autocorrect=True)
 
     reload_supervisord()
     click.secho('DONE', fg=u'green', bold=True)

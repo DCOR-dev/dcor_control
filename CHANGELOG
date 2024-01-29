@@ -1,6 +1,7 @@
 0.9.6
  - enh: always encrypt beaker session cookies
  - enh: set up cookies more strictly
+ - enh: always perform CSS rebranding after `dcor develop`
  - ref: migrate to dcor_shared 0.6.0
  - setup: pin uwsgi==2.0.21 due to non-working harakiri
 0.9.5

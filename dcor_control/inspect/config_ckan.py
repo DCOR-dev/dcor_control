@@ -130,6 +130,7 @@ def check_dcor_theme_main_css(autocorrect):
      """
     ckan_ini = get_ckan_config_path()
     opt = get_actual_ckan_option("ckan.theme")
+    # TODO: Check whether the paths created by this script are setup correctly
     if opt != "dcor_theme_main/dcor_theme_main":
         if autocorrect:
             print("Applying DCOR theme main css")
