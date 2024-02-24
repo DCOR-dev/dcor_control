@@ -15,8 +15,8 @@ from ..inspect import config_ckan, reload_supervisord
            "(CKAN extensions and helpers) to an editable install?")
 def develop():
     """Migrate all DCOR CKAN extensions to git-based editable installs"""
-    sp.check_output(f"pip install --upgrade pip", shell=True)
-    sp.check_output(f"pip install requests requests_toolbelt", shell=True)
+    sp.check_output("pip install --upgrade pip", shell=True)
+    sp.check_output("pip install requests requests_toolbelt", shell=True)
 
     for name in [
         "ckanext-dc_log_view",
