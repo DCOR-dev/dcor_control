@@ -8,7 +8,7 @@ import dcor_shared
 
 from dcor_control import inspect
 
-from helper_methods import make_dataset
+from dcor_shared.testing import make_dataset
 
 
 data_path = pathlib.Path(__file__).parent / "data"
@@ -38,10 +38,12 @@ def test_check_orphaned_files(create_with_upload, monkeypatch, ckan_config,
     create_context1 = {'ignore_auth': False,
                        'user': user['name'], 'api_version': 3}
 
-    _, res = make_dataset(create_context1, owner_org,
-                          create_with_upload=create_with_upload,
-                          activate=True,
-                          authors="Peter Pan")
+    _, res = make_dataset(
+        create_context1, owner_org,
+        create_with_upload=create_with_upload,
+        resource_path=data_path / "calibration_beads_47.rtdc",
+        activate=True,
+        authors="Peter Pan")
 
     path = dcor_shared.get_resource_path(res["id"])
     path_to_delete = path.with_name(path.stem + "_peter.rtdc~")
