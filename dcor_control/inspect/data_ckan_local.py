@@ -41,7 +41,7 @@ def remove_empty_folders(path):
     if not path.is_dir():
         return
 
-    # recurse into subfolders
+    # recurse into sub-folders
     for pp in path.glob("*"):
         remove_empty_folders(pp)
 
@@ -55,16 +55,16 @@ def remove_resource_data(resource_id, autocorrect=False):
     This includes ancillary files as well as data in the user depot.
     If `autocorrect` is False, the user is prompted before deletion.
     """
-    userdepot_path = paths.get_dcor_users_depot_path()
+    user_depot_path = paths.get_dcor_users_depot_path()
     rp = get_resource_path(resource_id)
-    todel = []
+    to_del = []
 
     # Resource file
     if rp.exists() or rp.is_symlink():  # sometimes symlinks don't "exist" :)
-        todel.append(rp)
+        to_del.append(rp)
 
     # Check for ancillary files
-    todel += sorted(rp.parent.glob(rp.name + "_*"))
+    to_del += sorted(rp.parent.glob(rp.name + "_*"))
 
     # Check for symlinks and remove the corresponding files in the user depot
     if rp.is_symlink():
@@ -75,42 +75,42 @@ def remove_resource_data(resource_id, autocorrect=False):
             target = pathlib.Path(os.path.realpath(rp))
         # Only delete symlinked files if they are in the user_depot
         # (we don't delete figshare or internal data)
-        if target.exists() and str(target).startswith(str(userdepot_path)):
-            todel.append(target)
+        if target.exists() and str(target).startswith(str(user_depot_path)):
+            to_del.append(target)
 
-    request_removal(todel, autocorrect=autocorrect)
+    request_removal(to_del, autocorrect=autocorrect)
 
 
 def request_removal(delpaths, autocorrect=False):
     """Request (user interaction) and perform removal of a list of paths"""
     resources_path = paths.get_ckan_storage_path() / "resources"
-    userdepot_path = paths.get_dcor_users_depot_path()
+    user_depot_path = paths.get_dcor_users_depot_path()
     if autocorrect:
         for pp in delpaths:
             print("Deleting {}".format(pp))
-        delok = True
+        del_ok = True
     else:
-        delok = ask(
+        del_ok = ask(
             "These files are not related to an existing resource: "
             + "".join(["\n - {}".format(pp) for pp in delpaths])
             + "\nDelete these orphaned files?"
         )
 
-    if delok:
+    if del_ok:
         for pp in delpaths:
             pp.unlink()
             # Also remove empty dirs
             if str(pp).startswith(str(resources_path)):
                 # /data/ckan-HOSTNAME/resources/00e/a65/e6-cc35-...
                 remove_empty_folders(pp.parent.parent)
-            elif str(pp).startswith(str(userdepot_path)):
+            elif str(pp).startswith(str(user_depot_path)):
                 # /data/depots/users-HOSTNAME/USER-ORG/f5/ba/pkg_rid_file.rtdc
                 remove_empty_folders(pp.parent.parent.parent)
 
 
 def check_orphaned_files(assume_yes=False):
     resources_path = paths.get_ckan_storage_path() / "resources"
-    userdepot_path = paths.get_dcor_users_depot_path()
+    user_depot_path = paths.get_dcor_users_depot_path()
     time_stop = time.time()
     click.secho("Collecting resource ids...", bold=True)
     resource_ids = get_resource_ids()
@@ -133,8 +133,8 @@ def check_orphaned_files(assume_yes=False):
             elif pp.name[30:]:
                 # We have an ancillary file or a temporary garbage, like
                 # .rtdc~.
-                for asuf in ALLOWED_SUFFIXES:
-                    if pp.name.endswith(asuf):
+                for a_suf in ALLOWED_SUFFIXES:
+                    if pp.name.endswith(a_suf):
                         # We have an ancillary file
                         break
                 else:
@@ -144,15 +144,15 @@ def check_orphaned_files(assume_yes=False):
     # Scan user depot for orphans
     click.secho("Scanning local user depot tree for orphaned files...",
                 bold=True)
-    for pp in userdepot_path.rglob("*/*/*/*"):
+    for pp in user_depot_path.rglob("*/*/*/*"):
         res_id = pp.name.split("_")[1]
         if res_id not in resource_ids and res_id not in orphans_processed:
             if assume_yes:
                 print("Deleting local file {}".format(pp))
-                delok = True
+                del_ok = True
             else:
-                delok = ask("Delete orphaned local file '{}'?".format(pp))
-            if delok:
+                del_ok = ask("Delete orphaned local file '{}'?".format(pp))
+            if del_ok:
                 pp.unlink()
                 remove_empty_folders(pp.parent.parent.parent)
                 orphans_processed.append(res_id)
