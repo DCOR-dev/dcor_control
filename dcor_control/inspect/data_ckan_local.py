@@ -116,8 +116,9 @@ def check_orphaned_files(assume_yes=False):
     resource_ids = get_resource_ids()
     orphans_processed = []  # list for keeping track of orphans
 
-    click.secho("Scanning resource tree for orphaned files...", bold=True)
-    # Scan CKAN resources
+    # Scan resources directory on block storage
+    click.secho("Scanning local resource tree for orphaned files...",
+                bold=True)
     for pp in resources_path.rglob("*/*/*"):
         if (pp.is_dir()  # directories
                 or (pp.exists()
@@ -141,15 +142,16 @@ def check_orphaned_files(assume_yes=False):
                     request_removal([pp], autocorrect=assume_yes)
 
     # Scan user depot for orphans
-    click.secho("Scanning user depot tree for orphaned files...", bold=True)
+    click.secho("Scanning local user depot tree for orphaned files...",
+                bold=True)
     for pp in userdepot_path.rglob("*/*/*/*"):
         res_id = pp.name.split("_")[1]
         if res_id not in resource_ids and res_id not in orphans_processed:
             if assume_yes:
-                print("Deleting {}".format(pp))
+                print("Deleting local file {}".format(pp))
                 delok = True
             else:
-                delok = ask("Delete orphaned file '{}'?".format(pp))
+                delok = ask("Delete orphaned local file '{}'?".format(pp))
             if delok:
                 pp.unlink()
                 remove_empty_folders(pp.parent.parent.parent)

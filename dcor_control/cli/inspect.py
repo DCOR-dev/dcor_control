@@ -62,5 +62,6 @@ def inspect(assume_yes=False):
     # ask the user whether to search for orphaned files
     if assume_yes or click.confirm('Perform search for orphaned files?'):
         inspect_mod.check_orphaned_files(assume_yes=assume_yes)
+        inspect_mod.check_orphaned_s3_artifacts(assume_yes=assume_yes)
 
     click.secho('DONE', fg=u'green', bold=True)

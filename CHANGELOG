@@ -1,4 +1,5 @@
-0.9.6
+0.10.0
+ - enh: also check S3 storage for orphaned objects in `dcor inspect`
  - enh: always encrypt beaker session cookies
  - enh: set up cookies more strictly
  - enh: always perform CSS rebranding after `dcor develop`

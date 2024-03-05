@@ -29,18 +29,25 @@ def status():
         s3_client, s3_session, s3_resource = s3.get_s3()
         buckets = [b["Name"] for b in s3_client.list_buckets()["Buckets"]]
         for bucket in buckets:
-            ctoken = ""
-            while ctoken is not None:
-                resp = s3_client.list_objects_v2(Bucket=bucket,
-                                                 MaxKeys=1000,
-                                                 ContinuationToken=ctoken)
-                ctoken = resp.get("NextContinuationToken")
-                for obj in resp.get("Contents"):
+            kwargs = {"Bucket": bucket,
+                      "MaxKeys": 500
+                      }
+            while True:
+                resp = s3_client.list_objects_v2(**kwargs)
+
+                for obj in resp.get("Contents", []):
                     if obj["Key"].startswith("resource/"):
                         num_resources += 1
                         size_resources += obj["Size"]
                     else:
                         size_other += obj["Size"]
+
+                if not resp.get("IsTruncated"):
+                    break
+                else:
+                    kwargs["ContinuationToken"] = resp.get(
+                        "NextContinuationToken")
+
         click.echo(f"S3 buckets: {len(buckets)}")
         click.echo(f"S3 resources number: {num_resources}")
         click.echo(f"S3 resources size: {size_resources/1024**3:.0f} GB")
