@@ -91,6 +91,13 @@ def test_check_orphaned_s3_artifacts(enqueue_job_mock, create_with_upload,
     # Make sure that the S3 object is still there
     assert s3.object_exists(bucket_name, object_name)
 
+    # Perform a cleanup that does not take into account the new data
+    inspect.check_orphaned_s3_artifacts(assume_yes=True,
+                                        older_than_days=1)  # [sic]
+
+    # Make sure that the S3 object is still there
+    assert s3.object_exists(bucket_name, object_name)
+
     # Perform the actual cleanup
     inspect.check_orphaned_s3_artifacts(assume_yes=True,
                                         older_than_days=0)

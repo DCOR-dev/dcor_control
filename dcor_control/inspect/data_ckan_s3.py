@@ -50,13 +50,15 @@ def check_orphaned_s3_artifacts(assume_yes=False, older_than_days=7,
             click.secho(f"Found S3 bucket for non-existent circle {cs3}")
             request_bucket_removal(
                 bucket_name=bucket_name,
+                older_than_days=older_than_days,
                 autocorrect=assume_yes)
             continue
         # Iterate through the resources of that circle
         circle_resources = list_group_resources_ckan(cs3)
 
         invalid_artifacts = []
-        for object_name in iter_bucket_objects_s3(bucket_name):
+        for object_name in iter_bucket_objects_s3(
+                bucket_name, older_than_days=older_than_days):
             artifact = object_name.split("/")[0]
             if artifact in ARTIFACT_NAMES:
                 rid = "".join(object_name.split("/")[1:])
@@ -82,7 +84,6 @@ def get_circles_ckan():
         f"ckan -c {ckan_ini} list-circles",
         shell=True).decode().split("\n")
     circle_list = [f.split()[0] for f in data if f.strip()]
-    print("CKAN circles", circle_list)
     return circle_list
 
 
@@ -103,18 +104,17 @@ def get_circles_s3(older_than_days=0):
         tz = creation_date.tzinfo
         if creation_date > (datetime.now(tz=tz)
                             - timedelta(days=older_than_days)):
-            # Ignore circles that are younger than a week
+            # Ignore circles that are younger `older_than_days`
             continue
         # Find circles that match our regular expression scheme
         r_match = bucket_regexp.match(bdict["Name"])
         if r_match is not None:
             circle_id = r_match.group(1)
             circle_list.append(circle_id)
-    print("S3 circles", circle_list)
     return circle_list
 
 
-def iter_bucket_objects_s3(bucket_name):
+def iter_bucket_objects_s3(bucket_name, older_than_days=7):
     """Return iterator over all objects in a Bucket"""
     s3_client, _, s3_resource = s3.get_s3()
     kwargs = {"Bucket": bucket_name,
@@ -129,6 +129,12 @@ def iter_bucket_objects_s3(bucket_name):
 
         for obj in resp.get("Contents", []):
             object_name = obj["Key"]
+            creation_date = obj.get("LastModified", obj.get("CreationDate"))
+            tz = creation_date.tzinfo
+            if creation_date > (datetime.now(tz=tz)
+                                - timedelta(days=older_than_days)):
+                # Ignore objects that are younger than `older_than_days`
+                continue
             yield object_name
 
         if not resp.get("IsTruncated"):
@@ -151,7 +157,7 @@ def list_group_resources_ckan(group_name_or_id):
     return resources
 
 
-def request_bucket_removal(bucket_name, autocorrect=False):
+def request_bucket_removal(bucket_name, older_than_days=7, autocorrect=False):
     """Request (user interaction) the removal of an entire bucket"""
     if autocorrect:
         print(f"Deleting bucket {bucket_name}")
@@ -164,11 +170,14 @@ def request_bucket_removal(bucket_name, autocorrect=False):
         # Delete the objects
         request_removal_from_bucket(
             bucket_name=bucket_name,
-            objects=iter_bucket_objects_s3(bucket_name),
+            objects=iter_bucket_objects_s3(bucket_name,
+                                           older_than_days=older_than_days),
             autocorrect=True
         )
         # Delete the bucket if it is not empty
-        if len(list(iter_bucket_objects_s3(bucket_name))) == 0:
+        if len(list(
+                iter_bucket_objects_s3(bucket_name,
+                                       older_than_days=older_than_days))) == 0:
             try:
                 s3_client.delete_bucket(Bucket=bucket_name)
             except s3_client.exceptions.NoSuchBucket:
