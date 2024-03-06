@@ -125,7 +125,7 @@ def update_package(name):
         is_located_git = False
 
     if is_testing:
-        click.secho(f"Reinstalling {test_setup_py}", bold=True)
+        click.secho(f"Reinstalling {name} via {test_setup_py}", bold=True)
         os.chdir(test_setup_py.parent)
         try:
             sp.check_output("pip install -e .", shell=True)
