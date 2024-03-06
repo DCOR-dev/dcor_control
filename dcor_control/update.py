@@ -110,7 +110,7 @@ def update_package(name):
     test_setup_py = pathlib.Path("/testing/setup.py")
     if test_setup_py.exists():
         is_testing = test_setup_py.read_text().count(
-            'name = "ckanext-dcor_schemas"')
+            f'name = "{name}"')
     else:
         is_testing = False
 
