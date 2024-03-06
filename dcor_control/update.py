@@ -104,25 +104,47 @@ def parse_compatible_versions():
 def update_package(name):
     """Update a DCOR-related Python package"""
     old_ver = get_package_version(name)
+    wd = os.getcwd()
+
+    # Check whether the package is located in /testing in a testing VM
+    test_setup_py = pathlib.Path("/testing/setup.py")
+    if test_setup_py.exists():
+        is_testing = test_setup_py.read_text().count(
+            'name = "ckanext-dcor_schemas"')
+    else:
+        is_testing = False
+
+    # Check whether the package is installed -e via git somewhere
     for path_item in sys.path:
         if name in path_item:
             # This means that the package is probably installed
             # in editable mode.
-            is_git = (pathlib.Path(path_item) / ".git").exists()
-            if is_git:
-                click.secho(f"Attempting to update git repository "
-                            f"at '{path_item}'.", bold=True)
-                wd = os.getcwd()
-                os.chdir(path_item)
-                try:
-                    sp.check_output("git pull", shell=True)
-                except sp.CalledProcessError:
-                    click.secho("...failed!", bold=True)
-                else:
-                    sp.check_output("pip install -e .", shell=True)
-                finally:
-                    os.chdir(wd)
-                break
+            is_located_git = path_item
+            break
+    else:
+        is_located_git = False
+
+    if is_testing:
+        click.secho(f"Reinstalling {test_setup_py}", bold=True)
+        os.chdir(test_setup_py.parent)
+        try:
+            sp.check_output("pip install -e .", shell=True)
+        except sp.CalledProcessError:
+            click.secho("...failed!", bold=True)
+        finally:
+            os.chdir(wd)
+    elif is_located_git:
+        click.secho(f"Attempting to update git repository "
+                    f"at '{is_located_git}'.", bold=True)
+        os.chdir(is_located_git)
+        try:
+            sp.check_output("git pull", shell=True)
+        except sp.CalledProcessError:
+            click.secho("...failed!", bold=True)
+        else:
+            sp.check_output("pip install -e .", shell=True)
+        finally:
+            os.chdir(wd)
     else:
         click.secho(f"Updating package '{name}' using pip...", bold=True)
         # Perform a compatible version check

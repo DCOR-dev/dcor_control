@@ -1,4 +1,5 @@
 0.10.0
+ - enh: update package located in /testing in dcor update
  - enh: also check S3 storage for orphaned objects in `dcor inspect`
  - enh: always encrypt beaker session cookies
  - enh: set up cookies more strictly
