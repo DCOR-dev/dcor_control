@@ -19,13 +19,13 @@ def develop():
     sp.check_output("pip install requests requests_toolbelt", shell=True)
 
     for name in [
+        "dcor_shared",
         "ckanext-dc_log_view",
         "ckanext-dc_serve",
         "ckanext-dc_view",
         "ckanext-dcor_depot",
         "ckanext-dcor_schemas",
         "ckanext-dcor_theme",
-        "dcor_shared",
         "dcor_control",
     ]:
         migrate_to_editable(name)
