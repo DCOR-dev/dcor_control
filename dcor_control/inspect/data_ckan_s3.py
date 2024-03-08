@@ -153,7 +153,6 @@ def list_group_resources_ckan(group_name_or_id):
         resources = [f.strip() for f in data if f.strip()]
     except sp.CalledProcessError:
         resources = []
-    print("Resources", group_name_or_id, resources)
     return resources
 
 
