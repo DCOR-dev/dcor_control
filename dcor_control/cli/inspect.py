@@ -1,5 +1,5 @@
 import click
-from dcor_shared import paths
+from dcor_shared import get_ckan_config_option, paths
 
 from .. import inspect as inspect_mod
 
@@ -21,12 +21,14 @@ def inspect(assume_yes=False):
         paths.get_ckan_storage_path() / "resources",
         paths.get_dcor_users_depot_path(),
         paths.get_ckan_webassets_path(),
+        get_ckan_config_option("dcor_object_store.local_backup_location")
             ]:
-        inspect_mod.check_permission(
-            path=path,
-            user="www-data",
-            mode=0o755,
-            autocorrect=assume_yes)
+        if path is not None:
+            inspect_mod.check_permission(
+                path=path,
+                user="www-data",
+                mode=0o755,
+                autocorrect=assume_yes)
 
     # Recursively make sure that www-data can upload things into storage
     inspect_mod.check_permission(
