@@ -72,6 +72,8 @@ def check_ckan_uploader_patch_to_support_symlinks(autocorrect):
     additional check with os.path.realpath during upload to make sure
     no symlinks are used. But we need symlinks, so we have to patch
     ckan.lib.uploader:ResourceUpload
+
+    TODO: Check should be reversed once fully migrated to S3 upload scheme
     """
     from ckan.lib import uploader
     ulpath = pathlib.Path(uploader.__file__)
