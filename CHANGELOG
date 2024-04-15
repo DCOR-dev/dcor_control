@@ -7,6 +7,7 @@
  - enh: install additional dependencies in `dcor develop`
  - enh: introduce "dcor_object_store.local_backup_location" configuration
    option and check write permissions
+ - enh: add "etag" to search pattern
  - ref: migrate to dcor_shared 0.7.5
  - setup: pin uwsgi==2.0.21 due to non-working harakiri
 0.9.5
