@@ -21,6 +21,7 @@
          "ckan.auth.create_user_via_api": "true",
          "ckan.site_title": "DCOR-dev",
          "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
+         "ckanext.dc_serve.tmp_dir": "/cache/ckanext-dc_serve",
          "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de",
          "dcor_object_store.bucket_name": "circle-dev-{organization_id}"
          },

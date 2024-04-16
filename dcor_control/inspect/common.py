@@ -14,7 +14,7 @@ def ask(prompt):
 def check_permission(path, user=None, mode=None, recursive=False,
                      autocorrect=False):
     path = pathlib.Path(path)
-    if recursive:
+    if recursive and path.is_dir():
         for pp in path.rglob("*"):
             if pp.is_dir():
                 check_permission(path=pp,
