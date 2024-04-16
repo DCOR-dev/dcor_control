@@ -51,6 +51,7 @@ def migrate_to_editable(name,
     # make sure the `/dcor-repos` directory exists
     repo_dir = pathlib.Path("/dcor-repos")
     repo_dir.mkdir(parents=True, exist_ok=True)
+    click.secho(f"Migrating {name} to {repo_dir}", bold=True)
     # make sure we can write to it
     test_file = repo_dir / f"write-check-{uuid.uuid4()}"
     test_file.touch()
