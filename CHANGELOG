@@ -1,6 +1,7 @@
 0.10.1
  - fix: add ckanext.dc_serve.tmp_dir, a temporary data location for
    condensing data before uploading to S3
+ - enh: upgrade pip when updating packages
 0.10.0
  - enh: update package located in /testing in dcor update
  - enh: also check S3 storage for orphaned objects in `dcor inspect`

@@ -1,3 +1,5 @@
+import subprocess as sp
+
 import click
 
 from ..update import update_package
@@ -9,6 +11,8 @@ from ..inspect import reload_supervisord
     prompt="Are you sure you want to update your DCOR installation?")
 def update():
     """Update all DCOR CKAN extensions using pip/git"""
+    sp.check_output("pip install --upgrade pip", shell=True)
+
     for name in [
         "dcor_shared",
         "ckanext-dc_log_view",
