@@ -146,12 +146,14 @@ def update_package(name):
         finally:
             os.chdir(wd)
     else:
-        click.secho(f"Updating package '{name}' using pip...", bold=True)
         # Perform a compatible version check
         req_version = get_max_compatible_version(name)
         if req_version is not None:
+            click.secho(f"Installing '{name}=={req_version}' using pip...",
+                        bold=True)
             pin = f"=={req_version}"
         else:
+            click.secho(f"Updating package '{name}' using pip...", bold=True)
             pin = ""
         sp.check_output(f"pip install --upgrade {name}{pin}", shell=True)
     new_ver = get_package_version(name)
