@@ -1,3 +1,4 @@
+from pkg_resources import resource_filename
 import subprocess as sp
 
 import click
@@ -8,23 +9,22 @@ from .common import ask
 
 def check_supervisord(autocorrect):
     """Check whether the separate dcor worker files exist"""
+    path_worker = resource_filename(
+        "dcor_control.resources.config",
+        "etc_supervisor_conf.d_ckan-worker-dcor.conf")
+    template = path_worker.read_text()
+
     svd_path = get_supervisord_worker_config_path()
     for worker in ["long", "normal", "short"]:
-        wpath = svd_path.with_name("ckan-worker-dcor-{}.conf".format(worker))
+        wpath = svd_path.with_name(f"ckan-worker-dcor-{worker}.conf")
         if not wpath.exists():
             if autocorrect:
                 wcr = True
-                print("Creating '{}'.".format(wpath))
+                print(f"Creating '{wpath}'.")
             else:
-                wcr = ask("Supervisord entry 'dcor-{}' missing".format(worker))
+                wcr = ask(f"Supervisord entry 'dcor-{worker}' missing")
             if wcr:
-                data = svd_path.read_text()
-                data = data.replace(
-                    "[program:ckan-worker]",
-                    "[program:ckan-ckan-worker-dcor-{}]".format(worker))
-                data = data.replace(
-                    "/ckan.ini jobs worker",
-                    "/ckan.ini jobs worker dcor-{}".format(worker))
+                data = template.replace("{{QUEUE}}", f"dcor-{worker}")
                 wpath.write_text(data)
 
 

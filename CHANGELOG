@@ -1,4 +1,5 @@
 0.10.2
+ - enh: include DCOR worker configuration
  - update compatible versions
 0.10.1
  - fix: add ckanext.dc_serve.tmp_dir, a temporary data location for
