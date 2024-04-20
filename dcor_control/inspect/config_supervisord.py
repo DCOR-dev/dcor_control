@@ -1,3 +1,4 @@
+import pathlib
 from pkg_resources import resource_filename
 import subprocess as sp
 
@@ -12,7 +13,7 @@ def check_supervisord(autocorrect):
     path_worker = resource_filename(
         "dcor_control.resources.config",
         "etc_supervisor_conf.d_ckan-worker-dcor.conf")
-    template = path_worker.read_text()
+    template = pathlib.Path(path_worker).read_text()
 
     svd_path = get_supervisord_worker_config_path()
     for worker in ["long", "normal", "short"]:
