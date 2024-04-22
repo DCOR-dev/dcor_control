@@ -31,6 +31,13 @@ def inspect(assume_yes=False):
                 mode=0o755,
                 autocorrect=assume_yes)
 
+    inspect_mod.check_permission(
+        path="/var/log/ckan",
+        user="www-data",
+        group="adm",
+        recursive=True,
+        autocorrect=assume_yes)
+
     # Recursively make sure that www-data can upload things into storage
     inspect_mod.check_permission(
         path=paths.get_ckan_storage_path() / "storage",

@@ -11,8 +11,29 @@ def ask(prompt):
     return an.lower() == "y"
 
 
-def check_permission(path, user=None, mode=None, recursive=False,
-                     autocorrect=False):
+def check_permission(path: str | pathlib.Path,
+                     user: str = None,
+                     group: str = None,
+                     mode: oct = None,
+                     recursive: bool = False,
+                     autocorrect: bool = False):
+    """Check permissions for a file or directory
+
+    Parameters
+    ----------
+    path: str | pathlib.Path
+        path to check for permissions
+    user: str
+        check ownership for user
+    group: str
+        check ownership for group
+    mode: oct
+        chmod code, e.g. `0o755`
+    recursive: bool
+        whether to recursively check for permissions
+    autocorrect: bool
+        whether to autocorrect permissions
+    """
     path = pathlib.Path(path)
     if recursive and path.is_dir():
         for pp in path.rglob("*"):
@@ -24,31 +45,32 @@ def check_permission(path, user=None, mode=None, recursive=False,
                                  autocorrect=autocorrect)
     if user is not None:
         uid = pwd.getpwnam(user).pw_uid
-        gid = grp.getgrnam(user).gr_gid
+        gid = grp.getgrnam(group or user).gr_gid
     else:
         uid = None
         gid = None
     # Check if exists
     if not path.exists():
         if autocorrect:
-            print("Creating '{}'".format(path))
+            print(f"Creating '{path}'")
             create = True
         else:
-            create = ask("'{}' does not exist".format(path))
+            create = ask(f"'{path}' does not exist")
         if create:
             path.mkdir(parents=True)
-            os.chmod(path, mode)
+            if mode is not None:
+                os.chmod(path, mode)
             if user is not None:
                 os.chown(path, uid, gid)
     # Check mode
     pmode = stat.S_IMODE(path.stat().st_mode)
-    if pmode != mode:
+    if mode is not None and pmode != mode:
         if autocorrect:
-            print("Changing mode of '{}' to '{}'".format(path, oct(mode)))
+            print(f"Changing mode of '{path}' to '{oct(mode)}'")
             change = True
         else:
-            change = ask("Mode of '{}' is '{}', but ".format(path, oct(pmode))
-                         + "should be '{}'".format(oct(mode)))
+            change = ask(f"Mode of '{path}' is '{oct(pmode)}', "
+                         f"but should be '{oct(mode)}'")
         if change:
             os.chmod(path, mode)
     # Check owner
@@ -62,11 +84,11 @@ def check_permission(path, user=None, mode=None, recursive=False,
             pnam = puidset.pw_name
         if puid != uid:
             if autocorrect:
-                print("Changing owner of '{}' to '{}'".format(path, user))
+                print(f"Changing owner of '{path}' to '{user}'")
                 chowner = True
             else:
-                chowner = ask("Owner of '{}' is ".format(path)
-                              + "'{}', but should be '{}'".format(pnam, user))
+                chowner = ask(f"Owner of '{path}' is '{pnam}', "
+                              f"but should be '{user}'")
             if chowner:
                 os.chown(path, uid, gid)
 
