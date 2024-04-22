@@ -110,7 +110,7 @@ def check_permission(path: str | pathlib.Path,
                 chowner = True
             else:
                 chowner = ask(f"Owner of '{path}' is '{pusr}:{pgrp}', "
-                              f"but should be '{user}'")
+                              f"but should be '{user}:{group}'")
             if chowner:
                 os.chown(path, uid, gid)
 
