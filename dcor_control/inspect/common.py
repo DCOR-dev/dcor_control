@@ -16,7 +16,8 @@ def ask(prompt):
 def check_permission(path: str | pathlib.Path,
                      user: str = None,
                      group: str = None,
-                     mode: oct = None,
+                     mode_dir: oct = None,
+                     mode_file: oct = None,
                      recursive: bool = False,
                      autocorrect: bool = False):
     """Check permissions for a file or directory
@@ -29,42 +30,51 @@ def check_permission(path: str | pathlib.Path,
         check ownership for user
     group: str
         check ownership for group
-    mode: oct
+    mode_dir: oct
+        chmod code, e.g. `0o755`
+    mode_file: oct
         chmod code, e.g. `0o755`
     recursive: bool
         whether to recursively check for permissions
     autocorrect: bool
         whether to autocorrect permissions
     """
+    uid = pwd.getpwnam(user).pw_uid if user is not None else None
+    gid = grp.getgrnam(group or user).gr_gid if (
+            group is not None or user is not None) else None
+
     path = pathlib.Path(path)
-    if recursive and path.is_dir():
-        for pp in path.rglob("*"):
-            if pp.is_dir():
+
+    if path.is_file():
+        mode = mode_file
+    elif path.is_dir():
+        mode = mode_dir
+        if recursive:
+            for pp in path.glob("*"):
                 check_permission(path=pp,
                                  user=user,
-                                 mode=mode,
-                                 recursive=False,
+                                 group=group,
+                                 mode_dir=mode_dir,
+                                 mode_file=mode_file,
+                                 recursive=recursive,
                                  autocorrect=autocorrect)
-    if user is not None:
-        uid = pwd.getpwnam(user).pw_uid
-        gid = grp.getgrnam(group or user).gr_gid
     else:
-        uid = None
-        gid = None
-    # Check if exists
-    if not path.exists():
+        # create a directory
+        mode = mode_dir
         if autocorrect:
-            print(f"Creating '{path}'")
+            print(f"Creating directory '{path}'")
             create = True
         else:
-            create = ask(f"'{path}' does not exist")
+            create = ask(f"Directory '{path}' does not exist")
         if create:
             path.mkdir(parents=True)
             if mode is not None:
                 os.chmod(path, mode)
             if user is not None:
                 os.chown(path, uid, gid)
-    # Check mode
+
+    # Perform the actual checks
+    # check mode
     pmode = stat.S_IMODE(path.stat().st_mode)
     if mode is not None and pmode != mode:
         if autocorrect:
@@ -75,6 +85,7 @@ def check_permission(path: str | pathlib.Path,
                          f"but should be '{oct(mode)}'")
         if change:
             os.chmod(path, mode)
+
     # Check owner
     if user is not None:
         puid = path.stat().st_uid

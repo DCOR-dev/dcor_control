@@ -28,13 +28,17 @@ def inspect(assume_yes=False):
             inspect_mod.check_permission(
                 path=path,
                 user="www-data",
-                mode=0o755,
+                mode_dir=0o755,
+                mode_file=0o644,
+                recursive=False,
                 autocorrect=assume_yes)
 
     inspect_mod.check_permission(
         path="/var/log/ckan",
         user="www-data",
         group="adm",
+        mode_dir=0o755,
+        mode_file=0o644,
         recursive=True,
         autocorrect=assume_yes)
 
@@ -42,7 +46,8 @@ def inspect(assume_yes=False):
     inspect_mod.check_permission(
         path=paths.get_ckan_storage_path() / "storage",
         user="www-data",
-        mode=0o755,
+        mode_dir=0o755,
+        mode_file=0o644,
         autocorrect=assume_yes,
         recursive=True)
 
