@@ -29,7 +29,7 @@ def check_permission(path: str | pathlib.Path,
     user: str
         check ownership for user
     group: str
-        check ownership for group
+        check ownership for group, defaults to `user`
     mode_dir: oct
         chmod code, e.g. `0o755`
     mode_file: oct
@@ -39,9 +39,9 @@ def check_permission(path: str | pathlib.Path,
     autocorrect: bool
         whether to autocorrect permissions
     """
+    group = group or user
     uid = pwd.getpwnam(user).pw_uid if user is not None else None
-    gid = grp.getgrnam(group or user).gr_gid if (
-            group is not None or user is not None) else None
+    gid = grp.getgrnam(group).gr_gid if group is not None else None
 
     path = pathlib.Path(path)
 
