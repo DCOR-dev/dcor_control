@@ -73,8 +73,7 @@ def check_permission(path: str | pathlib.Path,
             if user is not None:
                 os.chown(path, uid, gid)
 
-    # Perform the actual checks
-    # check mode
+    # Check mode
     pmode = stat.S_IMODE(path.stat().st_mode)
     if mode is not None and pmode != mode:
         if autocorrect:
@@ -87,20 +86,30 @@ def check_permission(path: str | pathlib.Path,
             os.chmod(path, mode)
 
     # Check owner
-    if user is not None:
+    if uid is not None and gid is not None:
         puid = path.stat().st_uid
-        try:
-            puidset = pwd.getpwuid(puid)
-        except KeyError:
-            pnam = "unknown"
-        else:
-            pnam = puidset.pw_name
-        if puid != uid:
+        pgid = path.stat().st_gid
+        if puid != uid or pgid != gid:
+            # Get current group name
+            try:
+                pgidset = grp.getgrgid(pgid)
+            except BaseException:
+                pgrp = "unknown"
+            else:
+                pgrp = pgidset.gr_name
+            # Get current user name
+            try:
+                puidset = pwd.getpwuid(puid)
+            except BaseException:
+                pusr = "unknown"
+            else:
+                pusr = puidset.pw_name
+            # Perform the change
             if autocorrect:
-                print(f"Changing owner of '{path}' to '{user}'")
+                print(f"Changing owner of '{path}' to '{user}:{group}'")
                 chowner = True
             else:
-                chowner = ask(f"Owner of '{path}' is '{pnam}', "
+                chowner = ask(f"Owner of '{path}' is '{pusr}:{pgrp}', "
                               f"but should be '{user}'")
             if chowner:
                 os.chown(path, uid, gid)
