@@ -1,3 +1,7 @@
+0.10.3
+ - enh: improve inspect (fine-grained permissions control)
+ - enh: include explicit DCOR worker config
+ - update compatible versions
 0.10.2
  - enh: include DCOR worker configuration
  - update compatible versions
