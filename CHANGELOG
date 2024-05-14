@@ -1,4 +1,5 @@
 0.10.7
+ - enh: add cache location for DCOR-med
  - ref: remove "dcor_object_store.local_backup_location"
    (we now have backups of S3 data)
 0.10.6
