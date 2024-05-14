@@ -53,6 +53,7 @@
          "ckanext.dc_serve.tmp_dir": "/cache/ckanext-dc_serve",
          "ckanext.dcor_schemas.allow_public_datasets": "false",
          "ckanext.dcor_schemas.json_resource_schema_dir": "<TEMPLATE:PATH_BRANDING>/resource_schema_medical",
+         "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
          "licenses_group_url": "file://<TEMPLATE:PATH_BRANDING>/licenses_medical.json"
          },
      "include": ["general"]
