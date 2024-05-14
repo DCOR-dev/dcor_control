@@ -69,7 +69,6 @@
          "dcor_object_store.secret_access_key": "dIArZGZdNPD0NlN5GW7miYQxrtFAEl45LvDVR8cE",
          "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
          "dcor_object_store.ssl_verify": "false",
-         "dcor_object_store.local_backup_location": "/data/s3_resource_backup-vagrant"
          },
      "include": ["general"]
      },
@@ -101,7 +100,6 @@
          "smtp.password": "",
          "email_to": "<TEMPLATE:EMAIL>",
          "error_email_from": "error-<TEMPLATE:HOSTNAME>@mpl.mpg.de",
-         "dcor_object_store.local_backup_location": "/data/s3_resource_backup-<TEMPLATE:HOSTNAME>"
          }
       }
      }

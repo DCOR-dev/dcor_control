@@ -21,7 +21,6 @@ def inspect(assume_yes=False):
         paths.get_ckan_storage_path() / "resources",
         paths.get_dcor_users_depot_path(),
         paths.get_ckan_webassets_path(),
-        get_ckan_config_option("dcor_object_store.local_backup_location"),
         get_ckan_config_option("ckanext.dc_serve.tmp_dir"),
             ]:
         if path is not None:
