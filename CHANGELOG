@@ -1,7 +1,6 @@
 0.10.9
  - enh: add local S3 endpoint URL for DCOR-med
  - fix: include all resources when searching for orphaned files on S3
- - fix: endpoint_url for DCOR-med
 0.10.8
  - fix: bad json file
 0.10.7
