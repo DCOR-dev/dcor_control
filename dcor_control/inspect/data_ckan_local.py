@@ -78,7 +78,8 @@ def remove_resource_data(resource_id, autocorrect=False):
         if target.exists() and str(target).startswith(str(user_depot_path)):
             to_del.append(target)
 
-    request_removal(to_del, autocorrect=autocorrect)
+    if to_del:
+        request_removal(to_del, autocorrect=autocorrect)
 
 
 def request_removal(delpaths, autocorrect=False):

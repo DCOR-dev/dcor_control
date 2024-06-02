@@ -32,7 +32,7 @@ def check_orphaned_s3_artifacts(assume_yes=False, older_than_days=7,
     # list of actual circles
     circles_ckan = get_circles_ckan()
 
-    # list of circles for which we have buckets that are older than a week
+    # list of circles for which we have buckets
     circles_s3 = get_circles_s3(older_than_days=older_than_days)
 
     # bucket_definition

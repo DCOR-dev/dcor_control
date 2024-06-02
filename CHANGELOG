@@ -1,3 +1,5 @@
+0.10.10
+ - fix: don't ask user to remove empty list in inspect
 0.10.9
  - enh: add local S3 endpoint URL for DCOR-med
  - fix: include all resources when searching for orphaned files on S3
