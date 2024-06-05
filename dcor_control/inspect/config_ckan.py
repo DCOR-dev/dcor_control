@@ -22,13 +22,15 @@ def check_ckan_beaker_session_cookie_secret(autocorrect=False):
     value for this each time it generates a config file. When used in a
     cluster environment, the value must be the same on every machine.
     """
+    did_something = 0
     for key in ["beaker.session.encrypt_key",
                 "beaker.session.validate_key"]:
         opt = get_actual_ckan_option(key)
         if opt == "NOT SET!":
-            check_ckan_ini_option(key,
-                                  str(uuid.uuid4()),
-                                  autocorrect=autocorrect)
+            did_something += check_ckan_ini_option(key,
+                                                   str(uuid.uuid4()),
+                                                   autocorrect=autocorrect)
+    return did_something
 
 
 def check_ckan_ini(autocorrect=False):
@@ -40,6 +42,7 @@ def check_ckan_ini(autocorrect=False):
 
     Custom options override general options.
     """
+    did_something = 0
     custom_opts = get_expected_ckan_options()["ckan.ini"]
     general_opts = parse_ini_config(
         resource_filename("dcor_control.resources", "dcor_options.ini"))
@@ -47,11 +50,15 @@ def check_ckan_ini(autocorrect=False):
     general_opts.update(custom_opts)
 
     for key in general_opts:
-        check_ckan_ini_option(key, general_opts[key], autocorrect=autocorrect)
+        did_something += check_ckan_ini_option(
+            key, general_opts[key], autocorrect=autocorrect)
+
+    return did_something
 
 
 def check_ckan_ini_option(key, value, autocorrect=False):
     """Check one server option"""
+    did_something = 0
     ckan_ini = get_ckan_config_path()
     opt = get_actual_ckan_option(key)
     if opt != value:
@@ -63,6 +70,8 @@ def check_ckan_ini_option(key, value, autocorrect=False):
         if change:
             ckan_cmd = f"ckan config-tool {ckan_ini} '{key}={value}'"
             sp.check_output(ckan_cmd, shell=True)
+            did_something += 1
+    return did_something
 
 
 def check_ckan_uploader_patch_to_support_symlinks(autocorrect):
@@ -75,6 +84,7 @@ def check_ckan_uploader_patch_to_support_symlinks(autocorrect):
 
     TODO: Check should be reversed once fully migrated to S3 upload scheme
     """
+    did_something = 0
     from ckan.lib import uploader
     ulpath = pathlib.Path(uploader.__file__)
     ulstr = ulpath.read_text()
@@ -97,6 +107,8 @@ def check_ckan_uploader_patch_to_support_symlinks(autocorrect):
         if hack:
             print("Disabling symlinks in Uploader")
             ulpath.write_text(ulstr)
+            did_something += 1
+    return did_something
 
 
 def check_dcor_theme_i18n_hack(autocorrect):
@@ -106,6 +118,7 @@ def check_dcor_theme_i18n_hack(autocorrect):
 
        ckan -c /etc/ckan/default/ckan.ini dcor-theme-i18n-branding
     """
+    did_something = 0
     ckan_ini = get_ckan_config_path()
     opt = get_actual_ckan_option("ckan.locale_default")
     if opt != "en_US":
@@ -119,8 +132,9 @@ def check_dcor_theme_i18n_hack(autocorrect):
             ckan_cmd = f"ckan -c {ckan_ini} dcor-theme-i18n-branding"
             sp.check_output(ckan_cmd, shell=True)
             # set config option
-            check_ckan_ini_option("ckan.locale_default", "en_US",
-                                  autocorrect=True)
+            did_something += check_ckan_ini_option(
+                "ckan.locale_default", "en_US", autocorrect=True)
+    return did_something
 
 
 def check_dcor_theme_main_css(autocorrect):
@@ -130,6 +144,7 @@ def check_dcor_theme_main_css(autocorrect):
 
         ckan -c /etc/ckan/default/ckan.ini dcor-theme-main-css-branding
      """
+    did_something = 0
     ckan_ini = get_ckan_config_path()
     opt = get_actual_ckan_option("ckan.theme")
     # TODO: Check whether the paths created by this script are setup correctly
@@ -144,10 +159,11 @@ def check_dcor_theme_main_css(autocorrect):
             ckan_cmd = f"ckan -c {ckan_ini} dcor-theme-main-css-branding"
             sp.check_output(ckan_cmd, shell=True)
             # set config option
-            check_ckan_ini_option(
+            did_something += check_ckan_ini_option(
                 key="ckan.theme",
                 value="dcor_theme_main/dcor_theme_main",
                 autocorrect=True)
+    return did_something
 
 
 def get_actual_ckan_option(key):

@@ -4,6 +4,7 @@ from .common import ask
 
 
 def check_nginx(cmbs, autocorrect=False):
+    did_something = 0
     path_nginx = get_nginx_config_path()
     with open(path_nginx) as fd:
         lines = fd.readlines()
@@ -20,8 +21,11 @@ def check_nginx(cmbs, autocorrect=False):
                     correct = ask("'client_max_body_size' should be "
                                   + "'{}', but is '{}'".format(cmbs, cur))
                 if correct:
+                    did_something += 1
                     lines[ii] = line.replace(cur, cmbs)
                     path_nginx.write_text("\n".join(lines))
             break
     else:
         raise ValueError("'client_max_body_size' not set!")
+
+    return did_something

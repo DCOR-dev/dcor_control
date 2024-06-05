@@ -10,6 +10,7 @@ from .common import ask
 
 def check_supervisord(autocorrect):
     """Check whether the separate dcor worker files exist"""
+    did_something = 0
     path_worker = resource_filename(
         "dcor_control.resources.config",
         "etc_supervisor_conf.d_ckan-worker-dcor.conf")
@@ -25,8 +26,10 @@ def check_supervisord(autocorrect):
             else:
                 wcr = ask(f"Supervisord entry 'dcor-{worker}' missing")
             if wcr:
+                did_something += 1
                 data = template.replace("{{QUEUE}}", f"dcor-{worker}")
                 wpath.write_text(data)
+    return did_something
 
 
 def is_nginx_running():

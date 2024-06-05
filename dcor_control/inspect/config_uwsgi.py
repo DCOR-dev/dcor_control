@@ -11,6 +11,7 @@ def check_uwsgi(harakiri, autocorrect=False):
     harakiri: int
         uwsgi timeout in minutes
     """
+    did_something = 0
     path_uwsgi = get_uwsgi_config_path()
     with open(path_uwsgi) as fd:
         lines = fd.readlines()
@@ -32,6 +33,8 @@ def check_uwsgi(harakiri, autocorrect=False):
                         "UWSGI timeout should be '{}' min".format(harakiri)
                         + ", but is '{}' min".format(value))
                 if change:
+                    did_something += 1
                     lines[ii] = line.replace(str(value), str(harakiri))
                     with open(path_uwsgi, "w") as fd:
                         fd.writelines(lines)
+    return did_something

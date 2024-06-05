@@ -39,6 +39,7 @@ def check_permission(path: str | pathlib.Path,
     autocorrect: bool
         whether to autocorrect permissions
     """
+    did_something = 0
     group = group or user
     uid = pwd.getpwnam(user).pw_uid if user is not None else None
     gid = grp.getgrnam(group).gr_gid if group is not None else None
@@ -51,13 +52,15 @@ def check_permission(path: str | pathlib.Path,
         mode = mode_dir
         if recursive:
             for pp in path.glob("*"):
-                check_permission(path=pp,
-                                 user=user,
-                                 group=group,
-                                 mode_dir=mode_dir,
-                                 mode_file=mode_file,
-                                 recursive=recursive,
-                                 autocorrect=autocorrect)
+                did_something += check_permission(
+                    path=pp,
+                    user=user,
+                    group=group,
+                    mode_dir=mode_dir,
+                    mode_file=mode_file,
+                    recursive=recursive,
+                    autocorrect=autocorrect
+                )
     else:
         # create a directory
         mode = mode_dir
@@ -67,6 +70,7 @@ def check_permission(path: str | pathlib.Path,
         else:
             create = ask(f"Directory '{path}' does not exist")
         if create:
+            did_something += 1
             path.mkdir(parents=True)
             if mode is not None:
                 os.chmod(path, mode)
@@ -83,6 +87,7 @@ def check_permission(path: str | pathlib.Path,
             change = ask(f"Mode of '{path}' is '{oct(pmode)}', "
                          f"but should be '{oct(mode)}'")
         if change:
+            did_something += 1
             os.chmod(path, mode)
 
     # Check owner
@@ -112,7 +117,10 @@ def check_permission(path: str | pathlib.Path,
                 chowner = ask(f"Owner of '{path}' is '{pusr}:{pgrp}', "
                               f"but should be '{user}:{group}'")
             if chowner:
+                did_something += 1
                 os.chown(path, uid, gid)
+
+    return did_something
 
 
 def recursive_update_dict(d, u):
