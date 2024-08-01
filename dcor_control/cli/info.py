@@ -1,3 +1,4 @@
+import pathlib
 import socket
 
 import click
@@ -9,13 +10,16 @@ except ImportError:
     s3 = None
 
 
-from ..inspect.config_ckan import get_expected_ckan_options, get_ip
+from ..inspect.config_ckan import get_expected_site_options, get_ip
+from ..util import get_dcor_control_config
 
 
 @click.command()
 def status():
     """Display DCOR status"""
-    srv_opts = get_expected_ckan_options()
+    dcor_site_config_dir = pathlib.Path(
+        get_dcor_control_config("dcor-site-config-dir", interactive=False))
+    srv_opts = get_expected_site_options(dcor_site_config_dir)
     click.secho(f"DCOR installation: '{srv_opts['name']}'", bold=True)
     click.echo(f"IP Address: {get_ip()}")
     click.echo(f"Hostname: {socket.gethostname()}")

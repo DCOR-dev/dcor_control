@@ -1,3 +1,5 @@
+import pathlib
+
 import click
 from dcor_shared import get_ckan_config_option, paths
 
@@ -6,11 +8,24 @@ from .. import inspect as inspect_mod
 
 @click.command()
 @click.option('--assume-yes', is_flag=True)
-def inspect(assume_yes=False):
+@click.option("--dcor-site-config-dir",
+              type=click.Path(dir_okay=False,
+                              resolve_path=True,
+                              path_type=pathlib.Path),
+              help="Path to a custom site configuration. For the main "
+                   "sites in production, dcor_control comes with predefined "
+                   "configurations (see the `resources` directory) and "
+                   "the correct configuration can be inferred from e.g. "
+                   "the hostname or IP address. If you are running a custom "
+                   "DCOR instance, you may pass a path to your own "
+                   "site configuration directory. You may also specify the "
+                   "`DCOR_SITE_CONFIG_DIR` environment variable instead.")
+def inspect(assume_yes=False, dcor_site_config_dir=None):
     """Inspect this DCOR installation"""
     cn = 0
     click.secho("Checking CKAN options...", bold=True)
-    cn += inspect_mod.check_ckan_ini(autocorrect=assume_yes)
+    cn += inspect_mod.check_ckan_ini(dcor_site_config_dir=dcor_site_config_dir,
+                                     autocorrect=assume_yes)
 
     click.secho("Checking beaker session secret...", bold=True)
     cn += inspect_mod.check_ckan_beaker_session_cookie_secret(

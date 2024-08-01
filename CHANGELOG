@@ -1,3 +1,5 @@
+0.11.0
+ - ref: restructure site configuration workflow logic
 0.10.11
  - enh: only restart nginx/subervisor in 'dcor inspect' when necessary
 0.10.10

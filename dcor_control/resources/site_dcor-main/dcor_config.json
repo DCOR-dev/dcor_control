@@ -1,0 +1,16 @@
+{"name": "production",
+ "requirements": {
+     "ip": "130.183.206.45",
+     "hostname": "dcor-mpl"},
+ "ckan.ini": {
+     "ckan.auth.create_user_via_web": "true",
+     "ckan.site_url": "https://dcor.mpl.mpg.de",
+     "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de",
+     "smtp.server": "post.mpcdf.mpg.de",
+     "smtp.mail_from": "noreply-<TEMPLATE:HOSTNAME>@mpl.mpg.de",
+     "smtp.user": "",
+     "smtp.password": "",
+     "email_to": "<TEMPLATE:EMAIL>",
+     "error_email_from": "error-<TEMPLATE:HOSTNAME>@mpl.mpg.de"
+     }
+ }

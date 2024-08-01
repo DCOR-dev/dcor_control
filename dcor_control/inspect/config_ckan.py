@@ -1,7 +1,8 @@
 import copy
+import functools
 import json
+import os
 import pathlib
-from pkg_resources import resource_filename
 import socket
 import subprocess as sp
 import uuid
@@ -9,6 +10,7 @@ import uuid
 from dcor_shared.paths import get_ckan_config_option, get_ckan_config_path
 from dcor_shared.parse import ConfigOptionNotFoundError, parse_ini_config
 
+from ..resources import resource_location
 from .. import util
 
 from . import common
@@ -33,25 +35,21 @@ def check_ckan_beaker_session_cookie_secret(autocorrect=False):
     return did_something
 
 
-def check_ckan_ini(autocorrect=False):
+def check_ckan_ini(dcor_site_config_dir=None, autocorrect=False):
     """Check custom ckan.ini server options
 
     This includes the contributions from
-    - general options from resources/dcor_options.ini
+    - general options from resources/dcor_defaults.ini
     - as well as custom options in resources/server_options.json
 
     Custom options override general options.
     """
     did_something = 0
-    custom_opts = get_expected_ckan_options()["ckan.ini"]
-    general_opts = parse_ini_config(
-        resource_filename("dcor_control.resources", "dcor_options.ini"))
+    dcor_opts = get_expected_site_options(dcor_site_config_dir)["ckan.ini"]
 
-    general_opts.update(custom_opts)
-
-    for key in general_opts:
+    for key in dcor_opts:
         did_something += check_ckan_ini_option(
-            key, general_opts[key], autocorrect=autocorrect)
+            key, dcor_opts[key], autocorrect=autocorrect)
 
     return did_something
 
@@ -147,7 +145,7 @@ def check_dcor_theme_main_css(autocorrect):
     did_something = 0
     ckan_ini = get_ckan_config_path()
     opt = get_actual_ckan_option("ckan.theme")
-    # TODO: Check whether the paths created by this script are setup correctly
+    # TODO: Check whether the paths created by this script are set up correctly
     if opt != "dcor_theme_main/dcor_theme_main":
         if autocorrect:
             print("Applying DCOR theme main css")
@@ -175,107 +173,103 @@ def get_actual_ckan_option(key):
     return opt
 
 
-def get_expected_ckan_options():
-    """Return expected ckan.ini options for the current host"""
-    # Load the json data
-    opt_path = resource_filename("dcor_control.resources",
-                                 "server_options.json")
-    with open(opt_path) as fd:
-        opt_dict = json.load(fd)
+def get_dcor_site_config_dir(dcor_site_config_dir=None):
+    """Return a local directory on disk containing the site's configuration
+
+    The configuration directory is searched for in the following order:
+
+    1. Path passed in dcor_site_config_dir
+    2. Environment variable `DCOR_SITE_CONFIG_DIR`
+    3. Matching sites in the `dcor_control.resources` directory
+    """
+    if dcor_site_config_dir is not None:
+        # passed via argument
+        pass
+    elif (env_cfg_dir := os.environ.get("DCOR_SITE_CONFIG_DIR")) is not None:
+        # environment variable
+        dcor_site_config_dir = env_cfg_dir
+    else:
+        # search registered sites
+        for site_dir in sorted(resource_location.glob("site_dcor-*")):
+            if is_site_config_dir_applicable(site_dir):
+                dcor_site_config_dir = site_dir
+                break
+        else:
+            raise ValueError(
+                "Could not determine the DCOR site configuration. Please "
+                "specify the `dcor_site_config_dir` keyword argument or "
+                "set the `DCOR_SITE_CONFIG_DIR` environment variable.")
+    if not is_site_config_dir_applicable(dcor_site_config_dir):
+        raise ValueError(
+            f"The site configuration directory '{dcor_site_config_dir}' is "
+            f"not applicable. Please check hostname and IP address.")
+
+    return dcor_site_config_dir
+
+
+def get_expected_site_options(dcor_site_config_dir):
+    """Return expected site config options for the specified site
+
+    Returns a dictionary with "name", "requirements", and "ckan.ini".
+    """
+    dcor_site_config_dir = get_dcor_site_config_dir(dcor_site_config_dir)
+    cfg = json.loads((dcor_site_config_dir / "dcor_config.json").read_text())
+    cfg["dcor_site_config_dir"] = dcor_site_config_dir
+    # Store the information into permanent storage. We might reuse it.
+    util.set_dcor_control_config("setup-identifier", cfg["name"])
+    util.set_dcor_control_config("dcor-site-config-dir",
+                                 str(dcor_site_config_dir))
+
+    # Import DCOR default ckan.ini variables
+    cfg_d = parse_ini_config(resource_location / "dcor_defaults.ini.template")
+    for key, value in cfg_d.items():
+        cfg["ckan.ini"].setdefault(key, value)
+
+    # Fill in template variables
+    update_expected_ckan_options_templates(cfg)
+
+    return cfg
+
+
+@functools.lru_cache()
+def is_site_config_dir_applicable(dcor_site_config_dir):
+    cfg = json.loads((dcor_site_config_dir / "dcor_config.json").read_text())
     # Determine which server we are on
     my_hostname = socket.gethostname()
     my_ip = get_ip()
 
-    cands = []
-    for setup in opt_dict["setups"]:
-        req = setup["requirements"]
-        ip = req.get("ip", "")
-        if ip == "unknown":
-            # The IP is unknown for this server.
-            ip = my_ip
-        hostname = req.get("hostname", "")
-        if ip == my_ip and hostname == my_hostname:
-            # perfect match
-            cands = [setup]
-            break
-        elif ip or hostname:
-            # no match
-            continue
-        else:
-            # fallback setup
-            cands.append(setup)
-    if len(cands) == 0:
-        raise ValueError("No fallback setups?")
-    if len(cands) != 1:
-        names = [setup["name"] for setup in cands]
-        custom_message = "Valid setup-identifiers: {}".format(
-                         ", ".join(names))
-        for _ in range(3):
-            sn = util.get_dcor_control_config("setup-identifier",
-                                              custom_message)
-            if sn is not None:
-                break
-        else:
-            raise ValueError("Could not get setup-identifier (tried 3 times)!")
-        setup = cands[names.index(sn)]
-    else:
-        setup = cands[0]
-
-    # Populate with includes
-    for inc_key in setup["include"]:
-        common.recursive_update_dict(setup, opt_dict["includes"][inc_key])
-    # Fill in template variables
-    update_expected_ckan_options_templates(setup)
-    # Fill in branding variables
-    update_expected_ckan_options_branding(setup)
-    return setup
+    req = cfg["requirements"]
+    ip = req.get("ip", "")
+    if ip == "unknown":
+        # The IP is unknown for this server.
+        ip = my_ip
+    hostname = req.get("hostname", "")
+    return ip == my_ip and hostname == my_hostname
 
 
-def update_expected_ckan_options_branding(ini_dict):
-    """Update dict with templates and public paths according to branding"""
-    brands = ini_dict["branding"]
-    # Please not the dcor_control must be an installed package for
-    # this to work (no egg or somesuch).
-    templt_paths = []
-    public_paths = []
-    for brand in brands:
-        template_dir = resource_filename("dcor_control.resources.branding",
-                                         "templates_{}".format(brand))
-        if pathlib.Path(template_dir).exists():
-            templt_paths.append(template_dir)
-        public_dir = resource_filename("dcor_control.resources.branding",
-                                       "public_{}".format(brand))
-        if pathlib.Path(public_dir).exists():
-            public_paths.append(public_dir)
-    if templt_paths:
-        ini_dict["ckan.ini"]["extra_template_paths"] = ", ".join(templt_paths)
-    if public_paths:
-        ini_dict["ckan.ini"]["extra_public_paths"] = ", ".join(public_paths)
-
-
-def update_expected_ckan_options_templates(ini_dict):
+def update_expected_ckan_options_templates(cfg_dict, templates=None):
     """Update dict with templates in server_options.json"""
-    templates = {
-        "IP": [get_ip, []],
-        "EMAIL": [util.get_dcor_control_config, ["email"]],
-        "PGSQLPASS": [util.get_dcor_control_config, ["pgsqlpass"]],
-        "HOSTNAME": [socket.gethostname, []],
-        "PATH_BRANDING": [resource_filename, ["dcor_control.resources",
-                                              "branding"]],
-    }
+    if templates is None:
+        templates = {
+            "IP": [get_ip, []],
+            "EMAIL": [util.get_dcor_control_config, ["email"]],
+            "PGSQLPASS": [util.get_dcor_control_config, ["pgsqlpass"]],
+            "HOSTNAME": [socket.gethostname, []],
+            "DCOR_SITE_CONFIG_DIR": [cfg_dict.get, ["dcor_site_config_dir"]],
+        }
 
-    for key in sorted(ini_dict.keys()):
-        item = ini_dict[key]
+    for key in sorted(cfg_dict.keys()):
+        item = cfg_dict[key]
         if isinstance(item, str):
             for tk in templates:
                 tstr = "<TEMPLATE:{}>".format(tk)
                 if item.count(tstr):
                     func, args = templates[tk]
-                    item = item.replace(tstr, func(*args))
-            ini_dict[key] = item
+                    item = item.replace(tstr, str(func(*args)))
+            cfg_dict[key] = item
         elif isinstance(item, dict):
             # recurse into nested dicts
-            update_expected_ckan_options_templates(item)
+            update_expected_ckan_options_templates(item, templates=templates)
 
 
 def get_ip():

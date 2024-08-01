@@ -1,0 +1,13 @@
+{"name": "medical",
+ "requirements": {},
+ "branding": ["medical"],
+ "ckan.ini": {
+     "ckan.site_title": "DCOR-med",
+     "ckan.site_url": "https://<TEMPLATE:HOSTNAME>",
+     "ckanext.dc_serve.tmp_dir": "/cache/ckanext-dc_serve",
+     "ckanext.dcor_schemas.allow_public_datasets": "false",
+     "ckanext.dcor_schemas.json_resource_schema_dir": "<TEMPLATE:DCOR_SITE_CONFIG_DIR>/resource_schema",
+     "dcor_object_store.endpoint_url": "http://<TEMPLATE:HOSTNAME>:9000",
+     "licenses_group_url": "file://<TEMPLATE:DCOR_SITE_CONFIG_DIR>/licenses.json"
+     }
+ }

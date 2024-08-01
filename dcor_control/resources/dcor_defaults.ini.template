@@ -1,11 +1,14 @@
+# This is a template file. Any option defined via <TEMPLATE:TAGS> must be
+# replaced with the corresponding value.
+
 # These are general CKAN configuration options for DCOR from which
 # individual package options are derived. To make site-specific
-# changes, edit server_options.json, which overrides options in this
-# file here.
-#
-# Run `ckan config-tool /etc/ckan/default/ckan.ini -f dcor_options.ini`
-# to apply these options. If you also want site-specific options to be
-# taken into account, run `dcor inspect`.
+# changes, you can specify a `config_dcor.json` file when running
+# `dcor inspect`, which overrides options in the present file.
+
+# General CKAN tweaks
+ckan.site_title = DCOR
+ckan.storage_path = /data/ckan-<TEMPLATE:HOSTNAME>
 
 # authorization
 ckan.auth.anon_create_dataset = false
@@ -20,7 +23,7 @@ ckan.auth.roles_that_cascade_to_sub_groups = admin
 ckan.auth.public_user_details = false
 ckan.auth.allow_dataset_collaborators = true
 ckan.auth.create_user_via_api = false
-ckan.auth.create_user_via_web = true
+ckan.auth.create_user_via_web = false
 
 # uploads
 # only allow image types for user avatars and group images
@@ -36,6 +39,9 @@ dcor_object_store.ssl_verify = true
 # The bucket name is by default defined by the circle ID. Resources
 # are stored in the "RES/OUR/CEID-SCHEME" in that bucket.
 dcor_object_store.bucket_name = circle-{organization_id}
+
+# postgresql
+sqlalchemy.url = postgresql://ckan_default:<TEMPLATE:PGSQLPASS>@localhost/ckan_default
 
 # search
 ckan.search.default_include_private = true
@@ -65,9 +71,11 @@ ckanext.dc_serve.tmp_dir = /data/tmp/ckanext-dc_serve
 
 # ckanext-dcor_depot
 ckanext.dcor_depot.depots_path = /data/depots
+ckanext.dcor_depot.users_depot_name = users-<TEMPLATE:HOSTNAME>
 
 # ckanext-dcor_schemas
 ckan.extra_resource_fields = etag sha256
+extra_template_paths = file://<TEMPLATE:DCOR_SITE_CONFIG_DIR>/templates
 ckanext.dcor_schemas.allow_public_datasets = true
 ckanext.dcor_schemas.json_resource_schema_dir = package
 
@@ -81,6 +89,7 @@ beaker.session.cookie_expires = 7776000
 beaker.session.crypto_type = cryptography
 # Optimal would be "json", but there were issues with `datetime`
 # objects that could not be jsonified.
+beaker.session.domain = <TEMPLATE:HOSTNAME>
 beaker.session.data_serializer = pickle
 beaker.session.httponly = true
 beaker.session.samesite = Strict

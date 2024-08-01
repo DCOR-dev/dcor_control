@@ -1,0 +1,21 @@
+{"name": "development",
+ "requirements": {
+     "ip": "130.183.206.46",
+     "hostname": "dcor-dev-mpl"},
+ "branding": ["testing", "dcor"],
+ "ckan.ini": {
+     "ckan.auth.create_user_via_api": "true",
+     "ckan.auth.create_user_via_web": "true",
+     "ckan.site_title": "DCOR-dev",
+     "ckan.site_url": "https://dcor-dev.mpl.mpg.de",
+     "ckanext.dc_serve.tmp_dir": "/cache/ckanext-dc_serve",
+     "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de",
+     "dcor_object_store.bucket_name": "circle-dev-{organization_id}",
+     "smtp.server": "post.mpcdf.mpg.de",
+     "smtp.mail_from": "noreply-<TEMPLATE:HOSTNAME>@mpl.mpg.de",
+     "smtp.user": "",
+     "smtp.password": "",
+     "email_to": "<TEMPLATE:EMAIL>",
+     "error_email_from": "error-<TEMPLATE:HOSTNAME>@mpl.mpg.de"
+     }
+ }

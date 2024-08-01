@@ -1,0 +1,15 @@
+{"name": "vagrant",
+ "requirements": {
+   "ip": "unknown",
+   "hostname": "dcor-test"},
+ "ckan.ini": {
+     "ckan.auth.create_user_via_api": "true",
+     "ckan.auth.create_user_via_web": "true",
+     "ckan.site_title": "DCOR-vagrant",
+     "ckan.site_url": "http://127.0.0.1:8888",
+     "dcor_object_store.access_key_id": "ZEtYxn2QxSGB5KCoDLLw",
+     "dcor_object_store.secret_access_key": "dIArZGZdNPD0NlN5GW7miYQxrtFAEl45LvDVR8cE",
+     "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
+     "dcor_object_store.ssl_verify": "false"
+     }
+  }
