@@ -76,6 +76,7 @@ ckanext.dcor_depot.users_depot_name = users-<TEMPLATE:HOSTNAME>
 # ckanext-dcor_schemas
 ckan.extra_resource_fields = etag sha256
 extra_template_paths = <TEMPLATE:DCOR_SITE_CONFIG_DIR>/templates
+ckanext.dcor_schemas.allow_content_listing_for_anon = true
 ckanext.dcor_schemas.allow_public_datasets = true
 ckanext.dcor_schemas.json_resource_schema_dir = package
 

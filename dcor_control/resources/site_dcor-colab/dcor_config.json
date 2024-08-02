@@ -5,6 +5,7 @@
  "ckan.ini": {
      "ckan.site_title": "DCOR-colab",
      "ckan.site_url": "https://dcor-colab.mpl.mpg.de",
+     "ckanext.dcor_schemas.allow_content_listing_for_anon": "false",
      "ckanext.dcor_schemas.allow_public_datasets": "false",
      "licenses_group_url": "file://<TEMPLATE:DCOR_SITE_CONFIG_DIR>/licenses.json",
      "dcor_object_store.endpoint_url": "https://objectstore.hpccloud.mpcdf.mpg.de",
