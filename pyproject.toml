@@ -1,0 +1,62 @@
+[build-system]
+# Defined by PEP 518:
+requires = [
+    # for version management
+    "setuptools>=46", "setuptools_scm[toml]>=6.2"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dcor_control"
+authors = [
+    # In alphabetical order.
+    {name = "Paul Müller"},
+]
+maintainers = [
+    {name = "Paul Müller", email="dev@craban.de"},
+]
+description = "CLI for maintaining DCOR installations"
+readme = "README.rst"
+requires-python = ">=3.8, <4"
+keywords = ["DC", "DCOR", "deformability", "cytometry"]
+classifiers = [
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering :: Visualization',
+    'Intended Audience :: Science/Research',
+]
+license = {text = "GNU Affero General Public License v3 or later (AGPLv3+)"}
+dependencies = [
+    "appdirs",
+    "ckan>=2.10.4, <3",
+    "click>=7",
+    "cryptography>=41",  # client beaker session cookies
+    "ckanext-dc_log_view>0.2.9",
+    "ckanext-dc_serve>0.11.1",
+    "ckanext-dc_view>0.6.10",
+    "ckanext-dcor_depot>0.11.0",
+    "dcor_control>0.17.2",
+    "ckanext-dcor_theme>0.6.1",
+    "dcor_shared>=0.7.5",
+    "importlib_resources",
+    "numpy>=1.21",  # CVE-2021-33430
+    # https://github.com/unbit/uwsgi/issues/2580
+    # https://github.com/unbit/uwsgi/pull/2587
+    "uwsgi==2.0.21",
+]
+dynamic = ["version"]
+
+[project.urls]
+source = "https://github.com/DCOR-dev/dcor_control"
+tracker = "https://github.com/DCOR-dev/dcor_control/issues"
+changelog = "https://github.com/DCOR-dev/dcor_control/blob/main/CHANGELOG"
+
+[project.scripts]
+dcor = "dcor_control.cli:main"
+
+[tool.setuptools_scm]
+write_to = "dcor_control/_version.py"
+version_scheme = "post-release"
+
+[tool.setuptools]
+packages = ["dcor_control"]
