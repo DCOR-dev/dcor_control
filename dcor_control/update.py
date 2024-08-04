@@ -1,4 +1,5 @@
 import functools
+import importlib
 import os
 import pathlib
 import subprocess as sp
@@ -107,26 +108,35 @@ def update_package(name):
     wd = os.getcwd()
 
     # Check whether the package is located in /testing in a testing VM
-    test_setup_py = pathlib.Path("/testing/setup.py")
-    if test_setup_py.exists():
-        is_testing = test_setup_py.read_text().count(
+    test_toml = pathlib.Path("/testing/pyproject.toml")
+    if test_toml.exists():
+        is_testing = test_toml.read_text().count(
             f'name = "{name}"')
     else:
         is_testing = False
 
     # Check whether the package is installed -e via git somewhere
     for path_item in sys.path:
-        if name in path_item:
+        if name in path_item or name.replace("-", "_") in path_item:
             # This means that the package is probably installed
-            # in editable mode.
-            is_located_git = path_item
+            # in editable mode. Import the package to identify its
+            # location.
+            mod_name = (name.replace("-", ".", 1)
+                            if name.startswith("ckanext-") else name)
+            mod = importlib.import_module(mod_name)
+            for pp in pathlib.Path(mod.__file__).parents:
+                if (pp / ".git").exists():
+                    is_located_git = str(pp)
+                    break
+            else:
+                is_located_git = False
             break
     else:
         is_located_git = False
 
     if is_testing:
-        click.secho(f"Reinstalling {name} via {test_setup_py}", bold=True)
-        os.chdir(test_setup_py.parent)
+        click.secho(f"Reinstalling {name} via {test_toml}", bold=True)
+        os.chdir(test_toml.parent)
         try:
             sp.check_output("pip install -e .", shell=True)
         except sp.CalledProcessError:
