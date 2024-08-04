@@ -33,7 +33,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
 
     click.secho("Checking www-data permissions...", bold=True)
     for path in [
-        "/tmp/DCOR_generate_condensed",  # resource condense locks
         paths.get_ckan_storage_path(),
         paths.get_ckan_storage_path() / "resources",
         paths.get_dcor_users_depot_path(),
