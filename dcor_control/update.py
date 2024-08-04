@@ -66,18 +66,6 @@ def get_package_version(name):
     return version
 
 
-def package_is_editable(name):
-    """Is the package an editable install?
-
-    This only works if the package name is in sys.path somehow.
-    It is not a universal solution, but works for DCOR!
-    """
-    for path_item in sys.path:
-        if name in path_item:
-            return True
-    return False
-
-
 @functools.lru_cache()
 def parse_compatible_versions():
     """Return a list of dicts containing compatible versions
