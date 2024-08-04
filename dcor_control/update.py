@@ -116,20 +116,15 @@ def update_package(name):
         is_testing = False
 
     # Check whether the package is installed -e via git somewhere
-    for path_item in sys.path:
-        if name in path_item or name.replace("-", "_") in path_item:
-            # This means that the package is probably installed
-            # in editable mode. Import the package to identify its
-            # location.
-            mod_name = (name.replace("-", ".", 1)
-                            if name.startswith("ckanext-") else name)
-            mod = importlib.import_module(mod_name)
-            for pp in pathlib.Path(mod.__file__).parents:
-                if (pp / ".git").exists():
-                    is_located_git = str(pp)
-                    break
-            else:
-                is_located_git = False
+    # This means that the package is probably installed
+    # in editable mode. Import the package to identify its
+    # location.
+    mod_name = (name.replace("-", ".", 1)
+                    if name.startswith("ckanext-") else name)
+    mod = importlib.import_module(mod_name)
+    for pp in pathlib.Path(mod.__file__).parents:
+        if (pp / ".git").exists():
+            is_located_git = str(pp)
             break
     else:
         is_located_git = False
