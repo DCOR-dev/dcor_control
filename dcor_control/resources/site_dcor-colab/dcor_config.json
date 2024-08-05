@@ -2,7 +2,7 @@
  "requirements": {
      "ip": "130.183.206.38",
      "hostname": "dcor-colab"},
- "branding_paths": ["../branding/mpl", "../branding/medical"],
+ "branding_paths": ["../branding/medical", "../branding/mpl"],
  "ckan.ini": {
      "ckan.site_title": "DCOR-colab",
      "ckan.site_url": "https://dcor-colab.mpl.mpg.de",

@@ -2,7 +2,7 @@
  "requirements": {
      "ip": "130.183.206.46",
      "hostname": "dcor-dev-mpl"},
- "branding_paths": ["../branding/mpl", "../branding/testing"],
+ "branding_paths": ["../branding/testing", "../branding/mpl"],
  "ckan.ini": {
      "ckan.auth.create_user_via_api": "true",
      "ckan.auth.create_user_via_web": "true",
