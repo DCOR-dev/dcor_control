@@ -152,6 +152,7 @@ def update_package(name):
     new_ver = get_package_version(name)
     if old_ver != new_ver:
         print(f"...updated {name} from {old_ver} to {new_ver}.")
+    return new_ver
 
 
 def version_greater(va: str, vb: str):

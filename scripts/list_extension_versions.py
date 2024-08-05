@@ -7,32 +7,31 @@ extensions. This should be done on a regular basis,
 but at the least whenever an incompatibility is
 introduced.
 """
-try:
-    from ckan import __version__ as ckan_version
-except BaseException:
-    ckan_version = "unknown!"
-
-from ckanext import dc_log_view
-from ckanext import dc_serve
-from ckanext import dc_view
-from ckanext import dcor_depot
-from ckanext import dcor_schemas
-from ckanext import dcor_theme
-import dcor_control
-import dcor_shared
+import ckan
+from dcor_control import update
 
 
-versions = {
-    "ckan": ckan_version,
-    "ckanext.dc_log_view": dc_log_view.__version__,
-    "ckanext.dc_serve": dc_serve.__version__,
-    "ckanext.dc_view": dc_view.__version__,
-    "ckanext.dcor_depot": dcor_depot.__version__,
-    "ckanext.dcor_schemas": dcor_schemas.__version__,
-    "ckanext.dcor_theme": dcor_theme.__version__,
-    "dcor_control": dcor_control.__version__,
-    "dcor_shared": dcor_shared.__version__,
-    }
+packages = [
+    "ckan",
+    "ckanext.dc_log_view",
+    "ckanext.dc_serve",
+    "ckanext.dc_view",
+    "ckanext.dcor_depot",
+    "ckanext.dcor_schemas",
+    "ckanext.dcor_theme",
+    "dcor_control",
+    "dcor_shared",
+]
+
+versions = {}
+
+for name in packages:
+    print(f"Detecting {name}")
+    if name == "ckan":
+        new_ver = ckan.__version__
+    else:
+        new_ver = update.update_package(name)
+    versions[name] = new_ver
 
 
 min_cell_width = 10

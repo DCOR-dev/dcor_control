@@ -1,3 +1,5 @@
+0.11.6
+ - fix: update scripts not working with new pyproject.toml installs
 0.11.5
  - setup: remove symlinks
 0.11.4
