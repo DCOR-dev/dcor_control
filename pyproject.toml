@@ -58,5 +58,6 @@ dcor = "dcor_control.cli:main"
 write_to = "dcor_control/_version.py"
 version_scheme = "post-release"
 
-[tool.setuptools]
-packages = ["dcor_control"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dcor_control"]
