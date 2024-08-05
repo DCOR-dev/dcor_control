@@ -22,11 +22,7 @@ jobs:
         pip install setuptools wheel twine
     - name: build
       run: |
-        # derefenence symbolic links
-        mv dcor_control dcor_control.bak
-        cp -RL dcor_control.bak dcor_control
-        # actual dis
-        pipx run build --sdist --wheel
+        pipx run build --sdist
     - name: publish
       env:
         TWINE_USERNAME: __token__
