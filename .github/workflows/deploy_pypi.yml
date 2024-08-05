@@ -24,7 +24,7 @@ jobs:
       run: |
         # derefenence symbolic links
         mv dcor_control dcor_control.bak
-        cp -L dcor_control.bak dcor_control
+        cp -RL dcor_control.bak dcor_control
         # actual dis
         pipx run build --sdist --wheel
     - name: publish
