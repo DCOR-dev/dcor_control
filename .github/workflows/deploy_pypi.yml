@@ -22,7 +22,7 @@ jobs:
         pip install setuptools wheel twine
     - name: build
       run: |
-        pipx run build --sdist
+        pipx run build --sdist --wheel
     - name: publish
       env:
         TWINE_USERNAME: __token__

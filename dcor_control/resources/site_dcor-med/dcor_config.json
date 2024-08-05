@@ -1,6 +1,6 @@
 {"name": "medical",
  "requirements": {},
- "branding": ["medical"],
+ "branding_paths": ["../branding/medical"],
  "ckan.ini": {
      "ckan.site_title": "DCOR-med",
      "ckan.site_url": "https://<TEMPLATE:HOSTNAME>",

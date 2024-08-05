@@ -225,6 +225,22 @@ def get_expected_site_options(dcor_site_config_dir):
     for key, value in cfg_d.items():
         cfg["ckan.ini"].setdefault(key, value)
 
+    # Branding: Determine extra template paths
+    template_paths = []
+    for pi in cfg.get("branding_paths", []):
+        pp = (dcor_site_config_dir / pi).resolve() / "templates"
+        if pp.exists():
+            template_paths.append(str(pp))
+    if template_paths:
+        cfg["ckan.ini"]["extra_template_paths"] = ",".join(template_paths)
+
+    # Branding: Set favicon
+    for pi in reversed(cfg.get("branding_paths", [])):
+        pf = (dcor_site_config_dir / pi).resolve() / "favicon.ico"
+        if pf.exists():
+            cfg["ckan.ini"]["ckan.favicon"] = str(pf)
+            break
+
     # Fill in template variables
     update_expected_ckan_options_templates(cfg)
 

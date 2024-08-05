@@ -2,6 +2,7 @@
  "requirements": {
    "ip": "unknown",
    "hostname": "dcor-test"},
+ "branding_paths": ["../branding/testing"],
  "ckan.ini": {
      "ckan.auth.create_user_via_api": "true",
      "ckan.auth.create_user_via_web": "true",

@@ -2,6 +2,7 @@
  "requirements": {
      "ip": "130.183.206.45",
      "hostname": "dcor-mpl"},
+ "branding_paths": ["../branding/mpl"],
  "ckan.ini": {
      "ckan.auth.create_user_via_web": "true",
      "ckan.site_url": "https://dcor.mpl.mpg.de",
