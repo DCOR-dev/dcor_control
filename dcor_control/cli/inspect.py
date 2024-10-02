@@ -76,7 +76,7 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     cn += inspect_mod.check_supervisord(autocorrect=assume_yes)
 
     click.secho("Checking nginx configuration...", bold=True)
-    cn += inspect_mod.check_nginx(cmbs="100G", autocorrect=assume_yes)
+    cn += inspect_mod.check_nginx(autocorrect=assume_yes)
 
     click.secho("Checking uploader symlink patch...", bold=True)
     cn += inspect_mod.check_ckan_uploader_patch_to_support_symlinks(

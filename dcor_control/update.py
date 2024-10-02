@@ -3,7 +3,6 @@ import importlib
 import os
 import pathlib
 import subprocess as sp
-import sys
 
 import click
 # replace this import when dropping support for Python 3.8
@@ -108,7 +107,7 @@ def update_package(name):
     # in editable mode. Import the package to identify its
     # location.
     mod_name = (name.replace("-", ".", 1)
-                    if name.startswith("ckanext-") else name)
+                if name.startswith("ckanext-") else name)
     mod = importlib.import_module(mod_name)
     for pp in pathlib.Path(mod.__file__).parents:
         if (pp / ".git").exists():
