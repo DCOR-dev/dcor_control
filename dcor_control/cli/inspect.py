@@ -9,7 +9,8 @@ from .. import inspect as inspect_mod
 @click.command()
 @click.option('--assume-yes', is_flag=True)
 @click.option("--dcor-site-config-dir",
-              type=click.Path(dir_okay=False,
+              type=click.Path(dir_okay=True,
+                              file_okay=False,
                               resolve_path=True,
                               path_type=pathlib.Path),
               help="Path to a custom site configuration. For the main "

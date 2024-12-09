@@ -1,3 +1,6 @@
+0.11.8
+ - fix: get_dcor_site_config_dir did not always return a pathlib.Path (#20)
+ - fix: --dcor-site-config-dir CLI argument did not accept directory (#20)
 0.11.7
  - fix: don't try to edit client_max_body_size
 0.11.6

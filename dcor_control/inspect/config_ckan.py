@@ -173,7 +173,7 @@ def get_actual_ckan_option(key):
     return opt
 
 
-def get_dcor_site_config_dir(dcor_site_config_dir=None):
+def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path:
     """Return a local directory on disk containing the site's configuration
 
     The configuration directory is searched for in the following order:
@@ -204,7 +204,7 @@ def get_dcor_site_config_dir(dcor_site_config_dir=None):
             f"The site configuration directory '{dcor_site_config_dir}' is "
             f"not applicable. Please check hostname and IP address.")
 
-    return dcor_site_config_dir
+    return pathlib.Path(dcor_site_config_dir)
 
 
 def get_expected_site_options(dcor_site_config_dir):

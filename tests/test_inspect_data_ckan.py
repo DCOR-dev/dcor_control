@@ -1,3 +1,4 @@
+import os
 import pathlib
 from unittest import mock
 
@@ -102,3 +103,18 @@ def test_check_orphaned_s3_artifacts(enqueue_job_mock, create_with_upload,
     inspect.check_orphaned_s3_artifacts(assume_yes=True,
                                         older_than_days=0)
     assert not s3.object_exists(bucket_name, object_name)
+
+
+def test_get_dcor_site_config_dir():
+    cur_dir = os.environ.get("DCOR_SITE_CONFIG_DIR")
+    try:
+        os.environ["DCOR_SITE_CONFIG_DIR"] = "/tmp/test"
+        assert str(inspect.get_dcor_site_config_dir()) == "/tmp/test"
+    except BaseException:
+        raise
+    finally:
+        # cleanup
+        if cur_dir is not None:
+            os.environ["DCOR_SITE_CONFIG_DIR"] = cur_dir
+        else:
+            os.environ.pop("DCOR_SITE_CONFIG_DIR")
