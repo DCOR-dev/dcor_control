@@ -1,0 +1,22 @@
+{"name": "docker",
+ "requirements": {
+     "ip": "unknown",
+     "hostname": "dcor-dev-docker"},
+ "branding_paths": ["../branding/testing"],
+ "ckan.ini": {
+     "ckan.auth.create_user_via_api": "true",
+     "ckan.auth.create_user_via_web": "true",
+     "ckan.site_title": "DCOR-docker-dev",
+     "ckan.site_url": "http://127.0.0.1",
+     "ckan.storage_path": "/tmp/data/ckan-<TEMPLATE:HOSTNAME>",
+     "ckan.plugins": "stats text_view image_view dcor_depot dcor_schemas dc_serve dc_view dc_log_view dcor_theme envvars",
+     "ckanext.dc_serve.tmp_dir": "/tmp/ckanext-dc_serve",
+     "ckanext.dcor_depot.depots_path": "/tmp/data/depots",
+     "dcor_object_store.access_key_id": "minioadmin",
+     "dcor_object_store.secret_access_key": "minioadmin",
+     "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
+     "dcor_object_store.bucket_name": "circle-dev-docker-{organization_id}",
+     "dcor_object_store.ssl_verify": "false",
+     "sqalchemy.url": "postgresql://ckandbuser:ckandbpassword@db/ckandb"
+     }
+ }

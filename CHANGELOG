@@ -1,3 +1,5 @@
+0.12.0
+ - feat: add dcor_config.json for docker images
 0.11.8
  - fix: get_dcor_site_config_dir did not always return a pathlib.Path (#20)
  - fix: --dcor-site-config-dir CLI argument did not accept directory (#20)
