@@ -17,6 +17,6 @@
      "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
      "dcor_object_store.bucket_name": "circle-dev-docker-{organization_id}",
      "dcor_object_store.ssl_verify": "false",
-     "sqalchemy.url": "postgresql://ckandbuser:ckandbpassword@db/ckandb"
+     "sqlalchemy.url": "postgresql://ckandbuser:ckandbpassword@db/ckandb"
      }
  }
