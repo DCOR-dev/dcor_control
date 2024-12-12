@@ -6,6 +6,7 @@ import grp
 import os
 import pwd
 import stat
+import warnings
 
 
 def ask(prompt):
@@ -75,7 +76,11 @@ def check_permission(path: str | pathlib.Path,
             if mode is not None:
                 os.chmod(path, mode)
             if user is not None:
-                os.chown(path, uid, gid)
+                try:
+                    os.chown(path, uid, gid)
+                except BaseException:
+                    warnings.warn(
+                        f"Failed to set ownership '{uid}:{gid}' for '{path}'")
 
     # Check mode
     pmode = stat.S_IMODE(path.stat().st_mode)
@@ -117,8 +122,13 @@ def check_permission(path: str | pathlib.Path,
                 chowner = ask(f"Owner of '{path}' is '{pusr}:{pgrp}', "
                               f"but should be '{user}:{group}'")
             if chowner:
-                did_something += 1
-                os.chown(path, uid, gid)
+                try:
+                    os.chown(path, uid, gid)
+                except BaseException:
+                    warnings.warn(
+                        f"Failed to set ownership '{uid}:{gid}' for '{path}'")
+                else:
+                    did_something += 1
 
     return did_something
 

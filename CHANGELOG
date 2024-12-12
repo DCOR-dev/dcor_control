@@ -1,5 +1,6 @@
 0.12.1
  - fix: better paths for docker setup
+ - fix: allow chown to fail
 0.12.0
  - feat: add dcor_config.json for docker images
 0.11.8
