@@ -7,7 +7,7 @@
      "ckan.auth.create_user_via_api": "true",
      "ckan.auth.create_user_via_web": "true",
      "ckan.site_title": "DCOR-docker-dev",
-     "ckan.site_url": "http://127.0.0.1",
+     "ckan.site_url": "http://127.0.0.1:5000",
      "ckan.storage_path": "/var/lib/ckan/default",
      "ckan.plugins": "stats text_view image_view dcor_depot dcor_schemas dc_serve dc_view dc_log_view dcor_theme envvars",
      "ckanext.dc_serve.tmp_dir": "/tmp/dcor_temp",
@@ -17,6 +17,6 @@
      "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
      "dcor_object_store.bucket_name": "circle-dev-docker-{organization_id}",
      "dcor_object_store.ssl_verify": "false",
-     "sqlalchemy.url": "postgresql://ckandbuser:ckandbpassword@db/ckandb"
+     "sqlalchemy.url": "postgresql://ckan_default:pass@localhost/ckan_default"
      }
  }
