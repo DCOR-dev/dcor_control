@@ -1,3 +1,5 @@
+0.12.3
+ - fix: don't set minio access credentials for docker-dev recipe
 0.12.2
  - fix: correct sqlalchemy url for docker
 0.12.1

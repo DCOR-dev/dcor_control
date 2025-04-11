@@ -12,8 +12,6 @@
      "ckan.plugins": "stats text_view image_view dcor_depot dcor_schemas dc_serve dc_view dc_log_view dcor_theme envvars",
      "ckanext.dc_serve.tmp_dir": "/tmp/dcor_temp",
      "ckanext.dcor_depot.depots_path": "/var/lib/ckan/dcor_depots",
-     "dcor_object_store.access_key_id": "minioadmin",
-     "dcor_object_store.secret_access_key": "minioadmin",
      "dcor_object_store.endpoint_url": "http://127.0.0.1:9000",
      "dcor_object_store.bucket_name": "circle-dev-docker-{organization_id}",
      "dcor_object_store.ssl_verify": "false",
