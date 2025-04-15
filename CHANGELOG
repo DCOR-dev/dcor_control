@@ -1,3 +1,5 @@
+0.12.4
+ - fix: inspect should not fail when nginx config does not exist
 0.12.3
  - fix: don't set minio access credentials for docker-dev recipe
 0.12.2
