@@ -97,6 +97,9 @@ beaker.session.samesite = Strict
 beaker.session.secure = true
 beaker.session.type = cookie
 
+# licenses path
+licenses_group_url = file://<TEMPLATE:DCOR_SCHEMAS_PATH>/licenses.json
+
 # flask login session cookies
 REMEMBER_COOKIE_NAME = remember_token
 # 90 days validity

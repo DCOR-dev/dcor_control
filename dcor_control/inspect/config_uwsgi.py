@@ -33,7 +33,8 @@ def check_uwsgi(harakiri, autocorrect=False):
                 if value != harakiri:
                     if autocorrect:
                         change = True
-                        print("Setting UWSGI harakiri to {} min".format(harakiri))
+                        print("Setting UWSGI harakiri to "
+                              "{} min".format(harakiri))
                     else:
                         change = ask(
                             "UWSGI timeout should be '{}' min".format(harakiri)

@@ -1,3 +1,5 @@
+0.12.6
+ - fix: manage `licenses_group_url` for dcor_schemas
 0.12.5
  - fix: inspect should not fail when uwsgi config does not exist
  - fix: correct S3 credentials for docker setup

@@ -1,7 +1,13 @@
+import importlib
+import logging
 import os
 import pathlib
+import traceback
 
 import appdirs
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_dcor_control_config(name, custom_message="", interactive=True):
@@ -26,6 +32,17 @@ def get_dcor_control_config(name, custom_message="", interactive=True):
                            f"running `dcor inspect` helps?")
     os.chmod(data_path, 0o600)
     return data
+
+
+def get_module_installation_path(module_name):
+    try:
+        mod = importlib.import_module(module_name)
+    except BaseException:
+        logger.error(traceback.format_exc())
+        path = "/tmp/unknown"
+    else:
+        path = str(pathlib.Path(mod.__file__).parent)
+    return path
 
 
 def set_dcor_control_config(name, data):

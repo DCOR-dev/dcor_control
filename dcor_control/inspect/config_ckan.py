@@ -274,6 +274,8 @@ def update_expected_ckan_options_templates(cfg_dict, templates=None):
             "PGSQLPASS": [util.get_dcor_control_config, ["pgsqlpass"]],
             "HOSTNAME": [socket.gethostname, []],
             "DCOR_SITE_CONFIG_DIR": [cfg_dict.get, ["dcor_site_config_dir"]],
+            "DCOR_SCHEMAS_PATH": [util.get_module_installation_path,
+                                  ["ckanext.dcor_schemas"]],
         }
 
     for key in sorted(cfg_dict.keys()):
