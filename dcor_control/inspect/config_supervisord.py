@@ -34,6 +34,7 @@ def check_supervisord(autocorrect):
 
 def is_nginx_running():
     """Simple check for whether supervisord is running"""
+
     try:
         sp.check_output("sudo systemctl status nginx", shell=True)
     except sp.CalledProcessError:
