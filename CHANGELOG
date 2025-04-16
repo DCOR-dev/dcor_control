@@ -1,3 +1,5 @@
+0.12.5
+ - fix: inspect should not fail when uwsgi config does not exist
 0.12.4
  - fix: inspect should not fail when nginx config does not exist
 0.12.3
