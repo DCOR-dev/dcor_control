@@ -1,3 +1,5 @@
+0.12.7
+ - fix: do not require `sudo` command to be installed
 0.12.6
  - fix: manage `licenses_group_url` for dcor_schemas
 0.12.5

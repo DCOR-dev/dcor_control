@@ -1,9 +1,14 @@
 from datetime import date, timedelta
 import os
 import pathlib
+import shutil
 import socket
 import subprocess as sp
 import time
+
+
+# Check whether sudo is available, otherwise assume root permissions
+SUDO = "sudo " if shutil.which("sudo") else ""
 
 
 def db_backup(path="/backup", cleanup=True):
@@ -29,8 +34,10 @@ def db_backup(path="/backup", cleanup=True):
     name = time.strftime('ckan_db_{}_%Y-%m-%d_%H-%M-%S.dump'.format(
         socket.gethostname()))
     dpath = bpath / name
-    sp.check_output("sudo -u postgres pg_dump --format=custom "
-                    + "-d ckan_default > {}".format(dpath), shell=True)
+    sp.check_output(
+        SUDO + "su - postgres -c "
+        f'"pg_dump --format=custom -d ckan_default > {dpath}"',
+        shell=True)
     assert dpath.exists()
     dpath.chmod(0o0400)
 

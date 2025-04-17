@@ -1,11 +1,15 @@
 import pathlib
 from pkg_resources import resource_filename
+import shutil
 import subprocess as sp
 
 import click
 from dcor_shared.paths import get_supervisord_worker_config_path
 
 from .common import ask
+
+# Check whether sudo is available, otherwise assume root permissions
+SUDO = "sudo " if shutil.which("sudo") else ""
 
 
 def check_supervisord(autocorrect):
@@ -36,7 +40,7 @@ def is_nginx_running():
     """Simple check for whether supervisord is running"""
 
     try:
-        sp.check_output("sudo systemctl status nginx", shell=True)
+        sp.check_output(SUDO + "systemctl status nginx", shell=True)
     except sp.CalledProcessError:
         return False
     else:
@@ -46,7 +50,7 @@ def is_nginx_running():
 def is_supervisord_running():
     """Simple check for whether supervisord is running"""
     try:
-        sp.check_output("sudo supervisorctl status", shell=True)
+        sp.check_output(SUDO + "supervisorctl status", shell=True)
     except sp.CalledProcessError:
         return False
     else:
@@ -56,7 +60,7 @@ def is_supervisord_running():
 def reload_nginx():
     if is_nginx_running():
         click.secho("Reloading nginx...", bold=True)
-        sp.check_output("sudo systemctl reload nginx", shell=True)
+        sp.check_output(SUDO + "systemctl reload nginx", shell=True)
     else:
         click.secho("Not reloading nginx (not running)...",
                     bold=True, fg="red")
@@ -65,7 +69,7 @@ def reload_nginx():
 def reload_supervisord():
     if is_supervisord_running():
         click.secho("Reloading CKAN...", bold=True)
-        sp.check_output("sudo supervisorctl reload", shell=True)
+        sp.check_output(SUDO + "supervisorctl reload", shell=True)
     else:
         click.secho("Not reloading CKAN (supervisord not running)...",
                     bold=True, fg="red")
