@@ -32,6 +32,7 @@ def check_supervisord(autocorrect):
             if wcr:
                 did_something += 1
                 data = template.replace("{{QUEUE}}", f"dcor-{worker}")
+                wpath.parent.mkdir(parents=True, exist_ok=True)
                 wpath.write_text(data)
     return did_something
 
