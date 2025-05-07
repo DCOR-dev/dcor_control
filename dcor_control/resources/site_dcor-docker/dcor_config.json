@@ -4,6 +4,7 @@
      "hostname": "dcor-dev-docker"},
  "branding_paths": ["../branding/testing"],
  "ckan.ini": {
+     "SECRET_KEY": "secretkey12345678",
      "ckan.auth.create_user_via_api": "true",
      "ckan.auth.create_user_via_web": "true",
      "ckan.site_title": "DCOR-docker-dev",
