@@ -18,6 +18,6 @@
      "dcor_object_store.secret_access_key": "secretkey12345678",
      "dcor_object_store.bucket_name": "circle-dev-docker-{organization_id}",
      "dcor_object_store.ssl_verify": "false",
-     "sqlalchemy.url": "postgresql://ckan_default:pass@localhost/ckan_default"
+     "sqlalchemy.url": "postgresql://ckan_default:ckan_default_password@postgres/ckandb"
      }
  }
