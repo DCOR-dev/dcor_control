@@ -196,9 +196,10 @@ def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path:
                 break
         else:
             raise ValueError(
-                "Could not determine the DCOR site configuration. Please "
-                "specify the `dcor_site_config_dir` keyword argument or "
-                "set the `DCOR_SITE_CONFIG_DIR` environment variable.")
+                f"Could not determine the DCOR site configuration for "
+                f"host '{socket.gethostname()}'. Please specify the "
+                f"`dcor_site_config_dir` keyword argument or "
+                f"set the `DCOR_SITE_CONFIG_DIR` environment variable.")
     if not is_site_config_dir_applicable(dcor_site_config_dir):
         raise ValueError(
             f"The site configuration directory '{dcor_site_config_dir}' is "
