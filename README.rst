@@ -76,12 +76,9 @@ for more information.
 
 Testing
 -------
-::
-
-    vagrant plugin install vagrant-vbguest
-    vagrant up
-    vagrant ssh -- sudo bash /testing/vagrant-run-tests.sh
-
+Testing is implemented via GitHub Actions. You may also set up a local
+docker container with CKAN and MinIO. Take a look at the GitHub Actions
+workflow for more information.
 
 .. |ckanext-dc_log_view home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_log_view.svg
