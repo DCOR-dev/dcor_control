@@ -1,5 +1,6 @@
 0.12.9
  - enh: improve error message about site config directory
+ - tests: remove deprecated calls
 0.12.8
  - fix: make sure supervisord directories exist
 0.12.7
