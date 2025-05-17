@@ -252,6 +252,7 @@ def get_expected_site_options(dcor_site_config_dir):
 
 @functools.lru_cache()
 def is_site_config_dir_applicable(dcor_site_config_dir):
+    dcor_site_config_dir = pathlib.Path(dcor_site_config_dir)
     cfg = json.loads((dcor_site_config_dir / "dcor_config.json").read_text())
     # Determine which server we are on
     my_hostname = socket.gethostname()

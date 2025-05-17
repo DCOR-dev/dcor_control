@@ -7,12 +7,10 @@ import ckan.common
 import ckan.model
 import ckan.logic
 from ckan.tests.helpers import call_action
-import ckanext.dcor_schemas.plugin
 
 from dcor_control import inspect
-import dcor_shared
 from dcor_shared import s3, s3cc
-from dcor_shared.testing import make_dataset, synchronous_enqueue_job
+from dcor_shared.testing import make_dataset_via_s3, synchronous_enqueue_job
 
 import pytest
 
@@ -20,44 +18,11 @@ import pytest
 data_path = pathlib.Path(__file__).parent / "data"
 
 
-def test_check_orphaned_files_temp(create_with_upload, monkeypatch,
-                                   ckan_config, tmpdir):
-    """Make sure .rtdc~ files are removed for existing resources"""
-    monkeypatch.setitem(ckan_config, 'ckan.storage_path', str(tmpdir))
-    monkeypatch.setattr(ckan.lib.uploader,
-                        'get_storage_path',
-                        lambda: str(tmpdir))
-
-    _, res_dict = make_dataset(
-        create_with_upload=create_with_upload,
-        resource_path=data_path / "calibration_beads_47.rtdc",
-        activate=True,
-        authors="Peter Pan")
-
-    path = dcor_shared.get_resource_path(res_dict["id"])
-    path_to_delete = path.with_name(path.stem + "_peter.rtdc~")
-    path_to_delete.touch()
-    assert path_to_delete.exists()
-    inspect.check_orphaned_files(assume_yes=True)
-    assert not path_to_delete.exists()
-
-
 @pytest.mark.usefixtures('clean_db', 'with_request_context')
 @mock.patch('ckan.plugins.toolkit.enqueue_job',
             side_effect=synchronous_enqueue_job)
-def test_check_orphaned_s3_artifacts(enqueue_job_mock, create_with_upload,
-                                     monkeypatch, ckan_config, tmpdir):
-    monkeypatch.setitem(ckan_config, 'ckan.storage_path', str(tmpdir))
-    monkeypatch.setattr(ckan.lib.uploader,
-                        'get_storage_path',
-                        lambda: str(tmpdir))
-    monkeypatch.setattr(
-        ckanext.dcor_schemas.plugin,
-        'DISABLE_AFTER_DATASET_CREATE_FOR_CONCURRENT_JOB_TESTS',
-        True)
-
-    ds_dict, res_dict = make_dataset(
-        create_with_upload=create_with_upload,
+def test_check_orphaned_s3_artifacts(enqueue_job_mock):
+    ds_dict, res_dict = make_dataset_via_s3(
         resource_path=data_path / "calibration_beads_47.rtdc",
         activate=True,
         private=False,
