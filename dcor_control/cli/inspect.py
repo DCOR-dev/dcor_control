@@ -24,7 +24,9 @@ from .. import inspect as inspect_mod
 def inspect(assume_yes=False, dcor_site_config_dir=None):
     """Inspect this DCOR installation"""
     cn = 0
-    click.secho("Checking CKAN options...", bold=True)
+    click.secho(
+        f"Checking CKAN options ({paths.get_ckan_config_path()})...",
+        bold=True)
     cn += inspect_mod.check_ckan_ini(dcor_site_config_dir=dcor_site_config_dir,
                                      autocorrect=assume_yes)
 
