@@ -13,10 +13,13 @@ from dcor_control import inspect
 from dcor_shared import s3, s3cc
 from dcor_shared.testing import make_dataset_via_s3, synchronous_enqueue_job
 
+import pytest
+
 
 data_path = pathlib.Path(__file__).parent / "data"
 
 
+@pytest.mark.ckan_config('ckan.plugins', 'dcor_schemas')
 @mock.patch('ckan.plugins.toolkit.enqueue_job',
             side_effect=synchronous_enqueue_job)
 def test_check_orphaned_s3_artifacts(enqueue_job_mock):
