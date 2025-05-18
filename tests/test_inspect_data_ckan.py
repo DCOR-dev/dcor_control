@@ -1,5 +1,6 @@
 import os
 import pathlib
+import shutil
 from unittest import mock
 
 import ckan
@@ -12,13 +13,10 @@ from dcor_control import inspect
 from dcor_shared import s3, s3cc
 from dcor_shared.testing import make_dataset_via_s3, synchronous_enqueue_job
 
-import pytest
-
 
 data_path = pathlib.Path(__file__).parent / "data"
 
 
-@pytest.mark.usefixtures('clean_db', 'with_request_context')
 @mock.patch('ckan.plugins.toolkit.enqueue_job',
             side_effect=synchronous_enqueue_job)
 def test_check_orphaned_s3_artifacts(enqueue_job_mock):
@@ -70,16 +68,14 @@ def test_check_orphaned_s3_artifacts(enqueue_job_mock):
     assert not s3.object_exists(bucket_name, object_name)
 
 
-def test_get_dcor_site_config_dir():
-    cur_dir = os.environ.get("DCOR_SITE_CONFIG_DIR")
+def test_get_dcor_site_config_dir(tmp_path):
+    act_dir = inspect.get_dcor_site_config_dir()
+    shutil.copy2(act_dir / "dcor_config.json", tmp_path / "dcor_config.json")
     try:
-        os.environ["DCOR_SITE_CONFIG_DIR"] = "/tmp/test"
-        assert str(inspect.get_dcor_site_config_dir()) == "/tmp/test"
+        os.environ["DCOR_SITE_CONFIG_DIR"] = str(tmp_path)
+        assert str(inspect.get_dcor_site_config_dir()) == str(tmp_path)
     except BaseException:
         raise
     finally:
         # cleanup
-        if cur_dir is not None:
-            os.environ["DCOR_SITE_CONFIG_DIR"] = cur_dir
-        else:
-            os.environ.pop("DCOR_SITE_CONFIG_DIR")
+        os.environ.pop("DCOR_SITE_CONFIG_DIR")
