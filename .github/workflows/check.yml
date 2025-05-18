@@ -72,8 +72,7 @@ jobs:
 
       - name: Install and setup DCOR
         run: |
-          # pip3 install dcor_control
-          pip3 install git+https://github.com/DCOR-dev/dcor_control
+          pip3 install dcor_control
           # use test-core.ini as default
           cp /srv/app/src/ckan/test-core.ini /srv/app/ckan.ini
           # initialize CKAN database
