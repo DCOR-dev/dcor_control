@@ -7,6 +7,8 @@ extensions. This should be done on a regular basis,
 but at the least whenever an incompatibility is
 introduced.
 """
+import pathlib
+
 import ckan
 from dcor_control import update
 
@@ -25,12 +27,18 @@ packages = [
 
 versions = {}
 
+git_search_path = pathlib.Path(__file__).resolve().parent.parent.parent
+
 for name in packages:
     print(f"Detecting {name}")
     if name == "ckan":
         new_ver = ckan.__version__
     else:
-        new_ver = update.update_package(name)
+        try:
+            new_ver = update.get_package_version_git(name, git_search_path)
+        except ValueError:
+            print("Could not get package version from git")
+            new_ver = update.get_package_version(name)
     versions[name] = new_ver
 
 

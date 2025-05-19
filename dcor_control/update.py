@@ -65,6 +65,24 @@ def get_package_version(name):
     return version
 
 
+def get_package_version_git(name, search_path):
+    """Return package version based on git tag"""
+    search_dirs = [name, name.replace(".", "-")]
+    for sdir in search_dirs:
+        path = pathlib.Path(search_path) / sdir
+        if path.is_dir():
+            # Run git describe
+            try:
+                info = sp.check_output(f"git -C {path} describe",
+                                       shell=True).decode("utf-8")
+            except BaseException:
+                continue
+            else:
+                return info.strip()
+    else:
+        raise ValueError(f"Could not find {name} in {search_path}")
+
+
 @functools.lru_cache()
 def parse_compatible_versions():
     """Return a list of dicts containing compatible versions

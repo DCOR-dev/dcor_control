@@ -1,3 +1,5 @@
+0.12.10
+ - enh: improved version determination script
 0.12.9
  - enh: improve error message about site config directory
  - tests: remove deprecated calls
