@@ -1,3 +1,5 @@
+0.12.11
+ - setup: bump minimum extension versions to latest
 0.12.10
  - enh: improved version determination script
 0.12.9
