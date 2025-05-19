@@ -31,12 +31,12 @@ dependencies = [
     "ckan>=2.11.3, <3",
     "click>=7",
     "cryptography>=41",  # client beaker session cookies
-    "ckanext-dc_log_view>0.5.8",
-    "ckanext-dc_serve>0.17.1",
-    "ckanext-dc_view>0.11.1",
-    "ckanext-dcor_depot>0.16.1",
-    "ckanext-dcor_schemas>0.21.5",
-    "ckanext-dcor_theme>0.11.2",
+    "ckanext-dc_log_view>=0.5.8",
+    "ckanext-dc_serve>=0.17.1",
+    "ckanext-dc_view>=0.11.1",
+    "ckanext-dcor_depot>=0.16.1",
+    "ckanext-dcor_schemas>=0.21.5",
+    "ckanext-dcor_theme>=0.11.2",
     "dcor_shared>=0.12.3",
     "importlib_resources",
     "numpy>=1.21",  # CVE-2021-33430
