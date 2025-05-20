@@ -13,7 +13,7 @@ jobs:
         run: pip install flake8
       - name: Check syntax
         run: |
-          flake8 dcor_shared
+          flake8 dcor_control
           flake8 tests
 
   test:
