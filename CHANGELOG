@@ -1,4 +1,5 @@
 0.12.11
+ - docs: add more information at the contact page
  - setup: bump minimum extension versions to latest
 0.12.10
  - enh: improved version determination script
