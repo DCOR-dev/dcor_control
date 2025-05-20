@@ -86,6 +86,7 @@ workflow for more information.
 
 .. |not applicable|
    image:: https://img.shields.io/badge/not%20applicable-888888
+   :class: no-scaled-link
 .. |ckanext-dc_log_view home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_log_view.svg
    :target: https://github.com/DCOR-dev/ckanext-dc_log_view/issues
