@@ -12,7 +12,9 @@ jobs:
       - name: Install requirements
         run: pip install flake8
       - name: Check syntax
-        run: flake8 ckanext
+        run: |
+          flake8 dcor_shared
+          flake8 tests
 
   test:
     strategy:
