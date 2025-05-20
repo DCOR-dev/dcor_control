@@ -42,9 +42,9 @@ dcor_control
      - |ckanext-dcor_theme cvrg|
    * - dcor-remote-tests
      - |dcor-remote-tests home|
-     - NA
+     - |not applicable|
      - |dcor-remote-tests actn|
-     - NA
+     - |not applicable|
    * - dcor_control
      - |dcor_control home|
      - |dcor_control pypi|
@@ -60,7 +60,11 @@ dcor_control
      - |DCOR-Aid pypi|
      - |DCOR-Aid actn|
      - |DCOR-Aid cvrg|
-
+   * - User help requests
+     - |user help issues|
+     - |not applicable|
+     - |not applicable|
+     - |not applicable|
 
 This is partly a meta package and partly a control/configuration
 package for the DCOR extensions in CKAN.
@@ -80,6 +84,8 @@ Testing is implemented via GitHub Actions. You may also set up a local
 docker container with CKAN and MinIO. Take a look at the GitHub Actions
 workflow for more information.
 
+.. |not applicable|
+   image:: https://img.shields.io/badge/not%20applicable-888888
 .. |ckanext-dc_log_view home|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_log_view.svg
    :target: https://github.com/DCOR-dev/ckanext-dc_log_view/issues
@@ -206,3 +212,7 @@ workflow for more information.
 .. |DCOR-Aid cvrg|
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/DCOR-Aid
    :target: https://codecov.io/gh/DCOR-dev/DCOR-Aid
+
+.. |user help issues|
+   image:: https://img.shields.io/github/issues/DCOR-dev/DCOR-help.svg
+   :target: https://github.com/DCOR-dev/DCOR-help/issues
