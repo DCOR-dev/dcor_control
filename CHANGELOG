@@ -1,5 +1,6 @@
 0.13.0
  - BREAKING: do not check legacy local resources anymore
+ - ref: remove CKAN uploader patch for symlinks, since we are on S3 now
  - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
  - docs: add more information at the contact page
  - setup: bump minimum extension versions to latest

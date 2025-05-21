@@ -1,4 +1,3 @@
-import copy
 import functools
 import json
 import os
@@ -68,43 +67,6 @@ def check_ckan_ini_option(key, value, autocorrect=False):
         if change:
             ckan_cmd = f"ckan config-tool {ckan_ini} '{key}={value}'"
             sp.check_output(ckan_cmd, shell=True)
-            did_something += 1
-    return did_something
-
-
-def check_ckan_uploader_patch_to_support_symlinks(autocorrect):
-    """Allow symlinks to be used when creating uploads
-
-    CKAN 2.10.1 (and later versions of CKAN 2.9 as well) have an
-    additional check with os.path.realpath during upload to make sure
-    no symlinks are used. But we need symlinks, so we have to patch
-    ckan.lib.uploader:ResourceUpload
-
-    TODO: Check should be reversed once fully migrated to S3 upload scheme
-    """
-    did_something = 0
-    from ckan.lib import uploader
-    ulpath = pathlib.Path(uploader.__file__)
-    ulstr = ulpath.read_text()
-    ulstr_i = copy.copy(ulstr)
-
-    replacements = [
-        ["if directory != os.path.realpath(directory):",
-         "if False: # directory != os.path.realpath(directory):  # DCOR"],
-        ["if filepath != os.path.realpath(filepath):",
-         "if False: # filepath != os.path.realpath(filepath):  # DCOR"],
-    ]
-    for old, new in replacements:
-        ulstr = ulstr.replace(old, new)
-
-    if ulstr != ulstr_i:
-        if autocorrect:
-            hack = True
-        else:
-            hack = common.ask("Disable symlink check in uploader?")
-        if hack:
-            print("Disabling symlinks in Uploader")
-            ulpath.write_text(ulstr)
             did_something += 1
     return did_something
 

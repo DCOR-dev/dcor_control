@@ -81,10 +81,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     click.secho("Checking nginx configuration...", bold=True)
     cn += inspect_mod.check_nginx(autocorrect=assume_yes)
 
-    click.secho("Checking uploader symlink patch...", bold=True)
-    cn += inspect_mod.check_ckan_uploader_patch_to_support_symlinks(
-        autocorrect=assume_yes)
-
     click.secho("Checking uwsgi configuration...", bold=True)
     cn += inspect_mod.check_uwsgi(harakiri=7200, autocorrect=assume_yes)
 
