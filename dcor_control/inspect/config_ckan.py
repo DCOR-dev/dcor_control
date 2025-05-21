@@ -7,7 +7,7 @@ import socket
 import subprocess as sp
 import uuid
 
-from dcor_shared.paths import get_ckan_config_option, get_ckan_config_path
+from dcor_shared.ckan import get_ckan_config_option, get_ckan_config_path
 from dcor_shared.parse import ConfigOptionNotFoundError, parse_ini_config
 
 from ..resources import resource_location
