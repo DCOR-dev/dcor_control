@@ -52,10 +52,6 @@ ckan.search.default_include_private = true
 ckan.favicon = /favicon.ico
 ckan.gravatar_default = disabled
 ckan.max_resource_size = 100000
-# - The dcor_depot plugin must come before the dcor_schemas plugin, because
-#   during testing, background jobs are run synchronously and e.g. the creation
-#   of the sha256 job from dcor_schemas needs the symlinked file created by a
-#   dcor_depot job.
 # - The dc_serve plugin must come before the dc_view plugin, because the
 #   dc_view plugin depends on the condensed dataset.
 ckan.plugins = stats text_view image_view dcor_depot dcor_schemas dc_serve dc_view dc_log_view dcor_theme
@@ -66,13 +62,12 @@ ckan.webassets.path = /var/lib/ckan/webassets
 # use "localhost" instead of "127.0.0.1".
 solr_url = http://localhost:8983/solr/ckan
 
+# ckanex-dcor_depot (used for caching e.g. figshare data)
+ckanext.dcor_depot.tmp_dir = /cache/ckanext-dcor_depot
+
 # ckanext-dc_serve
 ckanext.dc_serve.create_condensed_datasets = true
-ckanext.dc_serve.tmp_dir = /data/tmp/ckanext-dc_serve
-
-# ckanext-dcor_depot
-ckanext.dcor_depot.depots_path = /data/depots
-ckanext.dcor_depot.users_depot_name = users-<TEMPLATE:HOSTNAME>
+ckanext.dc_serve.tmp_dir = /cache/ckanext-dc_serve
 
 # ckanext-dcor_schemas
 ckan.extra_resource_fields = etag sha256

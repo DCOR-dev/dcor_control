@@ -1,4 +1,5 @@
 0.12.11
+ - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
  - docs: add more information at the contact page
  - setup: bump minimum extension versions to latest
 0.12.10

@@ -41,6 +41,7 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
         paths.get_dcor_users_depot_path(),
         paths.get_ckan_webassets_path(),
         get_ckan_config_option("ckanext.dc_serve.tmp_dir"),
+        get_ckan_config_option("ckanext.dcor_depot.tmp_dir"),
             ]:
         if path is not None:
             cn += inspect_mod.check_permission(
