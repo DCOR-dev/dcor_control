@@ -38,7 +38,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     for path in [
         paths.get_ckan_storage_path(),
         paths.get_ckan_storage_path() / "resources",
-        paths.get_dcor_users_depot_path(),
         paths.get_ckan_webassets_path(),
         get_ckan_config_option("ckanext.dc_serve.tmp_dir"),
         get_ckan_config_option("ckanext.dcor_depot.tmp_dir"),
@@ -97,7 +96,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
 
     # ask the user whether to search for orphaned files
     if assume_yes or click.confirm('Perform search for orphaned files?'):
-        inspect_mod.check_orphaned_files(assume_yes=assume_yes)
         inspect_mod.check_orphaned_s3_artifacts(
             assume_yes=assume_yes,
             older_than_days=0,

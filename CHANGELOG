@@ -1,4 +1,5 @@
-0.12.11
+0.13.0
+ - BREAKING: do not check legacy local resources anymore
  - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
  - docs: add more information at the contact page
  - setup: bump minimum extension versions to latest
