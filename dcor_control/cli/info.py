@@ -17,12 +17,12 @@ from ..util import get_dcor_control_config
 @click.command()
 def status():
     """Display DCOR status"""
-    dcor_site_config_dir = pathlib.Path(
-        get_dcor_control_config("dcor-site-config-dir", interactive=False))
-    srv_opts = get_expected_site_options(dcor_site_config_dir)
-    if srv_opts is None:
+    cfg = get_dcor_control_config("dcor-site-config-dir", interactive=False)
+    if cfg is None:
         srv_name = "Managed Remotely"
     else:
+        dcor_site_config_dir = pathlib.Path(cfg)
+        srv_opts = get_expected_site_options(dcor_site_config_dir)
         srv_name = f"{srv_opts['name']}"
 
     click.secho(f"DCOR installation: '{srv_name}'", bold=True)
