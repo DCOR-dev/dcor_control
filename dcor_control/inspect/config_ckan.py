@@ -1,5 +1,6 @@
 import functools
 import json
+import logging
 import os
 import pathlib
 import socket
@@ -13,6 +14,9 @@ from ..resources import resource_location
 from .. import util
 
 from . import common
+
+
+logger = logging.getLogger(__name__)
 
 
 def check_ckan_beaker_session_cookie_secret(autocorrect=False):
@@ -44,11 +48,17 @@ def check_ckan_ini(dcor_site_config_dir=None, autocorrect=False):
     Custom options override general options.
     """
     did_something = 0
-    dcor_opts = get_expected_site_options(dcor_site_config_dir)["ckan.ini"]
+    srv_opts = get_expected_site_options(dcor_site_config_dir)
 
-    for key in dcor_opts:
-        did_something += check_ckan_ini_option(
-            key, dcor_opts[key], autocorrect=autocorrect)
+    if srv_opts is not None:
+        dcor_opts = srv_opts["ckan.ini"]
+
+        for key in dcor_opts:
+            did_something += check_ckan_ini_option(
+                key, dcor_opts[key], autocorrect=autocorrect)
+    else:
+        logger.info("Not checking ckan.ini, instance not managed via"
+                    "`site_config_dir`")
 
     return did_something
 
@@ -135,7 +145,7 @@ def get_actual_ckan_option(key):
     return opt
 
 
-def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path:
+def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path | None:
     """Return a local directory on disk containing the site's configuration
 
     The configuration directory is searched for in the following order:
@@ -143,6 +153,8 @@ def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path:
     1. Path passed in dcor_site_config_dir
     2. Environment variable `DCOR_SITE_CONFIG_DIR`
     3. Matching sites in the `dcor_control.resources` directory
+
+    If no configuration directory is found, return None.
     """
     if dcor_site_config_dir is not None:
         # passed via argument
@@ -157,17 +169,21 @@ def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path:
                 dcor_site_config_dir = site_dir
                 break
         else:
-            raise ValueError(
+            logger.info(
                 f"Could not determine the DCOR site configuration for "
-                f"host '{socket.gethostname()}'. Please specify the "
-                f"`dcor_site_config_dir` keyword argument or "
-                f"set the `DCOR_SITE_CONFIG_DIR` environment variable.")
+                f"host '{socket.gethostname()}'. You did not specify the "
+                f"`dcor_site_config_dir` keyword argument, the "
+                f"`DCOR_SITE_CONFIG_DIR` environment variable is not set, "
+                f"or there is no site configuration for this instance.")
     if not is_site_config_dir_applicable(dcor_site_config_dir):
         raise ValueError(
             f"The site configuration directory '{dcor_site_config_dir}' is "
             f"not applicable. Please check hostname and IP address.")
 
-    return pathlib.Path(dcor_site_config_dir)
+    if dcor_site_config_dir:
+        return pathlib.Path(dcor_site_config_dir)
+    else:
+        return None
 
 
 def get_expected_site_options(dcor_site_config_dir):
@@ -177,6 +193,11 @@ def get_expected_site_options(dcor_site_config_dir):
     """
     dcor_site_config_dir = get_dcor_site_config_dir(dcor_site_config_dir)
     cfg = json.loads((dcor_site_config_dir / "dcor_config.json").read_text())
+
+    if cfg is None:
+        logger.info("Instance not managed via `site_config_dir`")
+        return None
+
     cfg["dcor_site_config_dir"] = dcor_site_config_dir
     # Store the information into permanent storage. We might reuse it.
     util.set_dcor_control_config("setup-identifier", cfg["name"])
@@ -246,7 +267,7 @@ def update_expected_ckan_options_templates(cfg_dict, templates=None):
         item = cfg_dict[key]
         if isinstance(item, str):
             for tk in templates:
-                tstr = "<TEMPLATE:{}>".format(tk)
+                tstr = f"<TEMPLATE:{tk}>"
                 if item.count(tstr):
                     func, args = templates[tk]
                     item = item.replace(tstr, str(func(*args)))

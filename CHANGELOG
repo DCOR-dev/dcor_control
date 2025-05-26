@@ -1,9 +1,11 @@
 0.13.0
  - BREAKING: do not check legacy local resources anymore
- - ref: remove CKAN uploader patch for symlinks, since we are on S3 now
  - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
+ - enh: allow instances to be managed remotely (not via `site_config_dir`,
+   but via e.g. ansible)
  - docs: add more information at the contact page
  - setup: bump minimum extension versions to latest
+ - ref: remove CKAN uploader patch for symlinks, since we are on S3 now
 0.12.10
  - enh: improved version determination script
 0.12.9

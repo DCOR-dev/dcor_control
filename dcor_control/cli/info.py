@@ -20,7 +20,12 @@ def status():
     dcor_site_config_dir = pathlib.Path(
         get_dcor_control_config("dcor-site-config-dir", interactive=False))
     srv_opts = get_expected_site_options(dcor_site_config_dir)
-    click.secho(f"DCOR installation: '{srv_opts['name']}'", bold=True)
+    if srv_opts is None:
+        srv_name = "Managed Remotely"
+    else:
+        srv_name = f"{srv_opts['name']}"
+
+    click.secho(f"DCOR installation: '{srv_name}'", bold=True)
     click.echo(f"IP Address: {get_ip()}")
     click.echo(f"Hostname: {socket.gethostname()}")
     click.echo(f"CKAN_INI: {get_ckan_config_path()}")
