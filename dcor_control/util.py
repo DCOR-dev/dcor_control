@@ -25,12 +25,12 @@ def get_dcor_control_config(name, custom_message="", interactive=True):
             # Prompt user
             if custom_message:
                 print(custom_message)
-            data = input("Please enter '{}': ".format(name))
+            data = input(f"Please enter '{name}' (leave empty to ignore): ")
             data_path.write_text(data)
+            os.chmod(data_path, 0o600)
         else:
-            raise KeyError(f"Configuration '{name}' not found/set. Maybe "
-                           f"running `dcor inspect` helps?")
-    os.chmod(data_path, 0o600)
+            logger.info(f"Ignoring custom config option {name}")
+            data = None
     return data
 
 
