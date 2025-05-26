@@ -175,12 +175,13 @@ def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path | None:
                 f"`dcor_site_config_dir` keyword argument, the "
                 f"`DCOR_SITE_CONFIG_DIR` environment variable is not set, "
                 f"or there is no site configuration for this instance.")
-    if not is_site_config_dir_applicable(dcor_site_config_dir):
-        raise ValueError(
-            f"The site configuration directory '{dcor_site_config_dir}' is "
-            f"not applicable. Please check hostname and IP address.")
 
     if dcor_site_config_dir:
+        if not is_site_config_dir_applicable(dcor_site_config_dir):
+            raise ValueError(
+                f"The site configuration directory '{dcor_site_config_dir}' is "
+                f"not applicable. Please check hostname and IP address.")
+
         return pathlib.Path(dcor_site_config_dir)
     else:
         return None
