@@ -5,7 +5,6 @@ import os
 import pathlib
 import socket
 import subprocess as sp
-import uuid
 
 from dcor_shared.ckan import get_ckan_config_option, get_ckan_config_path
 from dcor_shared.parse import ConfigOptionNotFoundError, parse_ini_config
@@ -160,8 +159,8 @@ def get_dcor_site_config_dir(dcor_site_config_dir=None) -> pathlib.Path | None:
     if dcor_site_config_dir:
         if not is_site_config_dir_applicable(dcor_site_config_dir):
             raise ValueError(
-                f"The site configuration directory '{dcor_site_config_dir}' is "
-                f"not applicable. Please check hostname and IP address.")
+                f"The site configuration directory '{dcor_site_config_dir}' "
+                f"is not applicable. Please check hostname and IP address.")
 
         return pathlib.Path(dcor_site_config_dir)
     else:
