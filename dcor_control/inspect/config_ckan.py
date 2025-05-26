@@ -193,11 +193,11 @@ def get_expected_site_options(dcor_site_config_dir):
     Returns a dictionary with "name", "requirements", and "ckan.ini".
     """
     dcor_site_config_dir = get_dcor_site_config_dir(dcor_site_config_dir)
-    cfg = json.loads((dcor_site_config_dir / "dcor_config.json").read_text())
-
-    if cfg is None:
+    if dcor_site_config_dir is None:
         logger.info("Instance not managed via `site_config_dir`")
         return None
+
+    cfg = json.loads((dcor_site_config_dir / "dcor_config.json").read_text())
 
     cfg["dcor_site_config_dir"] = dcor_site_config_dir
     # Store the information into permanent storage. We might reuse it.
