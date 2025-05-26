@@ -1,5 +1,6 @@
 0.13.0
  - BREAKING: do not check legacy local resources anymore
+ - BREAKING: remove `check_ckan_beaker_session_cookie_secret`
  - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
  - enh: allow instances to be managed remotely (not via `site_config_dir`,
    but via e.g. ansible)

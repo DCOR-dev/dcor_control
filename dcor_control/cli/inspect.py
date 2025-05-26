@@ -30,10 +30,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     cn += inspect_mod.check_ckan_ini(dcor_site_config_dir=dcor_site_config_dir,
                                      autocorrect=assume_yes)
 
-    click.secho("Checking beaker session secret...", bold=True)
-    cn += inspect_mod.check_ckan_beaker_session_cookie_secret(
-        autocorrect=assume_yes)
-
     click.secho("Checking www-data permissions...", bold=True)
     for path in [
         paths.get_ckan_storage_path(),

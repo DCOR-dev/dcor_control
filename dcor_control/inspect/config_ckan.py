@@ -19,25 +19,6 @@ from . import common
 logger = logging.getLogger(__name__)
 
 
-def check_ckan_beaker_session_cookie_secret(autocorrect=False):
-    """Generate a beaker cookie hash secret
-
-    This is the secret token that the beaker library uses to hash the
-    cookie sent to the client. ckan generate config generates a unique
-    value for this each time it generates a config file. When used in a
-    cluster environment, the value must be the same on every machine.
-    """
-    did_something = 0
-    for key in ["beaker.session.encrypt_key",
-                "beaker.session.validate_key"]:
-        opt = get_actual_ckan_option(key)
-        if opt == "NOT SET!":
-            did_something += check_ckan_ini_option(key,
-                                                   str(uuid.uuid4()),
-                                                   autocorrect=autocorrect)
-    return did_something
-
-
 def check_ckan_ini(dcor_site_config_dir=None, autocorrect=False):
     """Check custom ckan.ini server options
 
