@@ -77,9 +77,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     click.secho("Checking nginx configuration...", bold=True)
     cn += inspect_mod.check_nginx(autocorrect=assume_yes)
 
-    click.secho("Checking uwsgi configuration...", bold=True)
-    cn += inspect_mod.check_uwsgi(harakiri=7200, autocorrect=assume_yes)
-
     if cn:
         inspect_mod.reload_supervisord()
         inspect_mod.reload_nginx()

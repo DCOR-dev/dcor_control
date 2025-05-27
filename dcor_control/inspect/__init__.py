@@ -12,5 +12,4 @@ from .config_supervisord import (
     reload_supervisord,
     reload_nginx,
 )
-from .config_uwsgi import check_uwsgi
 from .data_ckan_s3 import check_orphaned_s3_artifacts
