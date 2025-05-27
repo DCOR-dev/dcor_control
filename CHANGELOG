@@ -7,6 +7,7 @@
    but via e.g. ansible)
  - docs: add more information at the contact page
  - setup: bump minimum extension versions to latest
+ - setup: bump UWSGI to `>=2.0.26`
  - ref: remove CKAN uploader patch for symlinks, since we are on S3 now
 0.12.10
  - enh: improved version determination script
