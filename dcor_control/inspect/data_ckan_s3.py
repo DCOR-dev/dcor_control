@@ -7,10 +7,13 @@ import click
 
 from dcor_shared import get_ckan_config_option, paths, s3
 
-from .data_ckan_local import ask
-
 
 ARTIFACT_NAMES = ["condensed", "preview", "resource"]
+
+
+def ask(prompt):
+    an = input(prompt + " [y/N]: ")
+    return an.lower() == "y"
 
 
 def check_orphaned_s3_artifacts(assume_yes=False, older_than_days=7,

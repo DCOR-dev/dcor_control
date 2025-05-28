@@ -3,6 +3,7 @@
  - BREAKING: remove `check_ckan_beaker_session_cookie_secret`
  - BREAKING: remove `check_uwsgi`
  - BREAKING: remove `check_nginx`
+ - BREAKING: remove `data_ckan_local`
  - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
  - enh: allow instances to be managed remotely (not via `site_config_dir`,
    but via e.g. ansible)
