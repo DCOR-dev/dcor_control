@@ -6,8 +6,9 @@ import appdirs
 import click
 from dcor_shared import paths
 
+from .common import reload_supervisord
+
 from ..backup import db_backup
-from .. import inspect as inspect_mod
 
 
 @click.command()
@@ -58,7 +59,7 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
         shutil.rmtree(cpath, ignore_errors=True)
 
     # restart
-    inspect_mod.reload_supervisord()
+    reload_supervisord()
 
     if database or datasets:
         msg = " - Please delete resources yourself!"

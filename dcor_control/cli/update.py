@@ -2,8 +2,9 @@ import subprocess as sp
 
 import click
 
+from .common import reload_supervisord
+
 from ..update import update_package
-from ..inspect import reload_supervisord
 
 
 @click.command()

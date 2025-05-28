@@ -6,7 +6,9 @@ import uuid
 import click
 from dcor_shared.paths import get_ckan_config_path
 
-from ..inspect import config_ckan, reload_supervisord
+from .common import reload_supervisord
+
+from ..inspect import config_ckan
 
 
 @click.command()

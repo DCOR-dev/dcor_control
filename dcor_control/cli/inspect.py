@@ -3,6 +3,8 @@ import pathlib
 import click
 from dcor_shared import get_ckan_config_option, paths
 
+from .common import reload_supervisord
+
 from .. import inspect as inspect_mod
 
 
@@ -72,11 +74,8 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     click.secho("Checking DCOR theme css branding...", bold=True)
     cn += inspect_mod.check_dcor_theme_main_css(autocorrect=assume_yes)
 
-    click.secho("Checking ckan workers...", bold=True)
-    cn += inspect_mod.check_supervisord(autocorrect=assume_yes)
-
     if cn:
-        inspect_mod.reload_supervisord()
+        reload_supervisord()
     else:
         click.secho("No changes made.")
 
