@@ -56,7 +56,8 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
         recursive=True,
         autocorrect=assume_yes)
 
-    # Recursively make sure that www-data can upload things into storage
+    # Recursively make sure that www-data can upload things (e.g. images)
+    # to the storage path
     cn += inspect_mod.check_permission(
         path=paths.get_ckan_storage_path() / "storage",
         user="www-data",
