@@ -74,12 +74,8 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     click.secho("Checking ckan workers...", bold=True)
     cn += inspect_mod.check_supervisord(autocorrect=assume_yes)
 
-    click.secho("Checking nginx configuration...", bold=True)
-    cn += inspect_mod.check_nginx(autocorrect=assume_yes)
-
     if cn:
         inspect_mod.reload_supervisord()
-        inspect_mod.reload_nginx()
     else:
         click.secho("No changes made.")
 

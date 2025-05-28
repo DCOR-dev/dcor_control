@@ -37,17 +37,6 @@ def check_supervisord(autocorrect):
     return did_something
 
 
-def is_nginx_running():
-    """Simple check for whether supervisord is running"""
-
-    try:
-        sp.check_output(SUDO + "systemctl status nginx", shell=True)
-    except sp.CalledProcessError:
-        return False
-    else:
-        return True
-
-
 def is_supervisord_running():
     """Simple check for whether supervisord is running"""
     try:
@@ -56,15 +45,6 @@ def is_supervisord_running():
         return False
     else:
         return True
-
-
-def reload_nginx():
-    if is_nginx_running():
-        click.secho("Reloading nginx...", bold=True)
-        sp.check_output(SUDO + "systemctl reload nginx", shell=True)
-    else:
-        click.secho("Not reloading nginx (not running)...",
-                    bold=True, fg="red")
 
 
 def reload_supervisord():
