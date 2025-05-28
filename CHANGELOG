@@ -1,9 +1,15 @@
 0.13.0
+ - info: This release paves the way for managing DCOR using Ansible via
+   the https://github.com/DCOR-dev/ansible-for-dcor repository. Most of
+   the setup- and configuration-specific checks are removed. These will
+   be handled by either Ansible or Docker (currently used in the GitHub
+   Actions workflow only).
  - BREAKING: do not check legacy local resources anymore
  - BREAKING: remove `check_ckan_beaker_session_cookie_secret`
  - BREAKING: remove `check_uwsgi`
  - BREAKING: remove `check_nginx`
  - BREAKING: remove `data_ckan_local`
+ - BREAKING: remove "vagrant" site branding
  - enh: add `ckanext.dcor_depot.tmp_dir` and update `dc_serve` as well
  - enh: allow instances to be managed remotely (not via `site_config_dir`,
    but via e.g. ansible)
