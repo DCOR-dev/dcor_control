@@ -6,57 +6,62 @@ dcor_control
    :header-rows: 1
 
    * - Name
-     - Repository
+     - Issues
      - Release
      - CI
      - Coverage
-   * - ckanext-dc_log_view
-     - |ckanext-dc_log_view home|
+   * - `Ansible for DCOR <https://github.com/DCOR-dev/ansible-for-dcor/>`__
+     - |ansible issu|
+     - |not applicable|
+     - |not applicable|
+     - |not applicable|
+   * - `ckanext-dc_log_view <https://github.com/DCOR-dev/ckanext-dc_log_view/>`__
+     - |ckanext-dc_log_view issu|
      - |ckanext-dc_log_view pypi|
      - |ckanext-dc_log_view actn|
      - |ckanext-dc_log_view cvrg|
-   * - ckanext-dc_serve
-     - |ckanext-dc_serve home|
+   * - `ckanext-dc_serve <https://github.com/DCOR-dev/ckanext-dc_serve/>`__
+     - |ckanext-dc_serve issu|
      - |ckanext-dc_serve pypi|
      - |ckanext-dc_serve actn|
      - |ckanext-dc_serve cvrg|
-   * - ckanext-dc_view
-     - |ckanext-dc_view home|
+   * - `ckanext-dc_view <https://github.com/DCOR-dev/ckanext-dc_view/>`__
+     - |ckanext-dc_view issu|
      - |ckanext-dc_view pypi|
      - |ckanext-dc_view actn|
      - |ckanext-dc_view cvrg|
-   * - ckanext-dcor_depot
-     - |ckanext-dcor_depot home|
+   * - `ckanext-dcor_depot <https://github.com/DCOR-dev/ckanext-dcor_depot/>`__
+     - |ckanext-dcor_depot issu|
      - |ckanext-dcor_depot pypi|
      - |ckanext-dcor_depot actn|
      - |ckanext-dcor_depot cvrg|
-   * - ckanext-dcor_schemas
-     - |ckanext-dcor_schemas home|
+   * - `ckanext-dcor_schemas <https://github.com/DCOR-dev/ckanext-dcor_schemas/>`__
+     - |ckanext-dcor_schemas issu|
      - |ckanext-dcor_schemas pypi|
      - |ckanext-dcor_schemas actn|
      - |ckanext-dcor_schemas cvrg|
-   * - ckanext-dcor_theme
-     - |ckanext-dcor_theme home|
+   * - `ckanext-dcor_theme <https://github.com/DCOR-dev/ckanext-dcor_theme/>`__
+     - |ckanext-dcor_theme issu|
      - |ckanext-dcor_theme pypi|
      - |ckanext-dcor_theme actn|
      - |ckanext-dcor_theme cvrg|
-   * - dcor-remote-tests
-     - |dcor-remote-tests home|
+   * - `dcor-remote-tests <https://github.com/DCOR-dev/dcor-remote-tests/>`__
+     - |dcor-remote-tests issu|
      - |not applicable|
      - |dcor-remote-tests actn|
      - |not applicable|
-   * - dcor_control
-     - |dcor_control home|
+   * - `dcor_control <https://github.com/DCOR-dev/dcor_control/>`__
+     - |dcor_control issu|
      - |dcor_control pypi|
      - |dcor_control actn|
      - |dcor_control cvrg|
-   * - dcor_shared
-     - |dcor_shared home|
+   * - `dcor_shared <https://github.com/DCOR-dev/dcor_shared/>`__
+     - |dcor_shared issu|
      - |dcor_shared pypi|
      - |dcor_shared actn|
      - |dcor_shared cvrg|
-   * - DCOR-Aid
-     - |DCOR-Aid home|
+   * - `DCOR-Aid <https://github.com/DCOR-dev/DCOR-Aid/>`__
+     - |DCOR-Aid issu|
      - |DCOR-Aid pypi|
      - |DCOR-Aid actn|
      - |DCOR-Aid cvrg|
@@ -87,7 +92,12 @@ workflow for more information.
 .. |not applicable|
    image:: https://img.shields.io/badge/not%20applicable-888888
    :class: no-scaled-link
-.. |ckanext-dc_log_view home|
+
+.. |ansible issu|
+   image:: https://img.shields.io/github/issues/DCOR-dev/ansible-for-dcor.svg
+   :target: https://github.com/DCOR-dev/ansible-for-dcor/issues
+
+.. |ckanext-dc_log_view issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_log_view.svg
    :target: https://github.com/DCOR-dev/ckanext-dc_log_view/issues
 .. |ckanext-dc_log_view pypi|
@@ -100,7 +110,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/ckanext-dc_log_view
    :target: https://codecov.io/gh/DCOR-dev/ckanext-dc_log_view
 
-.. |ckanext-dc_serve home|
+.. |ckanext-dc_serve issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_serve.svg
    :target: https://github.com/DCOR-dev/ckanext-dc_serve/issues
 .. |ckanext-dc_serve pypi|
@@ -113,7 +123,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/ckanext-dc_serve
    :target: https://codecov.io/gh/DCOR-dev/ckanext-dc_serve
 
-.. |ckanext-dc_view home|
+.. |ckanext-dc_view issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dc_view.svg
    :target: https://github.com/DCOR-dev/ckanext-dc_view/issues
 .. |ckanext-dc_view pypi|
@@ -126,7 +136,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/ckanext-dc_view
    :target: https://codecov.io/gh/DCOR-dev/ckanext-dc_view
 
-.. |ckanext-dcor_depot home|
+.. |ckanext-dcor_depot issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dcor_depot.svg
    :target: https://github.com/DCOR-dev/ckanext-dcor_depot/issues
 .. |ckanext-dcor_depot pypi|
@@ -139,7 +149,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/ckanext-dcor_depot
    :target: https://codecov.io/gh/DCOR-dev/ckanext-dcor_depot
 
-.. |ckanext-dcor_schemas home|
+.. |ckanext-dcor_schemas issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dcor_schemas.svg
    :target: https://github.com/DCOR-dev/ckanext-dcor_schemas/issues
 .. |ckanext-dcor_schemas pypi|
@@ -152,7 +162,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/ckanext-dcor_schemas
    :target: https://codecov.io/gh/DCOR-dev/ckanext-dcor_schemas
 
-.. |ckanext-dcor_theme home|
+.. |ckanext-dcor_theme issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/ckanext-dcor_theme.svg
    :target: https://github.com/DCOR-dev/ckanext-dcor_theme/issues
 .. |ckanext-dcor_theme pypi|
@@ -165,7 +175,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/ckanext-dcor_theme
    :target: https://codecov.io/gh/DCOR-dev/ckanext-dcor_theme
 
-.. |dcor-remote-tests home|
+.. |dcor-remote-tests issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/dcor-remote-tests.svg
    :target: https://github.com/DCOR-dev/dcor-remote-tests/issues
 .. |dcor-remote-tests actn|
@@ -175,7 +185,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/dcor-remote-tests
    :target: https://codecov.io/gh/DCOR-dev/dcor-remote-tests
 
-.. |dcor_control home|
+.. |dcor_control issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/dcor_control.svg
    :target: https://github.com/DCOR-dev/dcor_control/issues
 .. |dcor_control pypi|
@@ -188,7 +198,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/dcor_control
    :target: https://codecov.io/gh/DCOR-dev/dcor_control
 
-.. |dcor_shared home|
+.. |dcor_shared issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/dcor_shared.svg
    :target: https://github.com/DCOR-dev/dcor_shared/issues
 .. |dcor_shared pypi|
@@ -201,7 +211,7 @@ workflow for more information.
    image:: https://img.shields.io/codecov/c/github/DCOR-dev/dcor_shared
    :target: https://codecov.io/gh/DCOR-dev/dcor_shared
 
-.. |DCOR-Aid home|
+.. |DCOR-Aid issu|
    image:: https://img.shields.io/github/issues/DCOR-dev/DCOR-Aid.svg
    :target: https://github.com/DCOR-dev/DCOR-Aid/issues
 .. |DCOR-Aid pypi|
