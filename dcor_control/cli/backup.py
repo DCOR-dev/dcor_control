@@ -12,10 +12,8 @@ from ..backup import db_backup, delete_old_backups, gpg_encrypt
 def encrypted_database_backup(key_id):
     """Create an asymmetrically encrypted database backup on /data/
 
-    You can import and export keys using `gpg --import fielname.key`
+    You can import and export keys using `gpg --import filename.key`
     and `gpg --export KEYID > filename.key`.
-    The key specified must be trusted ultimately. To do this run
-    `gpg --edit-key KEYID` and then type `trust`.
     """
     dpath = db_backup()
     name = "{}_{}.gpg".format(dpath.name, key_id)

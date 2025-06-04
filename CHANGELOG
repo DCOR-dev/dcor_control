@@ -1,3 +1,5 @@
+0.13.1
+ - enh: remove requirement to trust PGP keys for database backup
 0.13.0
  - info: This release paves the way for managing DCOR using Ansible via
    the https://github.com/DCOR-dev/ansible-for-dcor repository. Most of

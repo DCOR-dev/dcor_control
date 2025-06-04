@@ -112,6 +112,9 @@ def gpg_encrypt(path_in, path_out, key_id):
     key installed and trusted, i.e.::
 
        gpg --import dcor_public.key
+
+    The following is optional, since we are using `--trust-model always`::
+
        gpg --edit-key 8FD98B2183B2C228
        $: trust
        $: 5  # (trust ultimately)
@@ -127,6 +130,12 @@ def gpg_encrypt(path_in, path_out, key_id):
     """
     path_out.parent.mkdir(exist_ok=True, parents=True)
     path_out.parent.chmod(0o0700)
-    sp.check_output("gpg --output '{}' --encrypt --recipient '{}' '{}'".format(
-        path_out, key_id, path_in), shell=True)
+    sp.check_output(
+        f"gpg "
+        f"--output '{path_out}' "
+        f"--encrypt "
+        f"--trust-model always "
+        f"--recipient '{key_id}' "
+        f"'{path_in}'",
+        shell=True)
     path_out.chmod(0o0400)
