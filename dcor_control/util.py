@@ -2,6 +2,7 @@ import importlib
 import logging
 import os
 import pathlib
+import sys
 import traceback
 
 import appdirs
@@ -32,6 +33,14 @@ def get_dcor_control_config(name, custom_message="", interactive=True):
             logger.info(f"Ignoring custom config option {name}")
             data = None
     return data
+
+
+def get_pip_executable_path():
+    for path in sys.path:
+        if (pip_path := (pathlib.Path(path) / "pip")).exists():
+            return pip_path
+    else:
+        raise ValueError("Could not find `pip` executable")
 
 
 def get_module_installation_path(module_name):

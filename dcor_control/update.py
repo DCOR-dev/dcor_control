@@ -9,6 +9,8 @@ import click
 # from importlib import resources as importlib_resources
 import importlib_resources
 
+from .util import get_pip_executable_path
+
 
 def get_max_compatible_version(name, ckan_version=None):
     """Largest version number of a Python package compatible with current CKAN
@@ -54,7 +56,9 @@ def get_max_compatible_version(name, ckan_version=None):
 def get_package_version(name):
     """Return version string of an installed Python package, None otherwise"""
     try:
-        info = sp.check_output(f"pip show {name}", shell=True).decode("utf-8")
+        pip = get_pip_executable_path()
+        info = sp.check_output(f"{pip} show {name}",
+                               shell=True).decode("utf-8")
     except sp.CalledProcessError:
         info = "error"
 
@@ -134,11 +138,12 @@ def update_package(name):
     else:
         is_located_git = False
 
+    pip = get_pip_executable_path()
     if is_testing:
         click.secho(f"Reinstalling {name} via {test_toml}", bold=True)
         os.chdir(test_toml.parent)
         try:
-            sp.check_output("pip install -e .", shell=True)
+            sp.check_output(f"{pip} install -e .", shell=True)
         except sp.CalledProcessError:
             click.secho("...failed!", bold=True)
         finally:
@@ -152,7 +157,7 @@ def update_package(name):
         except sp.CalledProcessError:
             click.secho("...failed!", bold=True)
         else:
-            sp.check_output("pip install -e .", shell=True)
+            sp.check_output(f"{pip} install -e .", shell=True)
         finally:
             os.chdir(wd)
     else:
@@ -165,7 +170,7 @@ def update_package(name):
         else:
             click.secho(f"Updating package '{name}' using pip...", bold=True)
             pin = ""
-        sp.check_output(f"pip install --upgrade {name}{pin}", shell=True)
+        sp.check_output(f"{pip} install --upgrade {name}{pin}", shell=True)
     new_ver = get_package_version(name)
     if old_ver != new_ver:
         print(f"...updated {name} from {old_ver} to {new_ver}.")

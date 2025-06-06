@@ -9,6 +9,7 @@ from dcor_shared.paths import get_ckan_config_path
 from .common import reload_supervisord
 
 from ..inspect import config_ckan
+from ..util import get_pip_executable_path
 
 
 @click.command()
@@ -17,8 +18,10 @@ from ..inspect import config_ckan
            "(CKAN extensions and helpers) to an editable install?")
 def develop():
     """Migrate all DCOR CKAN extensions to git-based editable installs"""
-    sp.check_output("pip install --upgrade pip", shell=True)
-    sp.check_output("pip install requests requests_toolbelt", shell=True)
+    pip = get_pip_executable_path()
+
+    sp.check_output(f"{pip} install --upgrade pip", shell=True)
+    sp.check_output(f"{pip} install requests requests_toolbelt", shell=True)
 
     for name in [
         "dcor_shared",
@@ -74,4 +77,5 @@ def migrate_to_editable(name,
 
     os.chdir(wd)
     # install in editable mode
-    sp.check_output(f"pip install -e {pkg_dir}", shell=True)
+    pip = get_pip_executable_path()
+    sp.check_output(f"{pip} install -e {pkg_dir}", shell=True)
