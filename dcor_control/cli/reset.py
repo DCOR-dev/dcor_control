@@ -19,9 +19,12 @@ from ..backup import db_backup
               help='Purge users inactive for 3 months without datasets')
 @click.option('--search-index', is_flag=True, help='Reset Solr search index')
 @click.option('--control', is_flag=True, help='Delete dcor_control cache')
+@click.option('--keep-user', multiple=True,
+              help='Username to protect from purging, '
+                   'may be used multiple times')
 @click.confirmation_option(prompt="Are you certain?")
 def reset(cache=False, database=False, datasets=False, zombie_users=False,
-          search_index=False, control=False):
+          search_index=False, control=False, keep_user=None):
     """Perform (partial) database/cache resets"""
     ckan_ini = paths.get_ckan_config_path()
     if database and datasets:
@@ -43,8 +46,13 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
         ckan_cmds.append("dataset list | awk 'FNR>2 {system("
                          + f'"ckan -c {ckan_ini} dataset purge "' + "$1)}'")
     if zombie_users:  # must come after dataset purge
-        ckan_cmds.append("list-zombie-users | xargs -n1 "
-                         + f"ckan -c {ckan_ini} user remove")
+        if keep_user:
+            keep_grep = " ".join([f"| grep -v ^{u}$" for u in keep_user])
+        else:
+            keep_grep = ""
+        ckan_cmds.append(
+            f"list-zombie-users {keep_grep} | xargs -n1 "
+            + f"ckan -c {ckan_ini} user remove")
     if search_index:
         ckan_cmds.append("search-index clear")
     ckan_base = f"ckan -c {ckan_ini} "

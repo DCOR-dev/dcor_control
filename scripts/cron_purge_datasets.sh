@@ -13,6 +13,6 @@ export CKAN_INI=/etc/ckan/default/ckan.ini
 # purge all datasets and zombie users
 dcor reset --datasets --zombie-users --yes
 # bring back first figshare dataset
-ckan import-figshare --limit 1
+ckan dcor-import-figshare --limit 1
 # remove remaining orphans
 dcor inspect --assume-yes
