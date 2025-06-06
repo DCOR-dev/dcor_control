@@ -31,16 +31,16 @@ def status():
     click.echo(f"Hostname: {socket.gethostname()}")
     click.echo(f"CKAN_INI: {get_ckan_config_path()}")
 
-    for name in ["ckan",
-                 "ckanext.dc_log_view",
-                 "ckanext.dc_serve",
-                 "ckanext.dc_view",
-                 "ckanext.dcor_depot",
+    for name in ["ckan                ",
+                 "ckanext.dc_log_view ",
+                 "ckanext.dc_serve    ",
+                 "ckanext.dc_view     ",
+                 "ckanext.dcor_depot  ",
                  "ckanext.dcor_schemas",
-                 "ckanext.dcor_theme",
-                 "dcor_control",
-                 "dcor_shared"]:
-        click.echo(f"Module {name}: {get_package_version(name)}")
+                 "ckanext.dcor_theme  ",
+                 "dcor_control        ",
+                 "dcor_shared         "]:
+        click.echo(f"Module {name}: {get_package_version(name.strip())}")
 
     if s3 is not None:
         # Object storage usage
@@ -69,8 +69,8 @@ def status():
                     kwargs["ContinuationToken"] = resp.get(
                         "NextContinuationToken")
 
-        click.echo(f"S3 buckets: {len(buckets)}")
+        click.echo(f"S3 buckets:          {len(buckets)}")
         click.echo(f"S3 resources number: {num_resources}")
-        click.echo(f"S3 resources size: {size_resources/1024**3:.0f} GB")
-        click.echo(f"S3 total size: "
+        click.echo(f"S3 resources size:   {size_resources/1024**3:.0f} GB")
+        click.echo(f"S3 total size:       "
                    f"{(size_other + size_resources) / 1024**3:.0f} GB")
