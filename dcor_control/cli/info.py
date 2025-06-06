@@ -40,7 +40,7 @@ def status():
                  "ckanext.dcor_theme   ",
                  "dcor_control         ",
                  "dcor_shared          "]:
-        click.echo(f"Module {name}: {get_package_version(name.strip())}")
+        click.echo(f"Module {name} {get_package_version(name.strip())}")
 
     if s3 is not None:
         # Object storage usage
