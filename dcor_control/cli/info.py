@@ -11,6 +11,7 @@ except ImportError:
 
 
 from ..inspect.config_ckan import get_expected_site_options, get_ip
+from ..update import get_package_version
 from ..util import get_dcor_control_config
 
 
@@ -29,6 +30,17 @@ def status():
     click.echo(f"IP Address: {get_ip()}")
     click.echo(f"Hostname: {socket.gethostname()}")
     click.echo(f"CKAN_INI: {get_ckan_config_path()}")
+
+    for name in ["ckan",
+                 "ckanext.dc_log_view",
+                 "ckanext.dc_serve",
+                 "ckanext.dc_view",
+                 "ckanext.dcor_depot",
+                 "ckanext.dcor_schemas",
+                 "ckanext.dcor_theme",
+                 "dcor_control",
+                 "dcor_shared"]:
+        click.echo(f"Module {name}: {get_package_version(name)}")
 
     if s3 is not None:
         # Object storage usage
