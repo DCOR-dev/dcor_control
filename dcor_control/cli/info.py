@@ -31,15 +31,15 @@ def status():
     click.echo(f"Hostname: {socket.gethostname()}")
     click.echo(f"CKAN_INI: {get_ckan_config_path()}")
 
-    for name in ["ckan                ",
-                 "ckanext.dc_log_view ",
-                 "ckanext.dc_serve    ",
-                 "ckanext.dc_view     ",
-                 "ckanext.dcor_depot  ",
-                 "ckanext.dcor_schemas",
-                 "ckanext.dcor_theme  ",
-                 "dcor_control        ",
-                 "dcor_shared         "]:
+    for name in ["ckan                 ",
+                 "ckanext.dc_log_view  ",
+                 "ckanext.dc_serve     ",
+                 "ckanext.dc_view      ",
+                 "ckanext.dcor_depot   ",
+                 "ckanext.dcor_schemas ",
+                 "ckanext.dcor_theme   ",
+                 "dcor_control         ",
+                 "dcor_shared          "]:
         click.echo(f"Module {name}: {get_package_version(name.strip())}")
 
     if s3 is not None:
