@@ -4,6 +4,7 @@
  - enh: allow to keep users when purging zombie users
  - enh: use pip from current python environment for CLI operations
  - enh: show module versions in `dcor status`
+ - setup: remove cron scripts (handled by ansible)
 0.13.0
  - info: This release paves the way for managing DCOR using Ansible via
    the https://github.com/DCOR-dev/ansible-for-dcor repository. Most of
