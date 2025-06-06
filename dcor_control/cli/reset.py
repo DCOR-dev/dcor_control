@@ -51,7 +51,7 @@ def reset(cache=False, database=False, datasets=False, zombie_users=False,
         else:
             keep_grep = ""
         ckan_cmds.append(
-            f"list-zombie-users {keep_grep} | xargs -n1 "
+            f"list-zombie-users {keep_grep} | xargs --no-run-if-empty -n1 "
             + f"ckan -c {ckan_ini} user remove")
     if search_index:
         ckan_cmds.append("search-index clear")

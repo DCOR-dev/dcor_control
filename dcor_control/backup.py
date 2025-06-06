@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 import os
 import pathlib
+import pwd
 import shutil
 import socket
 import subprocess as sp
@@ -30,7 +31,10 @@ def db_backup(path="/backup", cleanup=True):
     broot = pathlib.Path(path)
     bpath = broot / time.strftime('%Y-%m')
     bpath.mkdir(parents=True, exist_ok=True)
-    bpath.chmod(0o0500)
+    bpath.chmod(0o0750)
+    uid = pwd.getpwnam('postgres').pw_uid
+    os.chown(bpath, uid, 0)
+
     name = time.strftime('ckan_db_{}_%Y-%m-%d_%H-%M-%S.dump'.format(
         socket.gethostname()))
     dpath = bpath / name
