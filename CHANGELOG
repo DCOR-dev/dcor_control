@@ -1,5 +1,6 @@
 0.14.0
  - BREAKING: remove DCOR-dev branding and ckan.ini setup
+ - BREAKING: remove DCOR-main branding and ckan.ini setup
  - fix: permission error when performing simple database backup
  - enh: remove requirement to trust PGP keys for database backup
  - enh: allow to keep users when purging zombie users
