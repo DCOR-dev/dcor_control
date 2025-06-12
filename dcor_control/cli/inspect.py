@@ -24,7 +24,7 @@ from .. import inspect as inspect_mod
                    "site configuration directory. You may also specify the "
                    "`DCOR_SITE_CONFIG_DIR` environment variable instead.")
 def inspect(assume_yes=False, dcor_site_config_dir=None):
-    """Inspect this DCOR installation"""
+    """Inspect and optionally fix the DCOR installation"""
     cn = 0
     click.secho(
         f"Checking CKAN options ({paths.get_ckan_config_path()})...",
@@ -78,12 +78,5 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
         reload_supervisord()
     else:
         click.secho("No changes made.")
-
-    # ask the user whether to search for orphaned files
-    if assume_yes or click.confirm('Perform search for orphaned files?'):
-        inspect_mod.check_orphaned_s3_artifacts(
-            assume_yes=assume_yes,
-            older_than_days=0,
-        )
 
     click.secho('DONE', fg=u'green', bold=True)
