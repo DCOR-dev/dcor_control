@@ -1,5 +1,6 @@
 0.15.0
  - BREAKING: remove `prune` subcommand
+ - enh: improve status info
 0.14.0
  - BREAKING: remove DCOR-dev branding and ckan.ini setup
  - BREAKING: remove DCOR-main branding and ckan.ini setup

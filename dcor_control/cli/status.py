@@ -1,8 +1,8 @@
 import pathlib
-import socket
 
 import click
 from dcor_shared.paths import get_ckan_config_path
+from dcor_shared import get_ckan_config_option
 
 try:
     from dcor_shared import s3
@@ -20,15 +20,17 @@ def status():
     """Display DCOR status"""
     cfg = get_dcor_control_config("dcor-site-config-dir", interactive=False)
     if cfg is None:
-        srv_name = "Managed Remotely"
+        srv_name = get_ckan_config_option("ckan.site_title")
     else:
         dcor_site_config_dir = pathlib.Path(cfg)
         srv_opts = get_expected_site_options(dcor_site_config_dir)
         srv_name = f"{srv_opts['name']}"
+    s3_endpoint = get_ckan_config_option("dcor_object_store.endpoint_url")
 
-    click.secho(f"DCOR installation: '{srv_name}'", bold=True)
+    click.secho(f"DCOR installation: {srv_name}", bold=True)
     click.echo(f"IP Address: {get_ip()}")
-    click.echo(f"Hostname: {socket.gethostname()}")
+    click.echo(f"FQDN: {get_ckan_config_option('ckan.site_url')}")
+    click.echo(f"S3 endpoint: {s3_endpoint}")
     click.echo(f"CKAN_INI: {get_ckan_config_path()}")
 
     for name in ["ckan                 ",
