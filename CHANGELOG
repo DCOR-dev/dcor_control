@@ -1,4 +1,4 @@
-0.15.0
+1.15.0
  - BREAKING: remove `prune` subcommand
  - enh: improve status info
 0.14.0
