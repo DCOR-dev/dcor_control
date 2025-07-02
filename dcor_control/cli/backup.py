@@ -29,6 +29,7 @@ def encrypted_instance_backup(key_id, skip_s3=False):
     `gpg --list-signatures`.
     You can import and export keys using `gpg --import filename.key`
     and `gpg --export KEYID > filename.key`.
+    See :func:`.gpg_encrypt` for more information.
     """
     now = time.strftime("%Y-%m-%d_%H-%M-%S")
 
