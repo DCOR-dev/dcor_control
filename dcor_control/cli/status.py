@@ -74,14 +74,16 @@ def status():
             click.echo(f"S3 instance backup number: {bbi['num_other']}")
             click.echo(f"S3 instance backup size:   "
                        f"{bbi['size_other']/1024**3:.0f} GiB")
+            click.echo(f"S3 instance backup latest: {bbi['object_keys'][-1]}")
 
 
-def get_bucket_info(bucket_name):
+def get_bucket_info(bucket_name, ret_object_keys=False):
     s3_client, s3_session, s3_resource = s3.get_s3()
     num_resources = 0
     num_other = 0
     size_resources = 0
     size_other = 0
+    object_keys = []
 
     kwargs = {"Bucket": bucket_name,
               "MaxKeys": 500
@@ -90,6 +92,9 @@ def get_bucket_info(bucket_name):
         resp = s3_client.list_objects_v2(**kwargs)
 
         for obj in resp.get("Contents", []):
+            if ret_object_keys:
+                object_keys.append(obj["Key"])
+
             if obj["Key"].startswith("resource/"):
                 num_resources += 1
                 size_resources += obj["Size"]
@@ -103,9 +108,12 @@ def get_bucket_info(bucket_name):
             kwargs["ContinuationToken"] = resp.get(
                 "NextContinuationToken")
 
-    return {
+    data = {
         "num_resources": num_resources,
         "num_other": num_other,
         "size_resources": size_resources,
         "size_other": size_other,
     }
+    if ret_object_keys:
+        data["object_keys"] = sorted(object_keys)
+    return data
