@@ -11,7 +11,7 @@ from ..backup import db_backup, delete_old_backups, gpg_encrypt
 
 
 @click.command()
-@click.option('--key-id', default="8FD98B2183B2C228",
+@click.option('--key-id', default="2B4B066FFE3D288E",
               help='The public gpg Key ID')
 @click.option('--skip-s3', is_flag=True,
               help='Do not upload the instance backup to S3')
@@ -25,15 +25,19 @@ def encrypted_instance_backup(key_id, skip_s3=False):
     to the S3 object storage to the `{dcor_object_store.bucket_name}-backup`
     bucket if `--skip-s3` is not specified.
 
+    To get a list of available signatures on your system, run
+    `gpg --list-signatures`.
     You can import and export keys using `gpg --import filename.key`
     and `gpg --export KEYID > filename.key`.
     """
     now = time.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Get database backup
+    click.secho("Creating database backup")
     db_path = db_backup()
 
     # Create a tar.bz2 file that contains the contents of /data and `dp_path`.
+    click.secho("Creating instance backup")
     storage_path = pathlib.Path(get_ckan_config_option("ckan.storage_path"))
     droot = pathlib.Path("/backups/instance/")
     droot.mkdir(parents=True, exist_ok=True)
@@ -43,14 +47,14 @@ def encrypted_instance_backup(key_id, skip_s3=False):
         z.add(storage_path)
 
     # create encrypted version
+    click.secho("Encrypting instance backup")
     eroot = pathlib.Path("/backups/instance-encrypted/")
     eroot.mkdir(parents=True, exist_ok=True)
     eout = eroot / (dpath.name + ".gpg")
     gpg_encrypt(path_in=dpath, path_out=eout, key_id=key_id)
-    click.secho("Created {}".format(eout), bold=True)
+    click.secho(f"Created {eout}", bold=True)
 
     click.secho("Cleaning up...")
-
     delete_old_backups(
         backup_root=droot,
         latest_backup=dpath,
