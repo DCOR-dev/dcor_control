@@ -5,7 +5,7 @@ import time
 
 import click
 
-from dcor_shared import get_ckan_config_option
+from dcor_shared import get_ckan_config_option, s3
 
 from ..backup import db_backup, delete_old_backups, gpg_encrypt
 
@@ -34,11 +34,11 @@ def encrypted_instance_backup(key_id, skip_s3=False):
     now = time.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Get database backup
-    click.secho("Creating database backup")
+    click.secho("Creating database backup...")
     db_path = db_backup()
 
     # Create a tar.bz2 file that contains the contents of /data and `dp_path`.
-    click.secho("Creating instance backup")
+    click.secho("Creating instance backup..")
     storage_path = pathlib.Path(get_ckan_config_option("ckan.storage_path"))
     droot = pathlib.Path("/backups/instance/")
     droot.mkdir(parents=True, exist_ok=True)
@@ -48,12 +48,22 @@ def encrypted_instance_backup(key_id, skip_s3=False):
         z.add(storage_path)
 
     # create encrypted version
-    click.secho("Encrypting instance backup")
+    click.secho("Encrypting instance backup...")
     eroot = pathlib.Path("/backups/instance-encrypted/")
     eroot.mkdir(parents=True, exist_ok=True)
     eout = eroot / (dpath.name + ".gpg")
     gpg_encrypt(path_in=dpath, path_out=eout, key_id=key_id)
     click.secho(f"Created {eout}", bold=True)
+
+    if not skip_s3:
+        click.secho("Uploading to S3...")
+        bucket_prefix = get_ckan_config_option(
+        "dcor_object_store.bucket_name").format(organization_id="")
+        bucket_name = bucket_prefix + "00000_backup"
+        s3.require_bucket(bucket_name)
+        s3.upload_file(bucket_name=bucket_name,
+                       object_name=f"{now[:4]}/{now[5:7]}/{eout.name}",
+                       path=eout)
 
     click.secho("Cleaning up...")
     delete_old_backups(
