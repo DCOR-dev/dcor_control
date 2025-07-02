@@ -38,7 +38,7 @@ def encrypted_instance_backup(key_id, skip_s3=False):
     db_path = db_backup()
 
     # Create a tar.bz2 file that contains the contents of /data and `dp_path`.
-    click.secho("Creating instance backup..")
+    click.secho("Creating instance backup...")
     storage_path = pathlib.Path(get_ckan_config_option("ckan.storage_path"))
     droot = pathlib.Path("/backups/instance/")
     droot.mkdir(parents=True, exist_ok=True)
@@ -59,7 +59,7 @@ def encrypted_instance_backup(key_id, skip_s3=False):
         click.secho("Uploading to S3...")
         bucket_prefix = get_ckan_config_option(
         "dcor_object_store.bucket_name").format(organization_id="")
-        bucket_name = bucket_prefix + "00000_backup"
+        bucket_name = bucket_prefix + "00000-backup"
         s3.require_bucket(bucket_name)
         s3.upload_file(bucket_name=bucket_name,
                        object_name=f"{now[:4]}/{now[5:7]}/{eout.name}",
