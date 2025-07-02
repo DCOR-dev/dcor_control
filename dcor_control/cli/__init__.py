@@ -13,7 +13,7 @@ def main():
     pass
 
 
-main.add_command(backup.encrypted_database_backup)
+main.add_command(backup.encrypted_instance_backup)
 main.add_command(develop.develop)
 main.add_command(inspect.inspect)
 main.add_command(status.status)

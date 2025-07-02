@@ -1,9 +1,8 @@
-from datetime import date, timedelta
 import os
 import pathlib
 import pwd
+import re
 import shutil
-import socket
 import subprocess as sp
 import time
 
@@ -12,7 +11,7 @@ import time
 SUDO = "sudo " if shutil.which("sudo") else ""
 
 
-def db_backup(path="/backup", cleanup=True):
+def db_backup(path="/backups", cleanup=True):
     """Perform CKAN database backup
 
     Parameters
@@ -21,23 +20,20 @@ def db_backup(path="/backup", cleanup=True):
         backup storage location; note that this should only be
         accessible to root
     cleanup: bool
-        perform cleanup operations, which means
-        - keep a daily backup for the past two weeks
-        - keep a monthly backup for the past year
-        - keep a yearly backup for the past ten years
-        - delete all other backups
+        perform cleanup operations, which means deleting all but
+        the latest 20 backups.
     """
     # put database backups on local storage, not on /data
-    broot = pathlib.Path(path)
-    bpath = broot / time.strftime('%Y-%m')
-    bpath.mkdir(parents=True, exist_ok=True)
-    bpath.chmod(0o0750)
+    broot = pathlib.Path(path) / "database"
+    broot.mkdir(parents=True, exist_ok=True)
+    broot.chmod(0o0750)
     uid = pwd.getpwnam('postgres').pw_uid
-    os.chown(bpath, uid, 0)
+    os.chown(broot, uid, 0)
 
-    name = time.strftime('ckan_db_{}_%Y-%m-%d_%H-%M-%S.dump'.format(
-        socket.gethostname()))
-    dpath = bpath / name
+    name = time.strftime(
+        "backup_db_ckan_default_%Y-%m-%d_%H-%M-%S_dcor-control.pgc")
+    dpath = broot / name
+
     sp.check_output(
         SUDO + "su - postgres -c "
         f'"pg_dump --format=custom -d ckan_default > {dpath}"',
@@ -46,67 +42,31 @@ def db_backup(path="/backup", cleanup=True):
     dpath.chmod(0o0400)
 
     if cleanup:
-        delete_old_backups(backup_root=broot,
-                           latest_backup=dpath,
-                           stem=f"ckan_db_{socket.gethostname()}",
-                           suffix=".dump")
+        delete_old_backups(
+            backup_root=broot,
+            latest_backup=dpath,
+            regex=re.compile(
+                r"^backup_db_ckan_default_(.*)_dcor-control\.pgc$"),
+            )
     return dpath
 
 
-def delete_old_backups(backup_root, latest_backup, stem, suffix):
+def delete_old_backups(backup_root, latest_backup, regex, num=20):
+    backup_root = pathlib.Path(backup_root)
+
     keep_list = [latest_backup]
-    # keep a daily backup for the past two weeks
-    for ii in range(1, 14):
-        keep_list.append(get_backup_file_from(
-            backup_root,
-            days_ago=ii,
-            time_stem=f'{stem}_%Y-%m-%d_*{suffix}'))
-    # keep a monthly backup for the past month
-    for ii in range(1, 12):
-        keep_list.append(get_backup_file_from(
-            backup_root,
-            months_ago=ii,
-            time_stem=f'{stem}_%Y-%m-*{suffix}'))
-    # keep a yearly backup for the past ten years
-    for ii in range(1, 10):
-        keep_list.append(get_backup_file_from(
-            backup_root,
-            years_ago=ii,
-            time_stem=f'{stem}_%Y-*{suffix}'))
-    if len(keep_list) > 2:
-        empty_dirs = []
-        for pp in backup_root.rglob(f"{stem}*{suffix}"):
-            if pp not in keep_list:
-                print(f"Removing {pp}")
-                pp.unlink()
-                if not (list(pp.parent.rglob("*"))):
-                    # remove empty dirs
-                    empty_dirs.append(pp.parent)
-        for pd in empty_dirs:
-            os.rmdir(pd)
+    candidates = []
 
+    # iterate in reverse order (newest first)
+    for path in sorted(backup_root.glob("*"), reverse=True):
+        if regex.match(path.name):
+            candidates.append(path)
+            if len(keep_list) <= num:
+                keep_list.append(path)
 
-def get_backup_file_from(path, time_stem, days_ago=0, months_ago=0,
-                         years_ago=0):
-    today = date.today()
-    if days_ago:
-        time_tuple = (today - timedelta(days_ago)).timetuple()
-    elif months_ago:
-        the_day = today.replace(day=1)
-        for _ in range(months_ago):
-            last_month = the_day - timedelta(days=1)
-            the_day = last_month.replace(day=1)
-        time_tuple = the_day.timetuple()
-    elif years_ago:
-        first = today.replace(day=1)
-        last_year = first.replace(year=today.year - years_ago)
-        time_tuple = last_year.timetuple()
-    else:
-        raise ValueError("Must specify past kwargs")
-    search_path = time.strftime(time_stem, time_tuple)
-    results = sorted(path.rglob(search_path))
-    if results:
-        return results[0]
+    for path in candidates:
+        if path not in keep_list:
+            path.unlink()
 
 
 def gpg_encrypt(path_in, path_out, key_id):
