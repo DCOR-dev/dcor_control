@@ -1,5 +1,6 @@
 1.17.0
  - BREAKING: remove DCOR-colab branding recipe (migrated to ansible)
+ - BREAKING: remove DCOR-med branding recipe (migrated to ansible)
 1.16.1
  - enh: quantify instance backup size
 1.16.0
