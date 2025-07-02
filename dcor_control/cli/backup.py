@@ -58,7 +58,7 @@ def encrypted_instance_backup(key_id, skip_s3=False):
     if not skip_s3:
         click.secho("Uploading to S3...")
         bucket_prefix = get_ckan_config_option(
-        "dcor_object_store.bucket_name").format(organization_id="")
+            "dcor_object_store.bucket_name").format(organization_id="")
         bucket_name = bucket_prefix + "00000-backup"
         s3.require_bucket(bucket_name)
         s3.upload_file(bucket_name=bucket_name,
