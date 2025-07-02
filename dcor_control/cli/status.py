@@ -65,9 +65,11 @@ def status():
 
         # Backup bucket
         try:
-            bbi = get_bucket_info("000000000-backup")
+            bucket_prefix = get_ckan_config_option(
+                "dcor_object_store.bucket_name").format(organization_id="")
+            bbi = get_bucket_info(f"{bucket_prefix}000000000-backup")
         except BaseException:
-            click.echo("Instance backup bucket does not exist.")
+            click.echo("Instance backup does not exist (yet).")
         else:
             click.echo(f"S3 instance backup number: {bbi['num_other']}")
             click.echo(f"S3 instance backup size:   "
