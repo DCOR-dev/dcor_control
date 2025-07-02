@@ -67,7 +67,8 @@ def status():
         try:
             bucket_prefix = get_ckan_config_option(
                 "dcor_object_store.bucket_name").format(organization_id="")
-            bbi = get_bucket_info(f"{bucket_prefix}000000000-backup")
+            bbi = get_bucket_info(f"{bucket_prefix}000000000-backup",
+                                  ret_object_keys=True)
         except BaseException:
             click.echo("Instance backup does not exist (yet).")
         else:
