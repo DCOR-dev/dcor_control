@@ -1,3 +1,5 @@
+1.16.1
+ - enh: quantify instance backup size
 1.16.0
  - BREAKING: file name scheme for creating backups changed
  - BREAKING: remove `encrypted_database_backup` CLI script

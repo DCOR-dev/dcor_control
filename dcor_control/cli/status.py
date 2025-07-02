@@ -49,30 +49,61 @@ def status():
         num_resources = 0
         size_resources = 0
         size_other = 0
-        s3_client, s3_session, s3_resource = s3.get_s3()
-        buckets = [b["Name"] for b in s3_client.list_buckets()["Buckets"]]
-        for bucket in buckets:
-            kwargs = {"Bucket": bucket,
-                      "MaxKeys": 500
-                      }
-            while True:
-                resp = s3_client.list_objects_v2(**kwargs)
+        num_buckets = 0
+        for bucket_name in s3.iter_buckets():
+            num_buckets += 1
+            bi = get_bucket_info(bucket_name)
+            num_resources += bi["num_resources"]
+            size_resources += bi["size_resources"]
+            size_other += bi["size_other"]
 
-                for obj in resp.get("Contents", []):
-                    if obj["Key"].startswith("resource/"):
-                        num_resources += 1
-                        size_resources += obj["Size"]
-                    else:
-                        size_other += obj["Size"]
-
-                if not resp.get("IsTruncated"):
-                    break
-                else:
-                    kwargs["ContinuationToken"] = resp.get(
-                        "NextContinuationToken")
-
-        click.echo(f"S3 buckets:          {len(buckets)}")
+        click.echo(f"S3 buckets:          {num_buckets}")
         click.echo(f"S3 resources number: {num_resources}")
-        click.echo(f"S3 resources size:   {size_resources/1024**3:.0f} GB")
+        click.echo(f"S3 resources size:   {size_resources/1024**3:.0f} GiB")
         click.echo(f"S3 total size:       "
-                   f"{(size_other + size_resources) / 1024**3:.0f} GB")
+                   f"{(size_other + size_resources) / 1024**3:.0f} GiB")
+
+        # Backup bucket
+        try:
+            bbi = get_bucket_info("000000000-backup")
+        except BaseException:
+            click.echo("Instance backup bucket does not exist.")
+        else:
+            click.echo(f"S3 instance backup number: {bbi['num_other']}")
+            click.echo(f"S3 instance backup size:   "
+                       f"{bbi['size_other']/1024**3:.0f} GiB")
+
+
+def get_bucket_info(bucket_name):
+    s3_client, s3_session, s3_resource = s3.get_s3()
+    num_resources = 0
+    num_other = 0
+    size_resources = 0
+    size_other = 0
+
+    kwargs = {"Bucket": bucket_name,
+              "MaxKeys": 500
+              }
+    while True:
+        resp = s3_client.list_objects_v2(**kwargs)
+
+        for obj in resp.get("Contents", []):
+            if obj["Key"].startswith("resource/"):
+                num_resources += 1
+                size_resources += obj["Size"]
+            else:
+                num_other += 1
+                size_other += obj["Size"]
+
+        if not resp.get("IsTruncated"):
+            break
+        else:
+            kwargs["ContinuationToken"] = resp.get(
+                "NextContinuationToken")
+
+    return {
+        "num_resources": num_resources,
+        "num_other": num_other,
+        "size_resources": size_resources,
+        "size_other": size_other,
+    }
