@@ -88,7 +88,7 @@ def check_dcor_theme_i18n_hack(autocorrect):
 
 
 def check_dcor_theme_main_css(autocorrect):
-    """Generate dcor_main.css
+    """Generate dcor_main.css and patch a few template files
 
      This will run the command::
 
@@ -100,10 +100,10 @@ def check_dcor_theme_main_css(autocorrect):
     # TODO: Check whether the paths created by this script are set up correctly
     if opt != "dcor_theme_main/dcor_theme_main":
         if autocorrect:
-            print("Applying DCOR theme main css")
+            print("Applying DCOR theme main css and templating patches")
             replace_main = True
         else:
-            replace_main = common.ask("DCOR theme dcor_main.css is not setup")
+            replace_main = common.ask("DCOR theme CSS and patches not set-up")
         if replace_main:
             # apply hack
             ckan_cmd = f"ckan -c {ckan_ini} dcor-theme-main-css-branding"
@@ -113,6 +113,10 @@ def check_dcor_theme_main_css(autocorrect):
                 key="ckan.theme",
                 value="dcor_theme_main/dcor_theme_main",
                 autocorrect=True)
+            # apply patches
+            ckan_cmd_2 = f"ckan -c {ckan_ini} dcor-patch-ckan-templates"
+            sp.check_output(ckan_cmd_2, shell=True)
+
     return did_something
 
 

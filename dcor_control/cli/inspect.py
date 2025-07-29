@@ -71,7 +71,7 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     click.secho("Checking i18n hack...", bold=True)
     cn += inspect_mod.check_dcor_theme_i18n_hack(autocorrect=assume_yes)
 
-    click.secho("Checking DCOR theme css branding...", bold=True)
+    click.secho("Checking DCOR theme css branding and patches...", bold=True)
     cn += inspect_mod.check_dcor_theme_main_css(autocorrect=assume_yes)
 
     if cn:

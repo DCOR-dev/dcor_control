@@ -36,7 +36,7 @@ dependencies = [
     "ckanext-dc_view>=0.12.0",
     "ckanext-dcor_depot>=0.17.0",
     "ckanext-dcor_schemas>=0.22.0",
-    "ckanext-dcor_theme>=0.12.0",
+    "ckanext-dcor_theme>=1.1.0",
     "dcor_shared>=1.0.2",
     "importlib_resources",
     "numpy>=1.21",  # CVE-2021-33430
