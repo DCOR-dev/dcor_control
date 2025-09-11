@@ -1,5 +1,6 @@
 1.17.1
  - enh: run DCOR theme patches during inspect
+ - enh: allow users to delete collections/groups
  - setup: bump ckanext-dcor_theme to 1.1.0
 1.17.0
  - BREAKING: remove DCOR-colab branding recipe (migrated to ansible)
