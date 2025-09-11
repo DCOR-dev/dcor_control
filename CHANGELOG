@@ -1,3 +1,5 @@
+1.17.2
+ - setup: update dependencies
 1.17.1
  - enh: run DCOR theme patches during inspect
  - enh: allow users to delete collections/groups
