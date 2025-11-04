@@ -1,3 +1,6 @@
+1.17.3
+ - update compatible versions list
+ - tests: own the docker image
 1.17.2
  - setup: update dependencies
 1.17.1
