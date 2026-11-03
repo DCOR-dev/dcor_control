@@ -10,6 +10,15 @@ from dcor_control import update
                              # latest version always returns None
                              ("ckanext-dc_log_view", None, None),
                              ("ckanext-dc_log_view", "2.9.0", "0.2.2"),
+                             # CKAN 2.11.7 is the latest version listed
+                             ("ckanext-dcor_theme", "2.11.7", None),
+                             # releases for CKAN 2.11.7 also work with
+                             # CKAN 2.11.5 and 2.11.6
+                             ("ckanext-dcor_theme", "2.11.6", "1.1.5"),
+                             ("ckanext-dcor_schemas", "2.11.5", "1.2.0"),
+                             ("ckanext-dc_serve", "2.11.5", "1.0.10"),
+                             # CKAN 2.11.3 keeps the previous releases
+                             ("ckanext-dcor_theme", "2.11.3", "1.1.4"),
                          ])
 def test_get_max_compatible_version(name, ckan_version, version):
     assert update.get_max_compatible_version(
