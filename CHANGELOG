@@ -1,3 +1,6 @@
+1.17.4
+ - update compatible versions list for CKAN 2.11.7 (also listing
+   CKAN 2.11.5 and 2.11.6, which are compatible with the same releases)
 1.17.3
  - update compatible versions list
  - tests: own the docker image
