@@ -17,6 +17,8 @@ from dcor_control import update
                              ("ckanext-dcor_theme", "2.11.6", "1.1.5"),
                              ("ckanext-dcor_schemas", "2.11.5", "1.2.0"),
                              ("ckanext-dc_serve", "2.11.5", "1.0.10"),
+                             # ckanext-dcor_depot 1.1.0 only for CKAN 2.11.7
+                             ("ckanext-dcor_depot", "2.11.6", "1.0.6"),
                              # CKAN 2.11.3 keeps the previous releases
                              ("ckanext-dcor_theme", "2.11.3", "1.1.4"),
                          ])
