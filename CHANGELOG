@@ -1,3 +1,6 @@
+1.17.5
+ - ref: `dcor inspect` does not check the permissions of the local
+   resource upload directory anymore (resources are only stored on S3)
 1.17.4
  - update compatible versions list for CKAN 2.11.7 (also listing
    CKAN 2.11.5 and 2.11.6, which are compatible with the same releases)
