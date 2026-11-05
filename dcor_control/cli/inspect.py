@@ -35,7 +35,6 @@ def inspect(assume_yes=False, dcor_site_config_dir=None):
     click.secho("Checking www-data permissions...", bold=True)
     for path in [
         paths.get_ckan_storage_path(),
-        paths.get_ckan_storage_path() / "resources",
         paths.get_ckan_webassets_path(),
         get_ckan_config_option("ckanext.dc_serve.tmp_dir"),
         get_ckan_config_option("ckanext.dcor_depot.tmp_dir"),
