@@ -1,3 +1,5 @@
+1.17.6
+ - update compatible versions list
 1.17.5
  - update compatible versions list
  - ref: `dcor inspect` does not check the permissions of the local
