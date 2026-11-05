@@ -81,6 +81,9 @@ def check_permission(path: str | pathlib.Path,
                 except BaseException:
                     warnings.warn(
                         f"Failed to set ownership '{uid}:{gid}' for '{path}'")
+        else:
+            # The user decided not to create the directory
+            return did_something
 
     # Check mode
     pmode = stat.S_IMODE(path.stat().st_mode)
