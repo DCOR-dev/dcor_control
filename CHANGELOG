@@ -1,4 +1,5 @@
 1.17.5
+ - update compatible versions list
  - ref: `dcor inspect` does not check the permissions of the local
    resource upload directory anymore (resources are only stored on S3)
  - fix: `dcor inspect` crashed when declining to create a missing directory
