@@ -1,5 +1,9 @@
-import pytest
+import os
+import subprocess as sp
+import types
 import uuid
+
+import pytest
 
 import numpy as np
 from dcor_control import update
@@ -103,3 +107,69 @@ def test_version_greater(va, vb, result):
 ])
 def test_version_greater_equal(va, vb, result):
     assert update.version_greater_equal(va, vb) == result
+
+
+def test_get_package_version_git(tmp_path):
+    repo = tmp_path / "ckanext-peter"
+    repo.mkdir()
+    git = f"git -C {repo} -c user.name=pytest -c user.email=pytest@localhost"
+    sp.check_output(f"{git} init -q", shell=True)
+    sp.check_output(f"{git} commit -q --allow-empty -m init", shell=True)
+    sp.check_output(f"{git} tag -a 1.2.3 -m 1.2.3", shell=True)
+    # the "." in the name is replaced with "-"
+    assert update.get_package_version_git("ckanext.peter", tmp_path) \
+        == "1.2.3"
+    with pytest.raises(ValueError, match="Could not find ckanext.hans"):
+        update.get_package_version_git("ckanext.hans", tmp_path)
+
+
+@pytest.fixture
+def mock_update_package(monkeypatch, tmp_path):
+    """Pretend to be a package installed in `tmp_path / "pkg"`"""
+    calls = []
+    pkg_dir = tmp_path / "pkg" / "dcor_peter"
+    pkg_dir.mkdir(parents=True)
+    module = types.SimpleNamespace(__file__=str(pkg_dir / "__init__.py"))
+    monkeypatch.setattr(update.importlib, "import_module",
+                        lambda name: module)
+    monkeypatch.setattr(update.sp, "check_output",
+                        lambda cmd, shell: calls.append(cmd))
+    versions = iter(["1.0.0", "1.1.0"])
+    monkeypatch.setattr(update, "get_package_version",
+                        lambda name: next(versions))
+    monkeypatch.setattr(update, "get_pip_executable_path", lambda: "pip")
+    return calls, tmp_path / "pkg"
+
+
+@pytest.mark.parametrize("req_version,pin", [(None, ""), ("1.0.5", "==1.0.5")])
+def test_update_package_pip(monkeypatch, capsys, mock_update_package,
+                            req_version, pin):
+    calls, _ = mock_update_package
+    monkeypatch.setattr(update, "get_max_compatible_version",
+                        lambda name: req_version)
+    assert update.update_package("dcor_peter") == "1.1.0"
+    assert calls == [f"pip install --upgrade dcor_peter{pin}"]
+    assert "updated dcor_peter from 1.0.0 to 1.1.0" in capsys.readouterr().out
+
+
+def test_update_package_git(mock_update_package):
+    calls, pkg_root = mock_update_package
+    (pkg_root / ".git").mkdir()
+    wd = os.getcwd()
+    assert update.update_package("dcor_peter") == "1.1.0"
+    assert calls == ["git pull", "pip install -e ."]
+    assert os.getcwd() == wd
+
+
+def test_update_package_git_pull_fails(monkeypatch, mock_update_package):
+    calls, pkg_root = mock_update_package
+    (pkg_root / ".git").mkdir()
+
+    def check_output(cmd, shell):
+        calls.append(cmd)
+        raise sp.CalledProcessError(1, cmd)
+
+    monkeypatch.setattr(update.sp, "check_output", check_output)
+    update.update_package("dcor_peter")
+    # pip is not called when git pull failed
+    assert calls == ["git pull"]

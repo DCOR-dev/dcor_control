@@ -1,6 +1,10 @@
 1.17.5
  - ref: `dcor inspect` does not check the permissions of the local
    resource upload directory anymore (resources are only stored on S3)
+ - fix: `dcor inspect` crashed when declining to create a missing directory
+ - tests: add tests for the CLI, `update`, `inspect`, `backup`, and `util`
+ - ci: measure coverage of `dcor_control` (not `ckanext.dcor_schemas`)
+   and report it to Codecov
 1.17.4
  - update compatible versions list for CKAN 2.11.7 (also listing
    CKAN 2.11.5 and 2.11.6, which are compatible with the same releases)
